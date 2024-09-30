@@ -10,8 +10,8 @@ class Ponto2D {
         Ponto2D(float x, float y);
         ~Ponto2D();
 
-        float getX();
-        float getY();
+        float getX() const;
+        float getY() const;
 };
 
 #endif
