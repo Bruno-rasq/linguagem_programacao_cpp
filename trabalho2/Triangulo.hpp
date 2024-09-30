@@ -1,5 +1,6 @@
 #ifndef TRIANGULO_HPP
 #define TRIANGULO_HPP
+
 #include "Ponto.cpp"
 
 using namespace std;
@@ -8,20 +9,19 @@ class Triangulo {
 
     private:
         //fornecido.
-        float x1,y1, x2,y2, x3,y3;
         float lado1, lado2, lado3;
 
-        //calcular...
-        float angulo1, angulo2, angulo3;
-        float area;
+        //deve calcular...
+        float angulo1, angulo2, angulo3, area;
 
     public:
-        float getArea();
-        float calcArea();
+        ~Triangulo();
 
-        Triangulo(float lado1, float lado2, float lado3);
         Triangulo(float x1, float y1, float x2, float y2, float x3, float y3);
-        Triangulo(Ponto p1, Ponto p2, Ponto p3);
+        Triangulo(Ponto2D p1, Ponto2D p2, Ponto2D p3);
+        Triangulo(float lado1, float lado2, float lado3);
+    
+        void getInfo();     
 };
 
 #endif

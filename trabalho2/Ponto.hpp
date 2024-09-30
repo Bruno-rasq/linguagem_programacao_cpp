@@ -1,17 +1,17 @@
 #ifndef PONTO_HPP
 #define PONTO_HPP
 
-using namespace std;
-
-class Ponto {
+class Ponto2D {
 
     private:
         float x, y;
 
     public:
-        Ponto(float x, float y);
+        Ponto2D(float x, float y);
+        ~Ponto2D();
 
+        float getX();
+        float getY();
 };
-
 
 #endif
