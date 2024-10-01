@@ -1,30 +1,29 @@
 #include <iostream>
-#include <vector>
-
-#include "Triangulo.hpp"
 #include "Ponto.hpp"
+#include "Triangulo.hpp"
 
 using namespace std;
 
 int main(){
 
-    Ponto2D p1(5.4, 5.2);
-    Ponto2D p2(5.5, 4.3);
-    Ponto2D p3(5.1, 1.2);
+    Ponto p1, p2, p3;
+    
+    p1.setXY(0.0, 0.0);
+    p2.setXY(3.0, 0.0);
+    p3.setXY(0.0, 4.0);
 
-    Triangulo t1(5.0, 4.5, 4.3, 5.1, 4.2, 5.2); // por coordenadas
-    Triangulo t2(p1, p2, p3); // por  Ponto2d
-    Triangulo t3(5.1, 5.2, 5.3); // passando direto os lados
+    cout << "x=" << p1.getX() << " y=" << p1.getY() << endl;
 
-    vector<Triangulo> triangulos;
 
-    triangulos.push_back(t1); // por coordenadas
-    triangulos.push_back(t2); // por  Ponto2d
-    triangulos.push_back(t3); // passando direto os lados
+    Triangulo t1(3.0, 4.0, 5.0); // instanciando direto com os valores dos vertices.
 
-    for(Triangulo &t : triangulos){
-        t.getInfo();
-    }
+    cout << "area=" << t1.getArea() << " perimetro=" << t1.getPerimetro() << endl;
+
+
+    Triangulo t2(p1, p2, p3); // instanciando atraves dos valoes dos pontos.
+
+    cout << "area=" << t2.getArea() << " perimetro=" << t2.getPerimetro() << endl;
+
 
     return 0;
 }

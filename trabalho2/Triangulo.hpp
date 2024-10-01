@@ -1,30 +1,22 @@
 #ifndef TRIANGULO_HPP
 #define TRIANGULO_HPP
 
-#include "Ponto.cpp"
-
-using namespace std;
+#include "Ponto.hpp"
 
 class Triangulo {
 
     private:
-        //fornecido.
-        float lado1, lado2, lado3;
 
-        //deve calcular...
-        float angulo1, angulo2, angulo3, area;
+        float vertice1, vertice2, vertice3;
+        float area, perimetro;
 
     public:
-        ~Triangulo(); //destrutor
-
-        // multiplos construtores
-        Triangulo(float x1, float y1, float x2, float y2, float x3, float y3);
-        Triangulo(Ponto2D p1, Ponto2D p2, Ponto2D p3);
+        // Triangulo(float x1, float y1, float x2, float y2, float x3, float y3);
         Triangulo(float lado1, float lado2, float lado3);
-    
-        string getAngulos();     
-        string getInfo(); 
-        float getArea();
+        Triangulo(const Ponto p1, const Ponto p2, const Ponto p3);
+
+        float getPerimetro() const;
+        float getArea() const;
 };
 
 #endif

@@ -1,13 +1,14 @@
 #include "Ponto.hpp"
 
-Ponto2D::Ponto2D(float x, float y): x(x), y(y) {}
-
-Ponto2D::~Ponto2D() {}
-
-float Ponto2D::getX() const {
-    return x;
+void Ponto::setXY(float x, float y){
+    this->x = x;
+    this->y = y;
 }
 
-float Ponto2D::getY() const {
-    return y;
+float Ponto::getX() const {
+    return this->x;
+}
+
+float Ponto::getY() const {
+    return this->y;
 }

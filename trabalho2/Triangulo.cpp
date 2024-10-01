@@ -1,36 +1,51 @@
-#include <iostream>
 #include <cmath>
 #include "Triangulo.hpp"
 #include "Ponto.hpp"
 
 using namespace std;
 
-float Triangulo::getArea(){
-    //implementando
+float calcularSemiPerimetro(float l1, float l2, float l3){
+    return (l1 + l2 + l3) / 2;
 }
 
-string Triangulo::getAngulos(){
-    return "angulo 1:" + to_string(angulo1) + ", angulo 2:" + to_string(angulo2)  + ", angulo 3:" + to_string(angulo3) + "\n";
+float quadrado(float a){
+    return a * a;
 }
 
-string Triangulo::getInfo(){
-    return "lado 1:" + to_string(lado1) + ", lado 2:" + to_string(lado2)  + ", lado 3:" + to_string(lado3) + "\n"; 
+float calcularLado(const Ponto p1, const Ponto p2){
+    float vertice = sqrt(
+        quadrado(p2.getX() - p1.getX()) - quadrado(p2.getY() - p1.getY())
+    );
+
+    return vertice;
 }
 
-Triangulo::Triangulo(float l1, float l2, float l3){
-    lado1 = l1;
-    lado2 = l2;
-    lado3 = l3;
+float calcularArea(float l1, float l2, float l3){
+
+    float s = calcularSemiPerimetro(l1, l2, l3); //semi perimetro;
+
+    float area = sqrt(s * (s - l1) * (s - l2) * (s - l3)); 
+
+    return area;
 }
 
-Triangulo::Triangulo(Ponto2D p1, Ponto2D p2, Ponto2D p3) : Triangulo(
-    sqrt(pow(p2.getX() - p1.getX(), 2) + pow(p2.getY() - p1.getY(), 2)), //lado 1
-    sqrt(pow(p3.getX() - p2.getX(), 2) + pow(p3.getY() - p2.getY(), 2)), //lado 2
-    sqrt(pow(p1.getX() - p3.getX(), 2) + pow(p1.getY() - p3.getY(), 2)) //lado 3   
-) {}
+float Triangulo::getArea() const {
+    return this->area;
+}
 
-Triangulo::Triangulo(float x1, float y1, float x2, float y2, float x3, float y3) : Triangulo(
-    Ponto2D(x1, y1), Ponto2D(x2, y2), Ponto2D(x3, y3)
-) {}
+float Triangulo::getPerimetro() const {
+    return this->perimetro;
+}
 
-Triangulo::~Triangulo(){}
+Triangulo::Triangulo(float lado1, float lado2, float lado3){
+    this->vertice1 = lado1;
+    this->vertice2 = lado2;
+    this->vertice3 = lado3;
+
+    this->perimetro = lado1 + lado2 + lado3;
+    this->area = calcularArea(this->vertice1, this->vertice2, this->vertice3);
+}
+
+Triangulo::Triangulo(const Ponto p1, const Ponto p2, const Ponto p3): Triangulo(
+    calcularLado(p1, p2), calcularLado(p2, p3), calcularLado(p3, p1)
+){}
