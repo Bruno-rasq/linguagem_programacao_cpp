@@ -8,11 +8,11 @@
 
 using namespace std;
 
-int potencia(int a){
+double potencia(int a){
     return a * a;
 }
 
-int calcularDistancia(Coordenada p1, Coordenada p2){
+double calcularDistancia(Coordenada p1, Coordenada p2){
     return sqrt(
         potencia(p2.getCoordenadaX() - p1.getCoordenadaX()) + 
         potencia(p2.getCoordenadaY() - p1.getCoordenadaY())
