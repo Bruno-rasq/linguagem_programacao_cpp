@@ -1,18 +1,20 @@
+#pragma once
+
 #include <vector>
-#include "Coordenadas.cpp"
+#include "Coordenadas.hpp"
 
 using namespace std;
 
 class Poligono {
 
     private:
-        vector<int> vertices;
-        int perimetro;
+        vector<Coordenada> vertices;
+        double perimetro;
 
     public:
         Poligono(vector<Coordenada> coords);
 
         void calcularPerimetro();
         void showVertices();
-        int getPerimetro();
+        double getPerimetro();
 };
