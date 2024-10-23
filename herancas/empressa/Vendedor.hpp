@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef VENDEDOR_HPP
 #define VENDEDOR_HPP
 
@@ -12,17 +14,17 @@ class Vendedor : public Empregado {
         float percentual_comissao;
 
     public:
-        Vendedor(){};
-        Vendedor(const string nome, float salario, float comissao){};
+        Vendedor();
+        Vendedor(const string nome, float salario, float comissao);
 
-        ~Vendedor(){};
+        ~Vendedor();
 
-        float getPercentualComissao() const {};
-        void setPercentualComissao(float comissao){};
+        float getPercentualComissao() const ;
+        void setPercentualComissao(float comissao);
 
-        float calcularSalario() const {};
+        float calcularSalario() const ;
 
-        string toString() const {};
+        string toString() const override;
 
 };
 

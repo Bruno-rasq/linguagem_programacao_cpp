@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Empregado::Empregado(): nome(""), salario(0.0f){};
+Empregado::Empregado(): nome(" "), salario(0.0f){};
 
 Empregado::Empregado(const string nome, float salario): nome(nome), salario(salario){};
 

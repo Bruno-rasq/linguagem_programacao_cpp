@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef GERENTE_HPP
 #define GERENTE_HPP
 
@@ -12,15 +14,15 @@ class Gerente : public Empregado {
         string departamento;
 
     public:
-        Gerente(){};
-        Gerente(const string nome, float salario, const string departamento){};
+        Gerente();
+        Gerente(const string nome, float salario, const string departamento);
 
-        ~Gerente(){};
+        ~Gerente();
 
-        string getDepartamento() const {};
-        void setDepartamento(const string departamento){};
+        string getDepartamento() const ;
+        void setDepartamento(const string departamento);
 
-        string toString() const override {};
+        string toString() const override ;
 };
 
 #endif

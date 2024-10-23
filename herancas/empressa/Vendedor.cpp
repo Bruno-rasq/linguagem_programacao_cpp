@@ -12,7 +12,7 @@ Vendedor::~Vendedor(){};
 
 string Vendedor::toString() const {
     ostringstream oss;
-    oss << Empregado::toString() << ", comissao: " << this->percentual_comissao << "%, salrio+bonus: R$" << this->calcularSalario();
+    oss << Empregado::toString() << ", comissao: " << this->percentual_comissao << "%, salario+bonus: R$" << this->calcularSalario();
     return oss.str(); 
 }
 
@@ -25,5 +25,7 @@ float Vendedor::getPercentualComissao() const {
 }
 
 float Vendedor::calcularSalario() const {
-    float salario_com_bonus = this->salario + ((this->salario * this->percentual_comissao) / 100);
+    float bonus = (this->salario * this->percentual_comissao) / 100;
+    float salario_com_bonus = this->salario + bonus;
+    return salario_com_bonus;
 }

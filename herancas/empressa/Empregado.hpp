@@ -1,6 +1,8 @@
 #ifndef EMPREGADO_HPP
 #define EMPREGADO_HPP
 
+#pragma once
+
 #include <string>
 
 using namespace std;
@@ -14,21 +16,21 @@ class Empregado {
         float salario;
 
     public:
-        Empregado(){};
-        Empregado(const string nome, float salario){};
+        Empregado();
+        Empregado(const string nome, float salario);
 
-        virtual ~Empregado(){};
+        virtual ~Empregado();
 
-        virtual string toString() const {};
+        virtual string toString() const;
 
     protected:
 
         //estes metodos são protegidos para que as classes filhas tenham acesso a eles.
-        string getNome() const {};
-        float getSalario() const {};
+        string getNome() const;
+        float getSalario() const;
 
-        void setNome(const string nome){};
-        void setSalario(float salario){};
+        void setNome(const string nome);
+        void setSalario(float salario);
 };
 
 #endif
