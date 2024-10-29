@@ -27,10 +27,10 @@ int main(){
 
 
 
-    cout << "==============================" << endl;
+    cout << "==============================" << endl << endl;
     Cifrador c3("ana ama banana mas nao conta a hana", true, 5);
-    cout << c3.getDecodedText() << endl;
-    cout << c3.encode() << endl;
+    cout << "original: " << c3.getDecodedText() << endl;
+    cout << "criptografado: " <<c3.encode() << endl << endl;
 
     c3.countCharFrequences();
     vector<pair<unsigned char, size_t>> frequences = c3.getCharFrequences(); 
