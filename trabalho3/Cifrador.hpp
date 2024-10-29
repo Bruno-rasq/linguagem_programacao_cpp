@@ -15,6 +15,8 @@ class Cifrador {
         vector<pair<unsigned char, unsigned char>> encodingTable;
         vector<pair<unsigned char, size_t>> charFrequences;
 
+        void setCharFrequences();
+        
     public:
 
         Cifrador();
@@ -24,15 +26,14 @@ class Cifrador {
         void setEncodingTable(int key);
         void setEncodedText(const string txt);
         void setDecodedText(const string txt);
-        void setCharFrequences();
         void countCharFrequences();
 
         string getEncodedText() const;
         string getDecodedText() const;
-        vector<pair<unsigned char, size_t>> getCharFrequences() const;
+        vector<pair<unsigned char, size_t>> getCharFrequences();
 
-        string decode(const string txt = "") const;
-        string encode(const string txt = "") const;
+        string decode(const string txt = "");
+        string encode(const string txt = "");
 
         //metodos auxiliares.
         string isDecodedTextEmpty() const;
