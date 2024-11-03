@@ -25,9 +25,10 @@ class Veiculo {
 
         string getPlaca() const;
         string getDescricao() const;
-        float getHodometro() const;
-        float getQuilometragemAtual() const;
+        string getHodometro() const;
+        string getQuilometragemAtual() const;
         vector<tuple<string, float, float>> getHistoricoViagens() const;
+        virtual string toString() const;
 
         void novaViagem(const string destino, float km, float combustivel);
 

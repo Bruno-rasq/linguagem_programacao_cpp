@@ -4,6 +4,8 @@
         "string": "cpp",
         "vector": "cpp",
         "cmath": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "iosfwd": "cpp",
+        "tuple": "cpp"
     }
 }

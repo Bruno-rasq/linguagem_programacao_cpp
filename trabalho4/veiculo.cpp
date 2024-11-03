@@ -1,6 +1,7 @@
 #include "veiculo.hpp"
 #include <vector>
 #include <tuple>
+#include <iomanip>
 
 using namespace std;
 
@@ -21,16 +22,30 @@ string Veiculo::getDescricao() const {
     return this->DESCRICAO; 
 }
 
-float Veiculo::getHodometro() const {
-    return this->HODOMETRO;
+string Veiculo::getHodometro() const {
+    ostringstream oss;
+    oss << fixed << setprecision(2) << this->HODOMETRO;
+    oss << "km";
+    return oss.str();
 }
 
-float Veiculo::getQuilometragemAtual() const {
-    return this->quilometragem_atual;
+string Veiculo::getQuilometragemAtual() const {
+    ostringstream oss;
+    oss << fixed << setprecision(2) << this->quilometragem_atual;
+    oss << "km";
+    return oss.str();
 }
 
 vector<tuple<string, float, float>> Veiculo::getHistoricoViagens() const {
     return this->historico_viagens;
+}
+
+string Veiculo::toString() const {
+    ostringstream oss;
+    oss << "PLACA: " + Veiculo::getPlaca() << endl;
+    oss << "DESCR: " + Veiculo::getDescricao() << endl;
+    oss << "hodometro: " + Veiculo::getHodometro() << endl << endl;
+    return oss.str();
 }
 
 void Veiculo::setQuilometragemAtual(float km){
