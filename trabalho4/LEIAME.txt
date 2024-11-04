@@ -1,0 +1,14 @@
+
+O objetivo do trabalho é usando a programação orientada a objetos em c++ criar um sistema de frota de veiculos
+que serão capazes de realizar viagens, a questão é que no meu projeto a suoer classe Veiculo já foi implementada 
+com a maioria dos requisitos do projeto de maneira a não deixar diferenças entre as subclasses.
+
+o que pensei em fazer foi fazer com que os veiculos tenham uma função especifica que justifica-se sua necessidade.
+
+por exemplo, uma viagem que precise transportar 2 pessoas faz mais sentido se usar um carro, se forem 32 pessoas um
+um onibus, se ao inves de pessoas tiver que levar carga usar um caminhao dependendo do tamanho da carga.
+
+
+
+[COMANDO PARA COMPILAR]: g++ src/*.cpp main.cpp -I ./include -o programa
+[COMANDO PARA RODAR]: programa.exe
