@@ -34,10 +34,10 @@ void exibirHistoricoDeViagens(vector<tuple<string, float, float>>& viagens){
 
 int main() {
 
-    Carro veiculo1("abc123", "carro economico", 0.0);
-    Onibus veiculo2("def456", "onibus escolar", 0.0);
-    CaminhaoLeve veiculo3("ghi789", "caminhao leve", 0.0);
-    CaminhaoPesado veiculo4("jkl012", "caminhao pesado", 0.0);
+    Carro veiculo1("abc123", "carro economico", 0.0, 3);
+    Onibus veiculo2("def456", "onibus escolar", 0.0, 32);
+    CaminhaoLeve veiculo3("ghi789", "caminhao leve", 0.0, 300);
+    CaminhaoPesado veiculo4("jkl012", "caminhao pesado", 0.0, 25000);
 
     veiculo1.novaViagem("desinto", 500, 100);
     veiculo1.novaViagem("desinto", 5500, 600);

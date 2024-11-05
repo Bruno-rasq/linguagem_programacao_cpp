@@ -17,6 +17,19 @@ string menu(){
     return oss.str();
 }
 
+void menuTiposDeVeiculos(){
+    ostringstream oss;
+    
+    oss << "ESCOLHA UM TIPO DE VEICULO PARAR CADASTRAR:\n";
+    oss << "-------------------------------------------\n";
+    oss << "1 - carro              (comporta ate 4 passageiros)\n";
+    oss << "2 - onibus             (comporta ate 32 passageiros)\n";
+    oss << "3 - caminhao leve      (carga maxima de 15000kg)\n";
+    oss << "4 - caminhao pesado    (carga maxima de 30000kg)\n";
+
+    cout << oss.str();
+}
+
 int main(){
 
     while(true){

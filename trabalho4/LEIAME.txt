@@ -12,3 +12,10 @@ um onibus, se ao inves de pessoas tiver que levar carga usar um caminhao depende
 
 [COMANDO PARA COMPILAR]: g++ src/*.cpp main.cpp -I ./include -o programa
 [COMANDO PARA RODAR]: programa.exe
+
+
+todo:
+    modularizar projeto.
+    terminar de construir o main
+    implementar persistencia de dados
+    testes..
