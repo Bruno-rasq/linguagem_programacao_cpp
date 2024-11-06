@@ -1,0 +1,9 @@
+4
+C abc123 0.0 5 0.0
+carro economico
+O def456 0.0 32 0.0
+onibus escolhar
+CL ghi789 0.0 15.000 0.0
+caminhao leve
+CP jkl012 0.0 25.000 0.0
+caminhao pesado

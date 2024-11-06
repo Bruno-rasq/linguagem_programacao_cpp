@@ -66,5 +66,7 @@ int main() {
     exibirHistoricoDeViagens(v4Viagens);
     cout << "quilometragem total: " + veiculo4.getQuilometragemAtual() << endl << endl;
 
+    veiculo1.setQuilometragemAtual(10.0);
+
     return 0;
 }

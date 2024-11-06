@@ -18,6 +18,7 @@ class Veiculo {
         //destino - km - combustivel
         vector<tuple<string, float, float>> historico_viagens;
 
+
     public:
 
         ~Veiculo();
@@ -31,8 +32,6 @@ class Veiculo {
         virtual string toString() const;
 
         void novaViagem(const string destino, float km, float combustivel);
-
-    private:
 
         void setQuilometragemAtual(float km);
         void setHistoricoViagens(const string destino,float km, float combustivel);
