@@ -13,7 +13,7 @@ class Carro: public Veiculo {
         Carro(const string placa, const string descricao, float quilometragem_inicial, int passageiros);
         ~Carro();
 
-        string toString() const;
+        string toString() const override;
         int getNumeroPassageiros() const;
 };
 

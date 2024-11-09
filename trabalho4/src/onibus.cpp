@@ -15,9 +15,9 @@ Onibus::~Onibus(){};
 
 string Onibus::toString() const {
     std::ostringstream oss;
-    oss << "Veiculo: Onibus" << endl;
-    oss << Veiculo::toString(); //o tostring de veiculo já possue ujm endl no final
-    oss << "total de passageiros: " + to_string(Onibus::getNumeroPassageiros()) << endl;
+    oss << "Onibus " + Veiculo::toString() + " passageiros: " + to_string(Onibus::getNumeroPassageiros());
+    oss << " carga: 0.0kg";
+    oss << "\n-----------------------------------------------------------------------------\n";
     return oss.str();
 }
 

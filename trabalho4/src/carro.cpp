@@ -15,9 +15,9 @@ Carro::~Carro(){};
 
 string Carro::toString() const {
     std::ostringstream oss;
-    oss << "Veiculo: Carro" << endl;
-    oss << Veiculo::toString(); //o meotodo tostring de veiculo já possue um endl no final da string
-    oss << "total de passageriso: " + to_string(Carro::getNumeroPassageiros()) << endl;
+    oss << "Carro " + Veiculo::toString() + " passageiros: " + to_string(Carro::getNumeroPassageiros());
+    oss << " carga: 0.0kg";
+    oss << "\n-----------------------------------------------------------------------------\n";
     return oss.str();
 }
 

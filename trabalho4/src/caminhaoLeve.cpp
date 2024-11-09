@@ -1,4 +1,5 @@
 #include "../include/caminhaoLeve.hpp"
+#include "../include/procedimentos.hpp"
 #include <sstream>
 
 #define CARGA_MAXIMA 15000
@@ -15,9 +16,9 @@ CaminhaoLeve::~CaminhaoLeve(){};
 
 string CaminhaoLeve::toString() const {
     std::ostringstream oss;
-    oss << "Veiculo: Caminhao leve" << endl;
-    oss << Veiculo::toString();
-    oss << "carga total: " + to_string(CaminhaoLeve::getCarga()) + "kg" << endl;
+    oss << "Caminhao leve " + Veiculo::toString() + " passageiros: 0"; 
+    oss <<" carga: " + precisaoDecimal(CaminhaoLeve::getCarga(), 2) + "kg";
+    oss << "\n-----------------------------------------------------------------------------\n";
     return oss.str();
 }
 

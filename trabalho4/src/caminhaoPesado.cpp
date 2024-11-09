@@ -1,7 +1,8 @@
 #include "../include/caminhaoPesado.hpp"
+#include "../include/procedimentos.hpp"
 #include <sstream>
 
-#define CARGA_MAXIMA 30000 //considerar em kg
+#define CARGA_MAXIMA 30000
 #define CARGA_MINIMA 15000
 
 using namespace std;
@@ -15,9 +16,9 @@ CaminhaoPesado::~CaminhaoPesado(){};
 
 string CaminhaoPesado::toString() const {
     std::ostringstream oss;
-    oss << "Veiculo: Caminhao Pesado" << endl;
-    oss << Veiculo::toString();
-    oss << "carga total: " + to_string(CaminhaoPesado::getCarga()) + "kg" << endl;
+    oss << "Caminhao pesado " + Veiculo::toString() + " passageiros: 0 ";
+    oss << " carga: " + precisaoDecimal(CaminhaoPesado::getCarga(), 2) + "kg";
+    oss << "\n-----------------------------------------------------------------------------\n";
     return oss.str();
 }
 

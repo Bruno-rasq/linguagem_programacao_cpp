@@ -1,36 +1,12 @@
 #include <iostream>
-#include <vector>
-#include <tuple>
-#include <iomanip>
-#include <sstream>
 
-//importe das classes
 #include "./include/carro.hpp"
 #include "./include/onibus.hpp"
 #include "./include/caminhaoLeve.hpp"
 #include "./include/caminhaoPesado.hpp"
+#include "./include/procedimentos.hpp"
 
 using namespace std;
-
-string precisaoDecimal(float valor, int casas){
-    ostringstream oss;
-    oss << fixed << setprecision(casas) << valor;
-    return oss.str();
-}
-
-void exibirHistoricoDeViagens(vector<tuple<string, float, float>>& viagens){
-    cout << "historico de viagems:" << endl;
-    for(int i = 0; i < viagens.size(); i++){
-        auto viagem = viagens[i];
-
-        string destino = get<0>(viagem);
-        string km = precisaoDecimal(get<1>(viagem), 2);
-        string combustivel = precisaoDecimal(get<2>(viagem), 2);
-
-        cout << destino + " " + km + " " + combustivel << endl;
-    }
-    cout << endl;
-}
 
 int main() {
 

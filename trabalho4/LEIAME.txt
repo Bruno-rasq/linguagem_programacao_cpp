@@ -11,22 +11,31 @@ um onibus, se ao inves de pessoas tiver que levar carga usar um caminhao depende
 [COMANDO PARA COMPILAR]: g++ src/*.cpp main.cpp -I ./include -o programa
 [COMANDO PARA RODAR]: programa.exe
 
+Eu também dividi o arquivo de memoria em dois arquivos (memoria.txt e historico.txt) onde respectivamente armazenam
+os dados dos veiculos e os historicos de viagens.
 
 memoria.txt:
     a primeira linha contem um inteiro N referente a quantidade de veiculos cadastrados
-    as demais N*2 linhas possue o tipo de veiculo (C, O, CL, CP) carro, onibus, caminhao leve ou caminhao pesado
-    seguido da placa, odometro, (no caso de carro e onibus um inteiro referente ao numero de passageiros ou no caso
-    de caminhao leve e pesado um float indicando a carga), e um float indicando a quilometragem atual;
-    a linha seguinte é reservada para a descricao do veiculo.
+    as demais N*2 linhas possue o tipo de veiculo (C, O, L, P) carro, onibus, caminhao leve ou caminhao pesado
+    seguido da placa, odometro, numero de passageiros(0 no caso de caminhoes) e o numero de
+    carga maxima(0 no caso de carro e onibus).
 
     exemplo:
-    1
-    C abc123 0.0 4 25.000
-    carro de teste 
+    2
+    C abc123 0.0 4 0.00
+    carro de teste
+    l def234 0.0 0 18.00
+    caminhao teste 
 
 historico.txt:
     armazena os historicos de viagens de cada veiculo.
     cada linha contem a placa do veiuclo, destino, quilometragem e o combustivel gasto.
 
     exemplo:
-    abc123 destino1 500 100
+    abc123 destino1 50.00 100.0
+
+
+[BUGs]:
+    por algum motivo não esta sendo exibido os veiculos disponiveis para executar uma viagem.
+    não exibe o historico ao carregar os dados no inicio do programa.
+    o metodo que calcula o consumo medio só funciona se criar um veiculo durante a execução do programa.

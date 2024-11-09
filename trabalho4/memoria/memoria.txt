@@ -1,9 +1,9 @@
 4
-C abc123 0.0 5 0.0
+C abc123 0.0 4 0.00
 carro economico
-O def456 0.0 32 0.0
+O def456 0.0 32 0.00
 onibus escolhar
-CL ghi789 0.0 15.000 0.0
+L ghi789 0.0 0 18.00
 caminhao leve
-CP jkl012 0.0 25.000 0.0
+P jkl012 0.0 0 28.00
 caminhao pesado
