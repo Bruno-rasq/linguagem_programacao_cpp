@@ -4,6 +4,9 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <fstream>
+#include <tuple>
+
 #include "./veiculo.hpp"
 
 
@@ -31,5 +34,9 @@ void carregarVeiculosEmfrota(
 );
 
 bool carregarDados(vector<unique_ptr<Veiculo>>& frota);
+
+void gravarHistoricos(vector<tuple<string, float, float>>& historico, ofstream& arquivo, const string placa);
+
+bool gravarDados(vector<unique_ptr<Veiculo>>& frota);
 
 #endif
