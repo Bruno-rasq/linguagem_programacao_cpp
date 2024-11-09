@@ -16,9 +16,8 @@ CaminhaoPesado::~CaminhaoPesado(){};
 
 string CaminhaoPesado::toString() const {
     std::ostringstream oss;
-    oss << "Caminhao pesado " + Veiculo::toString() + " passageiros: 0 ";
-    oss << " carga: " + precisaoDecimal(CaminhaoPesado::getCarga(), 2) + "kg";
-    oss << "\n-----------------------------------------------------------------------------\n";
+    oss << "CaminhaoP " + Veiculo::toString() + " 0 " + precisaoDecimal(CaminhaoPesado::getCarga(), 2);
+    oss << Veiculo::getDescricao();
     return oss.str();
 }
 

@@ -15,9 +15,8 @@ Carro::~Carro(){};
 
 string Carro::toString() const {
     std::ostringstream oss;
-    oss << "Carro " + Veiculo::toString() + " passageiros: " + to_string(Carro::getNumeroPassageiros());
-    oss << " carga: 0.0kg";
-    oss << "\n-----------------------------------------------------------------------------\n";
+    oss << "Carro     " + Veiculo::toString() + " " + to_string(Carro::getNumeroPassageiros()) + " 0.0 ";
+    oss << Veiculo::getDescricao();
     return oss.str();
 }
 

@@ -126,6 +126,10 @@ bool carregarDados(vector<unique_ptr<Veiculo>>& frota){
 }
 
 
+/**
+ *  mêtodo responsavel por fazer a gravação das viagens do historico de cada
+ *  veiculo no arquivo de historico.
+*/
 void gravarHistoricos(vector<tuple<string, float, float>>& historico, ofstream& arquivo, const string placa){
 
     for(int i = 0; i < historico.size(); i++){
@@ -139,11 +143,11 @@ void gravarHistoricos(vector<tuple<string, float, float>>& historico, ofstream& 
     }
 }
 
+
 bool gravarDados(vector<unique_ptr<Veiculo>>& frota){ 
     
     int quantidade_veiculo = frota.size();
 
-    //abriando o arquivo e limpando para uso.
     ofstream file("./memoria/memoria.txt", ios::out);
     ofstream hist("./memoria/historico.txt", ios::out);
 
@@ -157,79 +161,43 @@ bool gravarDados(vector<unique_ptr<Veiculo>>& frota){
     for(int i = 0; i < quantidade_veiculo; i++){
 
         const auto& veiculo = frota[i];
-        auto historico = veiculo->getHistoricoViagens();
-        string placa, odometro;
 
-        //grava os dados de carro na memoria
+        auto historico = veiculo->getHistoricoViagens();
+
+        string odometro = veiculo->getHodometro();
+        size_t pos = odometro.find("km");
+        if(pos != string::npos){
+            odometro = odometro.substr(0, pos);
+        }
+
+        string dado = veiculo->getPlaca() + odometro;
+        string placa = veiculo->getPlaca();
+
+
         if(Carro* carro = dynamic_cast<Carro*>(veiculo.get())){
 
-            odometro = carro->getHodometro();
-            size_t pos = odometro.find("km");
-            if(pos != string::npos){
-                odometro = odometro.substr(0, pos);
-            }
-
-            file << "C " << carro->getPlaca() 
-                    + " " + odometro
-                    + " " + precisaoDecimal(carro->getNumeroPassageiros(), 2) 
-                    + " 0.0" << endl;
-
-            file << carro->getDescricao() << endl;
-            placa = carro->getPlaca();
+            file << "C " + dado + " " + to_string(carro->getNumeroPassageiros()) + " 0.0" << endl;
         }
 
-        //grava os dados de onibus na memoria
+
         if(Onibus* onibus = dynamic_cast<Onibus*>(veiculo.get())){
-
-            odometro = onibus->getHodometro();
-            size_t pos = odometro.find("km");
-            if(pos != string::npos){
-                odometro = odometro.substr(0, pos);
-            }
             
-            file << "O " << onibus->getPlaca() 
-                    + " " + odometro 
-                    + " " + precisaoDecimal(onibus->getNumeroPassageiros(), 2) 
-                    + " 0.0" << endl;
-
-            file << onibus->getDescricao() << endl;
-            placa = onibus->getPlaca();
+            file << "O " + dado + " " + to_string(onibus->getNumeroPassageiros()) + " 0.0" << endl;
         }
 
-        //grava os dados de caimnhao leve na memoria
+    
         if(CaminhaoLeve* cl = dynamic_cast<CaminhaoLeve*>(veiculo.get())){
-
-            odometro = cl->getHodometro();
-            size_t pos = odometro.find("km");
-            if(pos != string::npos){
-                odometro = odometro.substr(0, pos);
-            }
             
-            file << "L " << cl->getPlaca() 
-                    + " " + odometro 
-                    + " 0 "  + precisaoDecimal(cl->getCarga(), 2) << endl;
-
-            file << cl->getDescricao() << endl;
-            placa = cl->getPlaca();
+            file << "L " + dado + " 0 " + precisaoDecimal(cl->getCarga(), 2) << endl;
         }
 
-        //grava os dados de caimnhao pesado na memoria
+
         if(CaminhaoPesado* cp = dynamic_cast<CaminhaoPesado*>(veiculo.get())){
-
-            odometro = cp->getHodometro();
-            size_t pos = odometro.find("km");
-            if(pos != string::npos){
-                odometro = odometro.substr(0, pos);
-            }
             
-            file << "P " << cp->getPlaca() 
-                    + " " + odometro 
-                    + " 0 "  + precisaoDecimal(cp->getCarga(), 2) << endl;
-
-            file << cp->getDescricao() << endl;
-            placa = cp->getPlaca();
+            file << "P " + dado + " 0 " + precisaoDecimal(cp->getCarga(), 2) << endl;
         }
 
+        file << veiculo->getDescricao() << endl;
         gravarHistoricos(historico, hist, placa);
     }
 

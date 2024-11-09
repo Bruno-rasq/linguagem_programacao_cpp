@@ -15,9 +15,8 @@ Onibus::~Onibus(){};
 
 string Onibus::toString() const {
     std::ostringstream oss;
-    oss << "Onibus " + Veiculo::toString() + " passageiros: " + to_string(Onibus::getNumeroPassageiros());
-    oss << " carga: 0.0kg";
-    oss << "\n-----------------------------------------------------------------------------\n";
+    oss << "Onibus    " + Veiculo::toString() + " " + to_string(Onibus::getNumeroPassageiros()) + " 0.0 ";
+    oss << Veiculo::getDescricao();
     return oss.str();
 }
 

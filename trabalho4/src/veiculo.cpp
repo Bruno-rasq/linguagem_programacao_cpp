@@ -47,11 +47,10 @@ string Veiculo::getQuilometragemAtual() const {
 string Veiculo::toString() const {
 
     ostringstream oss;
-    oss << Veiculo::getPlaca() + " ";
-    oss << Veiculo::getDescricao() + " ";
-    oss << Veiculo::getHodometro() + " ";
-    oss << Veiculo::getQuilometragemAtual() + " ";
-    oss << precisaoDecimal(Veiculo::consumoMedio(), 3) + "km/l";
+    oss << Veiculo::getPlaca() + "  ";
+    oss << Veiculo::getHodometro() + "     ";
+    oss << Veiculo::getQuilometragemAtual() + "   ";
+    oss << precisaoDecimal(Veiculo::consumoMedio(), 3) + "km/l       ";
     return oss.str();
 }
 

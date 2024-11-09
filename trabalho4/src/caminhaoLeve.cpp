@@ -16,9 +16,8 @@ CaminhaoLeve::~CaminhaoLeve(){};
 
 string CaminhaoLeve::toString() const {
     std::ostringstream oss;
-    oss << "Caminhao leve " + Veiculo::toString() + " passageiros: 0"; 
-    oss <<" carga: " + precisaoDecimal(CaminhaoLeve::getCarga(), 2) + "kg";
-    oss << "\n-----------------------------------------------------------------------------\n";
+    oss << "CaminhaoL " + Veiculo::toString() + " 0 " + precisaoDecimal(CaminhaoLeve::getCarga(), 2);
+    oss << Veiculo::getDescricao();
     return oss.str();
 }
 

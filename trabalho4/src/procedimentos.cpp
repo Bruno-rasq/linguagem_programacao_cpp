@@ -21,25 +21,26 @@ string precisaoDecimal(float valor, int casas){
 }
 
 void exibirHistoricoDeViagens(vector<tuple<string, float, float>>& viagens){
-    cout << "Destino    Km" << endl;
+    cout << "[historico de viagens ] Destino - Km" << endl;
     for(int i = 0; i < viagens.size(); i++){
         auto viagem = viagens[i];
 
         string destino = get<0>(viagem);
         string km = precisaoDecimal(get<1>(viagem), 2);
 
-        cout << destino + "    " + km + "km" << endl;
+        cout << destino + " - " + km + "km" << endl;
     }
     cout << endl;
 }
 
 void exibirVeiculos(vector<unique_ptr<Veiculo>>& frota){
 
-    cout << "Tipo   Placa   Descricao   Odometro_inicial(km)   km_atual(km)   consumo_medio(km/l)" << endl;
-    cout << "====================================================================================" << endl;
+    cout << "Tipo      Placa   Odometro   km_atual   consumo_medio   passageiros   carga   Descricao" << endl;
+    cout << "=======================================================================================" << endl;
     for(const auto& veiculo : frota){
         cout << veiculo->toString() << endl;
     }
+    cout << endl;
 }
 
 void pesquisarVeiculo(vector<unique_ptr<Veiculo>>& frota){
@@ -50,6 +51,8 @@ void pesquisarVeiculo(vector<unique_ptr<Veiculo>>& frota){
 
     for(const auto& veiculo: frota){
         if(veiculo->getPlaca() == placa){
+            cout << "Tipo      Placa   Odometro   km_atual   consumo_medio   passageiros   carga   Descricao" << endl;
+            cout << "=======================================================================================" << endl;
             cout << veiculo->toString() << endl;
             auto historico = veiculo->getHistoricoViagens();
             exibirHistoricoDeViagens(historico);
@@ -69,10 +72,10 @@ void cadastrarVeiculo(vector<unique_ptr<Veiculo>>& frota){
     cout << menuTiposDeVeiculos() << endl;
     cin >> tipoDeVeiculo;
 
-    cout << "[placa]: \n";
+    cout << "[placa (3 letras e 3 numeros)]: \n";
     cin >> placa;
 
-    cout << "[descricao]: \n";
+    cout << "[descricao do veiculo]: \n";
     cin.ignore();
     getline(cin, descricao);
     
@@ -100,7 +103,7 @@ void cadastrarVeiculo(vector<unique_ptr<Veiculo>>& frota){
     if(tipoDeVeiculo == 'l' || tipoDeVeiculo == 'L'){
 
         float carga;
-        cout << "[carga]: \n";
+        cout << "[carga maxima]: \n";
         cin >> carga;
 
         cadastrarCaminhaoLeve(placa, descricao, odometro, carga, frota);
@@ -109,7 +112,7 @@ void cadastrarVeiculo(vector<unique_ptr<Veiculo>>& frota){
     if(tipoDeVeiculo == 'p' || tipoDeVeiculo == 'P'){
 
         float carga;
-        cout << "[carga]: \n";
+        cout << "[carga maxima]: \n";
         cin >> carga;
 
         cadastrarCaminhaoLeve(placa, descricao, odometro, carga, frota);
@@ -181,6 +184,8 @@ void cadastrarViagem(vector<unique_ptr<Veiculo>>& frota){
     cout << "---------------------------" << endl;
     cout << "A - transporte de pessoa   " << endl;
     cout << "B - transporte de carga    " << endl;
+
+    cout << "[escolha uma opcao A ou B]:" << endl;
     cin >> opcao;
 
     if(opcao != 'A' && opcao != 'a' && opcao == 'B' && opcao == 'b'){
@@ -191,12 +196,14 @@ void cadastrarViagem(vector<unique_ptr<Veiculo>>& frota){
     if(opcao == 'A' || opcao == 'a'){
 
         listarVeiculosCompativeisPessoas(frota);
+        cout << "[placa]:" << endl;
         cin >> placa;
     }
     
     if(opcao == 'B' || opcao == 'b'){
 
         listarVeiculosCompativeisCarga(frota);
+        cout << "[placa]:" << endl;
         cin >> placa;
     }
 
