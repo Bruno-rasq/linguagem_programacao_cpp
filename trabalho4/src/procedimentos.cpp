@@ -51,8 +51,7 @@ void pesquisarVeiculo(vector<unique_ptr<Veiculo>>& frota){
 
     for(const auto& veiculo: frota){
         if(veiculo->getPlaca() == placa){
-            cout << "Tipo      Placa   Odometro   km_atual   consumo_medio   passageiros   carga   Descricao" << endl;
-            cout << "=======================================================================================" << endl;
+    
             cout << veiculo->toString() << endl;
             auto historico = veiculo->getHistoricoViagens();
             exibirHistoricoDeViagens(historico);
@@ -85,7 +84,7 @@ void cadastrarVeiculo(vector<unique_ptr<Veiculo>>& frota){
     if(tipoDeVeiculo == 'c' || tipoDeVeiculo == 'C'){ 
 
         int passageiros;
-        cout << "[maximo de passageiros]: \n";
+        cout << "[numero de passageiros (maximo 4)]: \n";
         cin >> passageiros;
 
         cadastrarCarro(placa, descricao, odometro, passageiros, frota);  
@@ -94,7 +93,7 @@ void cadastrarVeiculo(vector<unique_ptr<Veiculo>>& frota){
     if(tipoDeVeiculo == 'o' || tipoDeVeiculo == 'O'){
 
         int passageiros;
-        cout << "[maximo de passageiros]: \n";
+        cout << "[numero de passageiros (maximo 4)]: \n";
         cin >> passageiros;
 
         cadastrarOnibus(placa, descricao, odometro, passageiros, frota); 
@@ -103,7 +102,7 @@ void cadastrarVeiculo(vector<unique_ptr<Veiculo>>& frota){
     if(tipoDeVeiculo == 'l' || tipoDeVeiculo == 'L'){
 
         float carga;
-        cout << "[carga maxima]: \n";
+        cout << "[carga (maxima 30000)]: \n";
         cin >> carga;
 
         cadastrarCaminhaoLeve(placa, descricao, odometro, carga, frota);
@@ -112,7 +111,7 @@ void cadastrarVeiculo(vector<unique_ptr<Veiculo>>& frota){
     if(tipoDeVeiculo == 'p' || tipoDeVeiculo == 'P'){
 
         float carga;
-        cout << "[carga maxima]: \n";
+        cout << "[carga (maxima 30000)]: \n";
         cin >> carga;
 
         cadastrarCaminhaoLeve(placa, descricao, odometro, carga, frota);
@@ -137,16 +136,18 @@ void efetuarViagem(
     cout << "erro ao efetual cadastro de viagem" << endl;
 }
 
+
+/**
+ * tentando fazer um cast do veiculo para Carro para obter acesso ao metodos da subclasse
+ * o dynamic_cast permite fazer um downcasting que é uma forma mais segurade fazer o cast 
+ * de um ponteiro da superclasse Veiculo para a subClasse Carro.
+*/
 void listarVeiculosCompativeisPessoas(vector<unique_ptr<Veiculo>>& frota){
 
     cout << "veiculos disponiceis:" << endl;
     for(const auto& veiculo: frota){
 
-            /**
-             * tentando fazer um cast do veiculo para Carro para obter acesso ao metodos da subclasse
-             * o dynamic_cast permite fazer um downcasting que é uma forma mais segurade fazer o cast 
-             * de um ponteiro da superclasse Veiculo para a subClasse Carro.
-            */
+    
             if(Carro* carro = dynamic_cast<Carro*>(veiculo.get())){
                 cout << carro->toString() << endl << endl;
             }
@@ -154,7 +155,6 @@ void listarVeiculosCompativeisPessoas(vector<unique_ptr<Veiculo>>& frota){
             else if(Onibus* onibus = dynamic_cast<Onibus*>(veiculo.get())){
                 cout << onibus->toString() << endl << endl;
             }
-
     }
 }
 
@@ -176,19 +176,19 @@ void listarVeiculosCompativeisCarga(vector<unique_ptr<Veiculo>>& frota){
 
 void cadastrarViagem(vector<unique_ptr<Veiculo>>& frota){
 
-    string placa, destino;
-    float km, combustivel;
+    string  placa, destino;
+    float   km,    combustivel;
+    char    opcao;
 
-    char opcao;
     cout << "ESCOLHA UM TIPO DE VIAGEM  " << endl;
     cout << "---------------------------" << endl;
     cout << "A - transporte de pessoa   " << endl;
     cout << "B - transporte de carga    " << endl;
-
     cout << "[escolha uma opcao A ou B]:" << endl;
+
     cin >> opcao;
 
-    if(opcao != 'A' && opcao != 'a' && opcao == 'B' && opcao == 'b'){
+    if(opcao != 'A' && opcao != 'a' && opcao != 'B' && opcao != 'b'){
         cout << "opcao invalida!" << endl;
         return;
     }
@@ -196,16 +196,15 @@ void cadastrarViagem(vector<unique_ptr<Veiculo>>& frota){
     if(opcao == 'A' || opcao == 'a'){
 
         listarVeiculosCompativeisPessoas(frota);
-        cout << "[placa]:" << endl;
-        cin >> placa;
     }
     
     if(opcao == 'B' || opcao == 'b'){
 
         listarVeiculosCompativeisCarga(frota);
-        cout << "[placa]:" << endl;
-        cin >> placa;
     }
+
+    cout << "[placa]:" << endl;
+    cin >> placa;
 
     cout << "[destino]: " << endl;
     cin >> destino;

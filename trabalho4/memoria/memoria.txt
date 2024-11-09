@@ -1,9 +1,11 @@
-4
-C abc123 0.0 4 0.00
+5
+C abc123 0.00 4 0.0
 teste
-O def456 0.0 32 0.00
+O def456 0.00 32 0.0
 teste
-L ghi789 0.0 0 18.00
+L ghi789 0.00 0 250.00
 teste
-P jkl012 0.0 0 28.00
+P jkl012 0.00 0 15000.00
 teste
+C ok000 0.00 4 0.0
+carroteste

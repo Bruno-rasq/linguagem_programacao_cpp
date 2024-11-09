@@ -40,7 +40,7 @@ int main(){
 
             case 4: { pesquisarVeiculo(frota);  break; }
 
-            case 5: { /*gravarDados(frota); */  return 0; } 
+            case 5: { gravarDados(frota);       return 0; } 
             
             default:{ break; }
         }

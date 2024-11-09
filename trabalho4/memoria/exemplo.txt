@@ -1,9 +1,0 @@
-4
-C abc123 0.0 4 0.00
-teste
-O def456 0.0 32 0.00
-teste
-L ghi789 0.0 0 18.00
-teste
-P jkl012 0.0 0 28.00
-teste

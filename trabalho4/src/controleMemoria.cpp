@@ -139,14 +139,14 @@ void gravarHistoricos(vector<tuple<string, float, float>>& historico, ofstream& 
         string km = precisaoDecimal(get<1>(viagem), 2);
         string combustivel = precisaoDecimal(get<2>(viagem), 2);
 
-        arquivo << placa + " " + destino + " " + km + " " + combustivel << endl;
+        arquivo << placa << " "<< destino << " " << km << " " << combustivel << endl;
+
     }
 }
 
 
 bool gravarDados(vector<unique_ptr<Veiculo>>& frota){ 
     
-    int quantidade_veiculo = frota.size();
 
     ofstream file("./memoria/memoria.txt", ios::out);
     ofstream hist("./memoria/historico.txt", ios::out);
@@ -156,11 +156,9 @@ bool gravarDados(vector<unique_ptr<Veiculo>>& frota){
         return false;
     }
 
-    file << quantidade_veiculo << endl;
+    file << frota.size() << endl;
 
-    for(int i = 0; i < quantidade_veiculo; i++){
-
-        const auto& veiculo = frota[i];
+    for(const auto& veiculo : frota){;
 
         auto historico = veiculo->getHistoricoViagens();
 
@@ -170,31 +168,35 @@ bool gravarDados(vector<unique_ptr<Veiculo>>& frota){
             odometro = odometro.substr(0, pos);
         }
 
-        string dado = veiculo->getPlaca() + odometro;
+        string dado = veiculo->getPlaca() + " " + odometro;
         string placa = veiculo->getPlaca();
 
 
         if(Carro* carro = dynamic_cast<Carro*>(veiculo.get())){
 
-            file << "C " + dado + " " + to_string(carro->getNumeroPassageiros()) + " 0.0" << endl;
+            string passageiros = to_string(carro->getNumeroPassageiros());
+            file << "C " << dado << " " << passageiros << " 0.0" << endl;
         }
 
 
         if(Onibus* onibus = dynamic_cast<Onibus*>(veiculo.get())){
             
-            file << "O " + dado + " " + to_string(onibus->getNumeroPassageiros()) + " 0.0" << endl;
+            string passageiros = to_string(onibus->getNumeroPassageiros());
+            file << "O " << dado << " " << passageiros << " 0.0" << endl;
         }
 
     
         if(CaminhaoLeve* cl = dynamic_cast<CaminhaoLeve*>(veiculo.get())){
             
-            file << "L " + dado + " 0 " + precisaoDecimal(cl->getCarga(), 2) << endl;
+            string carga = precisaoDecimal(cl->getCarga(), 2);
+            file << "L " << dado << " 0 " << carga << endl;
         }
 
 
         if(CaminhaoPesado* cp = dynamic_cast<CaminhaoPesado*>(veiculo.get())){
             
-            file << "P " + dado + " 0 " + precisaoDecimal(cp->getCarga(), 2) << endl;
+            string carga = precisaoDecimal(cp->getCarga(), 2);
+            file << "P " << dado << " 0 " << carga << endl;
         }
 
         file << veiculo->getDescricao() << endl;
