@@ -3,6 +3,7 @@
 #include <vector>
 #include <tuple>
 #include <sstream>
+#include <cmath>
 
 using namespace std;
 
@@ -16,11 +17,17 @@ Veiculo::Veiculo(const string placa, const string descricao, float quilometragem
 
 Veiculo::~Veiculo(){}
 
-string Veiculo::getPlaca() const { return this->PLACA; }
+string Veiculo::getPlaca() const { 
+    return this->PLACA; 
+}
 
-string Veiculo::getDescricao() const { return this->DESCRICAO; }
+string Veiculo::getDescricao() const { 
+    return this->DESCRICAO; 
+}
 
-vector<tuple<string, float, float>> Veiculo::getHistoricoViagens() const { return this->historico_viagens; }
+vector<tuple<string, float, float>> Veiculo::getHistoricoViagens() const { 
+    return this->historico_viagens; 
+}
 
 string Veiculo::getHodometro() const {
 
@@ -42,11 +49,14 @@ string Veiculo::toString() const {
     oss << Veiculo::getPlaca() + " ";
     oss << Veiculo::getDescricao() + " ";
     oss << Veiculo::getHodometro() + " ";
+    oss << Veiculo::getQuilometragemAtual() + " ";
     oss << precisaoDecimal(Veiculo::consumoMedio(), 3) + "km/l";
     return oss.str();
 }
 
-void Veiculo::setQuilometragemAtual(float km){ this->quilometragem_atual += km; }
+void Veiculo::setQuilometragemAtual(float km){ 
+    this->quilometragem_atual += km; 
+}
 
 void Veiculo::setHistoricoViagens(const string destino,float km, float combustivel){
 
@@ -72,6 +82,12 @@ float Veiculo::consumoMedio() const {
 
         kmTotal += km;
         combustivelTotal += combustivel;
+    }
+
+    double result = kmTotal / combustivelTotal;
+
+    if(std::isnan(result)){
+        return 0.0;
     }
 
     return kmTotal / combustivelTotal;

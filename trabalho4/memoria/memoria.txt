@@ -1,9 +1,9 @@
 4
 C abc123 0.0 4 0.00
-carro economico
+teste
 O def456 0.0 32 0.00
-onibus escolhar
+teste
 L ghi789 0.0 0 18.00
-caminhao leve
+teste
 P jkl012 0.0 0 28.00
-caminhao pesado
+teste

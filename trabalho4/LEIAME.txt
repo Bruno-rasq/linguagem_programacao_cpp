@@ -1,3 +1,6 @@
+[COMANDO PARA COMPILAR]: g++ src/*.cpp main.cpp -I ./include -o programa
+[COMANDO PARA RODAR]: programa.exe
+
 O objetivo do trabalho é usando a programação orientada a objetos (POO) em c++ criar um sistema de frota de veiculos
 que serão capazes de realizar viagens, a questão é que no meu projeto a suoer classe Veiculo já foi implementada 
 com a maioria dos requisitos do trabalho de maneira a não deixar diferenças entre as subclasses.
@@ -6,10 +9,6 @@ o que pensei em fazer foi fazer com que os veiculos tenham uma função especifi
 
 por exemplo, uma viagem que precise transportar 2 pessoas faz mais sentido se usar um carro, se forem 32 pessoas um
 um onibus, se ao inves de pessoas tiver que levar carga usar um caminhao dependendo do tamanho da carga.
-
-
-[COMANDO PARA COMPILAR]: g++ src/*.cpp main.cpp -I ./include -o programa
-[COMANDO PARA RODAR]: programa.exe
 
 Eu também dividi o arquivo de memoria em dois arquivos (memoria.txt e historico.txt) onde respectivamente armazenam
 os dados dos veiculos e os historicos de viagens.
@@ -35,7 +34,12 @@ historico.txt:
     abc123 destino1 50.00 100.0
 
 
-[BUGs]:
-    por algum motivo não esta sendo exibido os veiculos disponiveis para executar uma viagem.
-    não exibe o historico ao carregar os dados no inicio do programa.
-    o metodo que calcula o consumo medio só funciona se criar um veiculo durante a execução do programa.
+4
+C abc123 0.0 4 0.00
+teste
+O def456 0.0 32 0.00
+teste
+L ghi789 0.0 0 18.00
+teste
+P jkl012 0.0 0 28.00
+teste

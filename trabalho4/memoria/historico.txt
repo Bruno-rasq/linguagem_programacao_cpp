@@ -1,6 +1,1 @@
-abc123 destino1 500.0 100.0
-abc123 destino2 5500.0 600.0
-def456 destino1 400.0 80.0
-def456 destino2 500.0 100.0
-ghi789 destino1 50.0 20.0
-jkl012 destino1 500.0 100.0
+abc123 a 100.00 50.00
