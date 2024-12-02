@@ -1,15 +1,12 @@
 #include <iostream>
 #include <vector>
 #include <memory>
-#include <fstream>
-#include <tuple>
 
 #include "./include/output.hpp"
 #include "./include/veiculo.hpp"
 #include "./include/procedimentos.hpp"
 #include "./include/controleMemoria.hpp"
 #include "./include/cadastros.hpp"
-
 
 using namespace std;
 
