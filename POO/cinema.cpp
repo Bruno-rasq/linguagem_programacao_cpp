@@ -94,6 +94,10 @@ class Cinema {
     private:
         vector<SalaDeCinema> sessoes;
 
+    public:
+        Cinema(){}
+        ~Cinema(){}
+
         void getPoltronasDaSessao(string ID){
             for(auto& sala: this->sessoes){
                 if(sala.getID() == ID){
@@ -102,25 +106,20 @@ class Cinema {
             }
         }
 
-        void getInfoFilmeSessao (const string& ID){
-            for(int i = 0; i < this->sessoes.size(); i++){
-                if(this->sessoes[i].getID() == ID){
-                    this->sessoes[i].getFilme();
-                }
-            }
-        }
 
         void getInfoAllSessoes() const {
+
+            cout << "| FILMES DISPONIVEIS |" << endl << endl;
+            cout << "[Sessao]   Titulo - Genero - Classificacao indicativa - Duracao" << endl << endl;
             for(int i = 0; i < this->sessoes.size(); i++){
-                cout << this->sessoes[i].getFilme() << endl << endl;
+                cout << this->sessoes[i].getID() << "   " << this->sessoes[i].getFilme()  << endl;
             }
         }
 
         bool ocuparPoltronaSessao(const string& ID, int fileira, int coluna){
             for(int i = 0; i < this->sessoes.size(); i++){
                 if(this->sessoes[i].getID() == ID){
-                    this->sessoes[i].ocuparPoltrona(fileira, coluna);
-                    return true;
+                    return this->sessoes[i].ocuparPoltrona(fileira, coluna);
                 }
             }
             return false;
@@ -130,41 +129,77 @@ class Cinema {
             this->sessoes.push_back(sessao);
         }
 
-    public:
-        Cinema(){}
-        ~Cinema(){}
-
 };
+
+void ExibirMenu(){
+    ostringstream oss;
+
+    oss << endl << endl;
+    oss << "---------------------------------" << endl;
+    oss << "|          Cinema Teste         |" << endl;
+    oss << "---------------------------------" << endl;
+    oss << "     selecione uma opcao         " << endl;
+    oss << "                                 " << endl;
+    oss << "     1 Ver Filmes em cartaz      " << endl;
+    oss << "     2 comprar Bilhete           " << endl;
+    oss << "     3 sair.                     " << endl;
+
+    cout << oss.str() << endl;
+}
 
 int main(){
 
-    Filme filme1("Bug o filme", "ficcao", "livre", 1.45);
-    Filme filme2("for loop", "terror", "+18", 1.50);
-    Filme filme3("Bit and Byte", "desenho", "livre", 2.20);
+    Filme filme1("Bug o filme",  "ficcao",  "livre", 1.45);
+    Filme filme2("for____loop",  "terror",  "+18",   1.50);
+    Filme filme3("Bit &7 Byte",  "desenho", "livre", 2.20);
 
     SalaDeCinema sala01("SL-001", filme1, 4);
-    SalaDeCinema sala02("SL-001", filme2, 4);
-    SalaDeCinema sala03("SL-001", filme3, 4);
+    SalaDeCinema sala02("SL-002", filme2, 4);
+    SalaDeCinema sala03("SL-003", filme3, 4);
 
-    Cinema cinema();
+    Cinema cinema;
 
-    // cinema.adicionarSessao(sala01);
-    // cinema.adicionarSessao(sala02);
-    // cinema.adicionarSessao(sala03);
+    cinema.adicionarSessao(sala01);
+    cinema.adicionarSessao(sala02);
+    cinema.adicionarSessao(sala03);
 
-    // cout << "sala inical:" << endl;
-    // sala.exibirMapaPoltronas();
+    while(true){
 
-    // sala.ocuparPoltrona(0, 0);
-    // sala.ocuparPoltrona(0, 1);
-    // sala.ocuparPoltrona(0, 2);
-    // sala.ocuparPoltrona(0, 3);
-    // sala.ocuparPoltrona(0, 4);
-    // sala.ocuparPoltrona(0, 5);
+        ExibirMenu();
+        int opcao;
+        cin >> opcao;
+
+        switch(opcao){
+
+            case 1: { cinema.getInfoAllSessoes(); break; }
+            case 2: {
+
+                string sessao;
+                int fileira, coluna;
+
+                cinema.getInfoAllSessoes();
+                cin >> sessao;
+
+                cout << "| ESCOLHA SUA POLTRONA (pxx indisponiveis)" << endl << endl;
+                cinema.getPoltronasDaSessao(sessao);
+                cout << "fileira:" << endl;
+                cin >> fileira;
+                cout << "coluna:" << endl;
+                cin >> coluna;
+
+                bool resposta = cinema.ocuparPoltronaSessao(sessao, fileira, coluna);
+
+                cout << (resposta == true ? "Bom filme!" : "algo deu errado!") << endl;
+
+                break;
+            }
 
 
-    // cout << "sala atual:" << endl;
-    // sala.exibirMapaPoltronas();
+            case 3: { return 1; }
+            default: { break; }
+        }
+
+    }
 
     return 0;
 }
