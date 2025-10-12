@@ -2,13 +2,17 @@
 #include <windows.h>    // para usar Sleep
 #include <cstdlib>      // para usar system
 
-#include "src/gridCollections.cpp"
-#include "src/robot.cpp"
-#include "src/grid.cpp"
+#include "include/gridCollections.hpp"
+#include "include/robot.hpp"
+#include "include/grid.hpp"
 
 
-// compile command: g++ main.cpp src/*.cpp -o main.exe
-// run command: main.exe
+#define TIME 150
+
+
+// compile command: g++ main.cpp src/*.cpp  -Iinclude -o program.exe
+// run command: program.exe
+
 
 void auto_follow(){
 
@@ -30,11 +34,13 @@ void auto_follow(){
 
         if(next_coord.first == -1 && next_coord.second == -1) break;
 
-        board.clearPrevRobotCoord(current_coord.first, current_coord.second);
+        board.clearPrevRobotCoord(
+            current_coord.first, current_coord.second);
 
         board.setRobotCoord(next_coord.first, next_coord.second);
+        robot.setCoord(next_coord.first, next_coord.second);
 
-        Sleep(500); 
+        Sleep(TIME); 
     }
 }
 

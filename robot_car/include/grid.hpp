@@ -2,7 +2,7 @@
 #define GRID_HPP
 
 #include <vector>
-#include "../src/gridCollections.cpp"
+#include "./gridCollections.hpp"
 
 class Grid {
 private:

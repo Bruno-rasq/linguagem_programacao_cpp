@@ -1,12 +1,11 @@
 #include <utility>
 #include <vector>
 #include "../include/robot.hpp"
-#include "./gridCollections.cpp"
+#include "../include/gridCollections.hpp"
 
 Robot::Robot(int x, int y){
     this->coord_robot = std::make_pair(x, y);
 }
-
 
 std::pair<int, int> Robot::getCoord() const {
     return this->coord_robot;
@@ -27,9 +26,9 @@ std::pair<int, int> Robot::getNextCoord(GridCollections::Board& board) {
         int nx = d.first + this->coord_robot.first;
         int ny = d.second + this->coord_robot.second;
 
-        if(0 <= nx && nx < row && 0 <= ny && ny < col){
-            return {nx, ny};
-        }
+        if(0 <= nx && nx < row && 0 <= ny && ny < col)
+            if(board[nx][ny] == 1)
+                return {nx, ny};
     }
 
     return {-1, -1};

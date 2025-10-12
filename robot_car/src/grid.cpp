@@ -1,5 +1,5 @@
 #include "../include/grid.hpp"
-#include "./gridCollections.cpp"
+#include "../include/gridCollections.hpp"
 #include <vector>
 #include <iostream>
 
@@ -8,14 +8,13 @@ Grid::Grid(){
     this->board = GridCollections::getRandomGrid();
 }
 
-
 void Grid::printGridState(){
 
     for(size_t i = 0; i < this->board.size(); i++){
-        for(size_t j = 0; j < this->board[0].size(); j++){
-
+        
+        for(size_t j = 0; j < this->board[0].size(); j++)
             std::cout << GridCollections::cells.at(this->board[i][j]);
-        }
+        
         std::cout << "\n";
     }
 };

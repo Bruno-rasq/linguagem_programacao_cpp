@@ -2,11 +2,10 @@
 #include <map>
 #include <random>
 #include <utility>
+#include "../include/gridCollections.hpp"
 
 namespace GridCollections {
     
-    using Board = std::vector<std::vector<int>>;
-
     const std::vector<Board> BOARDS = {
 
         // example board 7 x 8
@@ -45,8 +44,8 @@ namespace GridCollections {
     const Board& getRandomGrid() {
 
         static std::mt19937 rng(std::random_device{}());
-        std::uniform_int_distribution<size_t> dist(0, BOARDS.size() - 1);
+        std::uniform_int_distribution<size_t> dist(0, 100);
 
-        return BOARDS[dist(rng)];
+        return BOARDS[dist(rng) % BOARDS.size()];
     };
 }
