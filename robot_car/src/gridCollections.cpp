@@ -2,43 +2,19 @@
 #include <map>
 #include <random>
 #include <utility>
+#include <fstream>
+
 #include "../include/gridCollections.hpp"
 
 namespace GridCollections {
     
-    const std::vector<Board> BOARDS = {
+    std::vector<Board> BOARDS;
 
-        // example board 7 x 8
-        {
-            {1, 1, 0, 0, 0, 0, 1, 0},
-            {0, 1, 0, 0, 0, 0, 1, 1},
-            {1, 1, 0, 0, 0, 0, 0, 1},
-            {1, 0, 0, 0, 0, 0, 1, 1},
-            {1, 1, 1, 1, 0, 1, 1, 0},
-            {0, 0, 0, 1, 0, 1, 0, 0},
-            {0, 0, 0, 1, 1, 1, 0, 0},
-        },
-
-        // example board 7 x 8
-        {
-            {1, 0, 0, 0, 0, 0, 0, 0},
-            {1, 0, 1, 1, 1, 1, 1, 0},
-            {1, 0, 1, 0, 0, 0, 1, 0},
-            {1, 0, 1, 0, 1, 0, 1, 0},
-            {1, 0, 1, 1, 1, 0, 1, 0},
-            {1, 0, 0, 0, 0, 0, 1, 0},
-            {1, 1, 1, 1, 1, 1, 1, 0},
-        } 
-    };
-
-    /**
-     * 0 - celula de obstaculo
-     * 1 - celula de livre acesso
-     * 2 - posicao do robo
-     * 3 - posicao passada do robot (nao acessivel)
-    */
     const std::map<int, char> cells = {
-        {0, '#'}, {1, '.'}, {2, 'X'}, {3, '.'}
+        {0, '#'}, // - celula de obstaculo
+        {1, '.'}, // - celula de livre acesso
+        {2, 'X'}, // - posicao do robo
+        {3, '.'}  // - posicao passada do robot (nao acessivel)
     };
 
     const Board& getRandomGrid() {
@@ -48,4 +24,23 @@ namespace GridCollections {
 
         return BOARDS[dist(rng) % BOARDS.size()];
     };
+
+    bool loadFileText(const std::string& PATH) {
+        std::ifstream file(PATH);
+        if(!file.is_open()) return false;
+
+        int rows, cols;
+        while(file >> rows >> cols) {
+            std::vector<std::vector<int>> board(rows, std::vector<int>(cols));
+            for(int i = 0; i < rows; i++) {
+                for(int j = 0; j < cols; j++) {
+                    if(!(file >> board[i][j])) return false;
+                }
+            }
+            BOARDS.push_back(board);
+        }
+        file.close();
+        return true;
+    }
+
 }

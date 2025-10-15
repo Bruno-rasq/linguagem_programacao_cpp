@@ -8,6 +8,7 @@
 
 
 #define TIME 150
+#define FILE "./src/boards.txt"
 
 
 // compile command: g++ main.cpp src/*.cpp  -Iinclude -o program.exe
@@ -15,6 +16,13 @@
 
 
 void auto_follow(){
+
+    bool load = GridCollections::loadFileText(FILE);
+
+    if(!load){
+        std::cout << "Erro ao carregar arquivos de boards\n";
+        return;
+    }
 
     Robot robot = Robot(0, 0);
     Grid board  = Grid();

@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <map>
+#include <string>
 
 namespace GridCollections {
 
@@ -13,10 +14,13 @@ namespace GridCollections {
     extern const std::map<int, char> cells;
 
     // lista de boards pré-definido
-    extern const std::vector<Board> BOARDS;
+    extern std::vector<Board> BOARDS;
 
     // retorna uma referencia para um board aleatorio.
     const Board& getRandomGrid();
+
+    // alimenta o vetor de boards
+    bool loadFileText(const std::string& PATH);
 }
 
 #endif
