@@ -9,15 +9,14 @@
 #include <sstream>
 
 
-Grid::Grid(uint16_t gridwidth, uint16_t gridheight, char backgroundcell)
-{
+Grid::Grid(uint16_t gridwidth, uint16_t gridheight){
     this->GRIDWIDTH = gridwidth;
     this->GRIDHEIGHT = gridheight;
     
     for(size_t i = 0; i < this->GRIDHEIGHT; i++){
         std::vector<char> row;
         for(size_t j = 0; j < this->GRIDWIDTH; j++)
-            row.push_back(backgroundcell);
+            row.push_back(this->get_cell());
         this->grid.push_back(row);
     }
 };
@@ -75,3 +74,11 @@ uint16_t Grid::get_grid_width() const {
 uint16_t Grid::get_grid_height() const {
     return this->GRIDHEIGHT;
 };
+
+char Grid::get_cell() const {
+    return this->backgroundcell;
+};
+
+void Grid::set_grid_position(uint16_t x, uint16_t y, char cell){
+    this->grid[x][y] = cell;
+}

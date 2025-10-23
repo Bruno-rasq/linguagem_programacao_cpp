@@ -1,12 +1,18 @@
 #include "../includes/snack.hpp"
 #include "../includes/fruit.hpp"
+#include "../includes/grid.hpp"
+#include "../includes/structs.hpp"
 
+#include <iostream>
+#include <cstdlib>
+#include <windows.h>
 
 Snack::Snack(Grid& grid){
-    const int32_t x = grid.get_grid_height() / 2;
-    const int32_t y = grid.get_grid_width() / 2;
 
-    this->add_cell_on_snack(x, y, '@');
+    uint16_t x = grid.get_grid_height() / 2;
+    uint16_t y = grid.get_grid_width() / 2;
+
+    this->snack.push_back({'@', x, y});
 }
 
 bool Snack::check_snack_eats_fruit(const FruitController& fruit) {
@@ -33,9 +39,36 @@ std::deque<SnackCell> Snack::get_snack_body() const {
 }
 
 Coord Snack::get_tail_snack() const {
-    return this->snack.front();
+    SnackCell tail = this->snack.front();
+    return {tail.x, tail.y};
 }
 
 Coord Snack::get_head_snack() const {
-    return this->snack.back();
+    SnackCell head = this->snack.back();
+    return {head.x, head.y};
+}
+
+char Snack::get_snack_cell() const {
+    return this->cell;
+}
+
+void Snack::update_position(const Grid& gd, const uint16_t direction, bool grow = false){
+
+    int16_t x = snack.back().x;
+    int16_t y = snack.back().y;
+
+    if (direction == VK_UP)    x--;
+    if (direction == VK_DOWN)  x++;
+    if (direction == VK_RIGHT) y++;
+    if (direction == VK_LEFT)  y--;
+
+    // wrap-around nas bordas
+    if (x < 0) x = gd.get_grid_height() - 1;
+    if (x >= gd.get_grid_height()) x = 0;
+    if (y < 0) y = gd.get_grid_width() - 1;
+    if (y >= gd.get_grid_width() ) y = 0;
+
+    if (!grow) this->snack.pop_front();
+
+    this->snack.push_back({x, y, this->cell});
 }

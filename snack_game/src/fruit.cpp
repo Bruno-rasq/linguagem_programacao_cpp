@@ -28,3 +28,7 @@ bool FruitController::check_fruit_span_on_snack_position(Snack& snack, Coord& fr
     return false;
 
 }
+
+char FruitController::get_cell() const {
+    return this->FruitCell;
+}

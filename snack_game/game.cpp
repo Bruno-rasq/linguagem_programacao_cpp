@@ -13,12 +13,13 @@
 #define TIME        120
 
 int main(){
+
     std::srand(std::time(nullptr));
 
-    Grid grid = Grid(GRIDWIDTH, GRIDHEIGHT, '.');
+    KeyboardController kd = KeyboardController();
+    Grid grid = Grid(GRIDWIDTH, GRIDHEIGHT);
     Snack snack = Snack(grid);
     FruitController fc = FruitController(snack, grid);
-    KeyboardController kd = KeyboardController();
 
     while(true){
         system("cls");
@@ -27,10 +28,20 @@ int main(){
 
         if (nextDirection == VK_ESCAPE) break;
 
-        if(!kd.is_opposite_direction(nextDirection)){
+        if(!kd.is_opposite_direction(nextDirection))
             kd.set_current_direction(nextDirection);
-        }
 
-        // TODO: terminar de implementar...
+        bool grow = snack.check_snack_eats_fruit(fc);
+        snack.update_position(grid, nextDirection, grow);
+
+        if(grow) fc.generate_fruit_on_grid(snack, grid);
+        if(snack.check_self_snack_collision()) break;
+
+        grid.update_grid_state(snack, fc);
+        grid.print_grid_state();
+
+        Sleep(TIME);
     }
+
+    return 0;
 }

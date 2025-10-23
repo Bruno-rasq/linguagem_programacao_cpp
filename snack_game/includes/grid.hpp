@@ -9,11 +9,12 @@
 
 class Grid {
 private:
+    const char backgroundcell = '.';
     std::vector<std::vector<char>> grid;
     uint16_t GRIDWIDTH, GRIDHEIGHT;
 
 public:
-    Grid(uint16_t gridwidth, uint16_t gridheight, char backgroundcell);
+    Grid(uint16_t gridwidth, uint16_t gridheight);
 
     /**
      * Atualização visual do grid de forma incremental.
@@ -36,6 +37,8 @@ public:
     uint16_t get_grid_width() const;
 
     uint16_t get_grid_height() const;
+
+    char get_cell() const;
 };
 
 #endif

@@ -9,6 +9,7 @@ uint16_t KeyboardController::poll_key() {
     const SHORT left  = GetAsyncKeyState(VK_LEFT);
     const SHORT right = GetAsyncKeyState(VK_RIGHT);
     const SHORT esc   = GetAsyncKeyState(VK_ESCAPE);
+    const KeyState prev = this->get_previous_pressed_key();
 
 
     bool curUp    = (up    & 0x8000) != 0;
@@ -16,9 +17,8 @@ uint16_t KeyboardController::poll_key() {
     bool curLeft  = (left  & 0x8000) != 0;
     bool curRight = (right & 0x8000) != 0;
 
-
     uint16_t result = this->get_current_direction();
-    KeyState prev = this->get_previous_pressed_key();
+
 
     if (curUp && !prev.stateUp)               result = VK_UP;
     else if (curDown && !prev.stateDown)      result = VK_DOWN;
@@ -34,7 +34,7 @@ uint16_t KeyboardController::poll_key() {
 
 bool KeyboardController::is_opposite_direction(uint16_t nextdirection){
 
-    uint16_t current = this->get_current_direction();
+    const uint16_t current = this->get_current_direction();
     return (current == VK_UP && nextdirection == VK_DOWN) ||
            (current == VK_DOWN && nextdirection == VK_UP) ||
            (current == VK_LEFT && nextdirection == VK_RIGHT) ||

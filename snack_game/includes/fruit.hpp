@@ -6,6 +6,7 @@
 
 class FruitController {
     private:
+        const char FruitCell = 'O';
         Coord current_fruit_position;
 
     public:
@@ -16,6 +17,8 @@ class FruitController {
         Coord generate_fruit_on_grid(Snack& snack, Grid& grid);
 
         Coord get_fruit_position() const;
+
+        char get_cell() const;
 };
 
 #endif
