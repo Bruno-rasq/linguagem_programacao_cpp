@@ -1,74 +1,69 @@
 #include "../includes/snack.hpp"
-#include "../includes/fruit.hpp"
 #include "../includes/grid.hpp"
-#include "../includes/structs.hpp"
-
-#include <iostream>
-#include <cstdlib>
+#include "../includes/fruitcontroller.hpp"
 #include <windows.h>
 
-Snack::Snack(Grid& grid){
-
+Snack::Snack(Grid& grid) {
     uint16_t x = grid.get_grid_height() / 2;
     uint16_t y = grid.get_grid_width() / 2;
 
-    this->snack.push_back({'@', x, y});
+    snack.push_back({CELL, x, y});
+    //teste
+    snack.push_back({CELL, x - 1, y});
+    snack.push_back({CELL, x - 2, y});
 }
 
-bool Snack::check_snack_eats_fruit(const FruitController& fruit) {
-
-    const Coord fruit_coord = fruit.get_fruit_position();
-    return (snack.back().x == fruit_coord.x && snack.back().y == fruit_coord.y);
+bool Snack::hasEatenFruit(const FruitController& fruit) const {
+    const Coord fruitCoord = fruit.getFruitPosition();
+    const SnackCell& head = snack.back();
+    return (head.x == fruitCoord.x && head.y == fruitCoord.y);
 }
 
-bool Snack::check_self_snack_collision(){
-    const std::deque<SnackCell> snack_body = this->get_snack_body();
-    const SnackCell snack_head = snack_body.back();
+bool Snack::hasSelfCollision() const {
+    if (snack.size() < 2) return false;
 
-    if(snack_body.size() < 2) return false;
-
-    for(size_t i = 0; i < snack_body.size() - 1; i++)
-        if(snack_body[i].x == snack_head.x && snack_body[i].y == snack_head.y)
+    const SnackCell& head = snack.back();
+    for (size_t i = 0; i < snack.size() - 1; ++i)
+        if (snack[i].x == head.x && snack[i].y == head.y)
             return true;
 
     return false;
 }
 
-std::deque<SnackCell> Snack::get_snack_body() const {
-    return this->snack;
+const std::deque<SnackCell>& Snack::getSnackBody() const {
+    return snack;
 }
 
-Coord Snack::get_tail_snack() const {
-    SnackCell tail = this->snack.front();
+Coord Snack::getTail() const {
+    const SnackCell& tail = snack.front();
     return {tail.x, tail.y};
 }
 
-Coord Snack::get_head_snack() const {
-    SnackCell head = this->snack.back();
+Coord Snack::getHead() const {
+    const SnackCell& head = snack.back();
     return {head.x, head.y};
 }
 
-char Snack::get_snack_cell() const {
-    return this->cell;
+char Snack::getSnackCell() const {
+    return CELL;
 }
 
-void Snack::update_position(const Grid& gd, const uint16_t direction, bool grow = false){
-
+void Snack::updatePosition(const Grid& gd, uint16_t direction, bool grow) {
     int16_t x = snack.back().x;
     int16_t y = snack.back().y;
 
-    if (direction == VK_UP)    x--;
-    if (direction == VK_DOWN)  x++;
-    if (direction == VK_RIGHT) y++;
-    if (direction == VK_LEFT)  y--;
+    if (direction == VK_UP)         x--;
+    else if (direction == VK_DOWN)  x++;
+    else if (direction == VK_RIGHT) y++;
+    else if (direction == VK_LEFT)  y--;
 
     // wrap-around nas bordas
     if (x < 0) x = gd.get_grid_height() - 1;
     if (x >= gd.get_grid_height()) x = 0;
     if (y < 0) y = gd.get_grid_width() - 1;
-    if (y >= gd.get_grid_width() ) y = 0;
+    if (y >= gd.get_grid_width()) y = 0;
 
-    if (!grow) this->snack.pop_front();
+    if (!grow) snack.pop_front();
 
-    this->snack.push_back({x, y, this->cell});
+    snack.push_back({CELL, x, y});
 }

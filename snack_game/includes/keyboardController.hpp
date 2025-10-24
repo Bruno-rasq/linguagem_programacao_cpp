@@ -1,46 +1,34 @@
-#ifndef KEYBOARDCONTROLLERHPP
-#define KEYBOARDCONTROLLERHPP
-
-#include <iostream>
+#pragma once
 #include <windows.h>
+#include <cstdint>
 
 struct KeyState {
-    bool stateUp = false,   stateDown = false; 
+    bool stateUp = false, stateDown = false; 
     bool stateLeft = false, stateRight = false;
 };
 
 class KeyboardController {
 private:
-    KeyState previousPressed;
-    uint16_t currentDirection = VK_RIGHT;
+    // Mantemos os estados e direção como estáticos para simular classe estática
+    static KeyState previousPressed;
+    static uint16_t currentDirection;
+
+    // Construtor privado para evitar instância
+    KeyboardController() {}
 
 public:
+    // Polling da tecla pressionada de forma não bloqueante
+    static uint16_t pollKey();
 
-    KeyboardController();
+    // Verifica se a próxima direção é oposta à atual
+    static bool isOppositeDirection(uint16_t nextDirection);
 
-    /**
-     * Retorna o codigo (ou direcao) da tecla que esta sendo pressionada.
-     * o nome Poll key segue uma convenção usada em engine graficas para
-     * indicar uma aleitura não-bloqueante.
-     * estado atual sem pausar o programa.
-    */
-    uint16_t poll_key();
+    // Getters e setters
+    static KeyState getPreviousPressedKey();
+    static void setPreviousKeyState(bool up, bool down, bool left, bool right);
 
-    bool is_opposite_direction(uint16_t nextdirection);
-
-
-    // getter & setter -> previousPressed
-
-    KeyState get_previous_pressed_key(); 
-
-    void set_previous_state_key(bool up, bool down, bool left, bool right);
-
-
-    //getter & setter -> currentDirection
-
-    uint16_t get_current_direction();
-
-    void set_current_direction(uint16_t newDirection);
+    static uint16_t getCurrentDirection();
+    static void setCurrentDirection(uint16_t newDirection);
 };
 
-#endif
+//g++ src/*.cpp main.cpp -Iincludes -o snack_game.exe -Wall -Wextra

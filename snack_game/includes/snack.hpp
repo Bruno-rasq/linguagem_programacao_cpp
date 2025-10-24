@@ -1,34 +1,33 @@
-#ifndef SNACKHPP
-#define SNACKHPP
-
+#pragma once
 #include <deque>
-#include <iostream>
+#include "../includes/structs.hpp"
 
-#include "./structs.hpp"
-#include "./grid.hpp" 
+// Forward declarations
+class Grid;
+class FruitController;
 
 class Snack {
 private:
-    const char cell = '@';
+    static const char CELL = '@';
     std::deque<SnackCell> snack;
 
 public:
-
     Snack(Grid& grid);
 
-    // TODO
-    void update_position(const Grid& gd, const uint16_t direction, bool grow = false);
+    // Atualiza posição do snack
+    void updatePosition(const Grid& gd, uint16_t direction, bool grow = false);
 
-    bool check_snack_eats_fruit(const FruitController& fruit);
+    // Verifica se a serpente comeu a fruta
+    bool hasEatenFruit(const FruitController& fruit) const;
 
-    bool check_self_snack_collision();
+    // Verifica colisão da serpente consigo mesma
+    bool hasSelfCollision() const;
 
-    std::deque<SnackCell> get_snack_body() const;
+    // Retorna corpo da serpente
+    const std::deque<SnackCell>& getSnackBody() const;
 
-    Coord get_tail_snack() const;
-    Coord get_head_snack() const; 
+    Coord getTail() const;
+    Coord getHead() const;
 
-    char get_snack_cell() const;
+    char getSnackCell() const;
 };
-
-#endif
