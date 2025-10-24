@@ -4,8 +4,8 @@
 #include <windows.h>
 
 Snack::Snack(Grid& grid) {
-    uint16_t x = grid.get_grid_height() / 2;
-    uint16_t y = grid.get_grid_width() / 2;
+    uint16_t x = grid.getGridHeight() / 2;
+    uint16_t y = grid.getGridWidth() / 2;
 
     snack.push_back({CELL, x, y});
     //teste
@@ -58,10 +58,10 @@ void Snack::updatePosition(const Grid& gd, uint16_t direction, bool grow) {
     else if (direction == VK_LEFT)  y--;
 
     // wrap-around nas bordas
-    if (x < 0) x = gd.get_grid_height() - 1;
-    if (x >= gd.get_grid_height()) x = 0;
-    if (y < 0) y = gd.get_grid_width() - 1;
-    if (y >= gd.get_grid_width()) y = 0;
+    if (x < 0) x = gd.getGridHeight() - 1;
+    if (x >= gd.getGridHeight()) x = 0;
+    if (y < 0) y = gd.getGridWidth() - 1;
+    if (y >= gd.getGridWidth()) y = 0;
 
     if (!grow) snack.pop_front();
 

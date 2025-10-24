@@ -15,7 +15,7 @@ Coord FruitController::getFruitPosition() const {
 
 Coord FruitController::generateFruit(Snack& snack, Grid& grid) {
     while (true) {
-        Coord fruit = grid.get_random_coordinates();
+        Coord fruit = grid.getRandomCoordinates();
         if (!isOnSnack(snack, fruit)){
             currentFruitPosition = fruit;
             return fruit;

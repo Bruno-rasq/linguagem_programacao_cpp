@@ -13,18 +13,15 @@ private:
 public:
     Grid(uint16_t gridwidth, uint16_t gridheight);
 
-    // Atualiza visualmente o grid incrementando apenas posições alteradas
-    void update_grid_state(const Snack& snack, const FruitController& fruit);
+    void updateGridState(const Snack& snack, const FruitController& fruit);
 
-    // Imprime o estado atual do grid no console
-    void print_grid_state() const;
+    void printGridState() const;
 
-    Coord get_random_coordinates() const;
+    Coord getRandomCoordinates() const;
 
-    char get_grid_position(uint16_t x, uint16_t y) const;
-    void set_grid_position(uint16_t x, uint16_t y, char cell);
+    char getGridPosition(uint16_t x, uint16_t y) const;
+    void setGridPosition(uint16_t x, uint16_t y, char cell);
 
-    uint16_t get_grid_width() const;
-    uint16_t get_grid_height() const;
-    //char get_background_cell() const;
+    uint16_t getGridWidth() const;
+    uint16_t getGridHeight() const;
 };

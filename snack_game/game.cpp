@@ -13,6 +13,7 @@
 #define TIME        120
 
 int main() {
+
     std::srand(std::time(nullptr));
 
     Grid grid(GRIDWIDTH, GRIDHEIGHT);
@@ -35,8 +36,8 @@ int main() {
         if (grow) fc.generateFruit(snack, grid);
         if (snack.hasSelfCollision()) break;
 
-        grid.update_grid_state(snack, fc);
-        grid.print_grid_state();
+        grid.updateGridState(snack, fc);
+        grid.printGridState();
 
         Sleep(TIME);
     }
