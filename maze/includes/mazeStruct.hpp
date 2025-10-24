@@ -4,6 +4,7 @@
 #include <vector>
 
 struct Maze_T {
+    
     std::vector<std::vector<char>> maze;
     uint16_t start_x;
     uint16_t end_x;

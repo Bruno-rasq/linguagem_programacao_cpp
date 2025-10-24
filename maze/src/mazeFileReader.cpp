@@ -3,8 +3,6 @@
 #include "../includes/mazeStruct.hpp"
 #include "../includes/mazeFileReader.hpp"
 
-#include <fstream>
-#include <sstream>
 
 Maze_T MazeFileReader::LoadMaze(const std::string& filePath){
     

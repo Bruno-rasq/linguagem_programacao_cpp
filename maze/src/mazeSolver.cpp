@@ -1,0 +1,48 @@
+#include "../includes/mazeSolver.hpp"
+#include "../includes/mazeHandler.hpp"
+
+std::vector<PathCoord> MazeSolver::getShortestPath(const MazeHandler& maze){
+    const Maze_T mazeObj = maze.getMaze();
+    const uint16_t height =  mazeObj.maze.size();
+    const uint16_t widht = mazeObj.maze[0].size();
+    const PathCoord start = {mazeObj.start_x, mazeObj.start_y};
+    const PathCoord end = {mazeObj.end_x, mazeObj.end_y};
+
+    SET visiteds(height, std::vector<bool>(widht, false));
+    PARENTS parent(height, std::vector<PathCoord>(widht, {-1, -1}));
+    QUEUE queue;
+
+    queue.push(start);
+    visiteds[start.x][start.y] = true;
+
+    while (!queue.empty()) {
+        PathCoord curr = queue.front();
+        queue.pop();
+
+        if (curr.x == end.x && curr.y == end.y) break;
+
+        for (auto d : delta) {
+            const uint32_t nx = curr.x + d.x;
+            const uint32_t ny = curr.y + d.y;
+
+            if (maze.inbounds(nx, ny)) {
+                const char cell = mazeObj.maze[nx][ny];
+                if(cell == '.' || cell == ' ' && !visiteds[nx][ny]){
+                    visiteds[nx][ny] = true;
+                    parent[nx][ny] = curr;
+                    const PathCoord newcoord = {nx, ny};
+                    queue.push(newcoord);
+                }
+            }
+        }
+    }
+
+    std::vector<PathCoord> path;
+    if (!visiteds[end.x][end.y]) return path;
+
+    for (PathCoord p = end; p.x != -1; p = parent[p.x][p.y])
+        path.push_back(p);
+
+    std::reverse(path.begin(), path.end());
+    return path;
+}
