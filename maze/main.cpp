@@ -8,9 +8,11 @@
 #include "./includes/mazeHandler.hpp"
 #include "./includes/mazeSolver.hpp"
 
-#define TIME 120
+#define TIME 50
+
 
 void auto_follow();
+
 
 int main(){
 
@@ -23,20 +25,19 @@ int main(){
 
 void auto_follow(){
 
-    MazeHandler maze = MazeHandler();
-    const std::vector<PathCoord> path = MazeSolver::getShortestPath(maze);
-
-    maze.display();
+    MazeHandler mazehandler = MazeHandler();
+    const std::vector<PathCoord> path = MazeSolver::getShortestPath(mazehandler);
 
     for(const PathCoord& coord : path){
         system("cls");
-        maze.updateCurrentStateMaze(coord);
-        maze.display();
+        mazehandler.updateCurrentStateMaze(coord.x, coord.y);
+        mazehandler.display();
+
+        std::cout << "chegou aqui!\n";
 
         Sleep(TIME);
     }
 
     system("cls");
-    maze.display();
-    
+    mazehandler.display();
 }

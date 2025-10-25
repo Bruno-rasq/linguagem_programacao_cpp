@@ -11,13 +11,10 @@
 
 MazeHandler::MazeHandler(){
 
-    //desativei o labirinto 4 até descobrir uma forma de verificar 
-    //os limites do labirinto em L da forma correta.
-
     mazes.push_back(MazeFileReader::LoadMaze(maze001));
     mazes.push_back(MazeFileReader::LoadMaze(maze002));
     mazes.push_back(MazeFileReader::LoadMaze(maze003));
-    //mazes.push_back(MazeFileReader::LoadMaze(maze004));
+    mazes.push_back(MazeFileReader::LoadMaze(maze004));
     mazes.push_back(MazeFileReader::LoadMaze(maze005));
     mazes.push_back(MazeFileReader::LoadMaze(maze006));
     mazes.push_back(MazeFileReader::LoadMaze(maze007));
