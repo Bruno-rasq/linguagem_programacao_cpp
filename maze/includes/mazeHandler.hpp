@@ -6,7 +6,7 @@
 #include <cstdlib>
 
 #include "./mazeStruct.hpp"
-#include "./mazeSolver.hpp"
+// #include "./mazeSolver.hpp"
 
 class MazeHandler {
 private:

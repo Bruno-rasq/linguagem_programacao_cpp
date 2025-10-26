@@ -1,4 +1,5 @@
 //-----------------------------------------------------------------
+//
 // Labirinto (Maze) - projeto c++ simulando solução de labirinto
 // 
 // Este programa lê algunso arquivos modelos de labirintos e usa
@@ -7,6 +8,8 @@
 //
 // Depois de encotrar um caminho o programa atualiza e exibe no con-
 // sole o estado atual do labirinto dando a noção de movimento.
+//
+// Autor: Bruno D.Rasq
 //
 //-----------------------------------------------------------------
 
@@ -18,30 +21,20 @@
 #include <cstdlib>
 
 #include "./includes/mazeHandler.hpp"
-#include "./includes/mazeSolver.hpp"
-
+#include "./includes/mazeResolvers.hpp"
 
 #define TIME 50
 
+using namespace MazeResolvers;
+using namespace std;
 
-void auto_follow();
-
-
-int main(){
-
-    std::srand(std::time(nullptr));
-
-    auto_follow();
-
-    return 0;
-}
 
 void auto_follow(){
 
     MazeHandler mazehandler = MazeHandler();
-    const std::vector<PathCoord> path = MazeSolver::getShortestPath(mazehandler);
+    const vector<Path> path = BFS(mazehandler);
 
-    for(const PathCoord& coord : path){
+    for(const Path& coord : path){
 
         system("cls");
         mazehandler.updateCurrentStateMaze(coord.x, coord.y);
@@ -51,4 +44,14 @@ void auto_follow(){
 
     system("cls");
     mazehandler.display();
+}
+
+
+int main(){
+
+    srand(time(nullptr));
+
+    auto_follow();
+
+    return 0;
 }
