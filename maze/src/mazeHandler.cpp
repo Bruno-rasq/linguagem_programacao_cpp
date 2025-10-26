@@ -13,19 +13,16 @@ MazeHandler::MazeHandler(){
 
     mazes.push_back(MazeFileReader::LoadMaze(maze001));
     mazes.push_back(MazeFileReader::LoadMaze(maze002));
-    mazes.push_back(MazeFileReader::LoadMaze(maze003));
     mazes.push_back(MazeFileReader::LoadMaze(maze004));
+    mazes.push_back(MazeFileReader::LoadMaze(maze003));
     mazes.push_back(MazeFileReader::LoadMaze(maze005));
     mazes.push_back(MazeFileReader::LoadMaze(maze006));
     mazes.push_back(MazeFileReader::LoadMaze(maze007));
 
-    if(mazes.size() == 0){
-        std::cout << "erro ao carregar arquivos dos labirintos\n";
-    } else {
+    
+    const uint8_t idx = std::rand() % mazes.size();
+    currentMaze = mazes[idx];
 
-        const uint8_t idx = std::rand() % mazes.size();
-        currentMaze = mazes[idx];
-    }
 }
 
 void MazeHandler::updateCurrentStateMaze(uint16_t x, uint16_t y){

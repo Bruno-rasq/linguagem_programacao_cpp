@@ -1,3 +1,15 @@
+//-----------------------------------------------------------------
+// Labirinto (Maze) - projeto c++ simulando solução de labirinto
+// 
+// Este programa lê algunso arquivos modelos de labirintos e usa
+// uma algoritmo de busca em largura (BFS)  para encontrar o menor
+// caminho.
+//
+// Depois de encotrar um caminho o programa atualiza e exibe no con-
+// sole o estado atual do labirinto dando a noção de movimento.
+//
+//-----------------------------------------------------------------
+
 #include <iostream>
 #include <ctime>
 #include <vector>
@@ -7,6 +19,7 @@
 
 #include "./includes/mazeHandler.hpp"
 #include "./includes/mazeSolver.hpp"
+
 
 #define TIME 50
 
@@ -29,12 +42,10 @@ void auto_follow(){
     const std::vector<PathCoord> path = MazeSolver::getShortestPath(mazehandler);
 
     for(const PathCoord& coord : path){
+
         system("cls");
         mazehandler.updateCurrentStateMaze(coord.x, coord.y);
         mazehandler.display();
-
-        std::cout << "chegou aqui!\n";
-
         Sleep(TIME);
     }
 

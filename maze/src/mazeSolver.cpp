@@ -20,7 +20,8 @@ std::vector<PathCoord> MazeSolver::getShortestPath(MazeHandler& maze){
         PathCoord curr = queue.front();
         queue.pop();
 
-        if (curr.x == end.x && curr.y == end.y) break;
+        //if (curr.x == end.x && curr.y == end.y) break;
+        if (mazeObj.maze[curr.x][curr.y] == 'E') break;
 
         for (auto d : delta) {
             const int32_t nx = curr.x + d.first;
@@ -28,7 +29,7 @@ std::vector<PathCoord> MazeSolver::getShortestPath(MazeHandler& maze){
 
             if (maze.inbounds(nx, ny)) {
                 const char cell = mazeObj.maze[nx][ny];
-                if((cell == '.' || cell == ' ') && !visiteds[nx][ny]){
+                if((cell == '.' || cell == ' ' || cell == 'E') && !visiteds[nx][ny]){
                     visiteds[nx][ny] = true;
                     parent[nx][ny] = curr;
                     const PathCoord newcoord {nx, ny};
