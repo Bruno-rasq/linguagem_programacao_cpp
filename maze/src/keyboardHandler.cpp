@@ -11,11 +11,9 @@ uint16_t KEYBOARDHANDLER::WaitForKeyBlockingConsole(){
         if(code == 80) return VK_DOWN;
         if(code == 75) return VK_LEFT;
         if(code == 77) return VK_RIGHT;
-
-        return static_cast<uint16_t>(code);
     }
 
     if(ch == 27) return VK_ESCAPE;
 
-    return static_cast<uint16_t>(ch);
+    return 0;
 }

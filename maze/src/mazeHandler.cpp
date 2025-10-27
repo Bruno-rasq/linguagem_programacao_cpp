@@ -67,12 +67,12 @@ MazeHandler::MazeObject MazeHandler::randMaze(){
     return loadedMazes[idx];
 }
 
-MazeHandler::Coord MazeHandler::getNextCoord(Coord& currentCoord, const uint16_t key){
+MazeHandler::Coord MazeHandler::getNextCoord(Coord currentCoord, const uint16_t key){
     
     if(key == VK_UP) currentCoord.x--;
     if(key == VK_DOWN) currentCoord.x++;
-    if(key == VK_LEFT) currentCoord.y++;
-    if(key == VK_RIGHT) currentCoord.y--;
+    if(key == VK_LEFT) currentCoord.y--;
+    if(key == VK_RIGHT) currentCoord.y++;
 
     return currentCoord;
 }

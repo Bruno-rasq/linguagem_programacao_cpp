@@ -1,12 +1,11 @@
 #pragma once
 
 #include <vector>
-#include <sstream>
-#include <iostream>
-#include <fstream>
-#include <cstdlib>
-#include <cstdint>
-#include <windows.h>
+#include <sstream>      // -> para buffer de output.
+#include <iostream>     // -> para impressão no console.
+#include <fstream>      // -> para leitura de arquivos.
+#include <cstdint>      // -> para uso mais especifico de tipos de variaveis
+#include <windows.h>    // -> para acessar as VK_* (teclas)
 
 namespace MazeHandler {
 
@@ -19,15 +18,22 @@ namespace MazeHandler {
 
     struct MazeObject {
         maze_t maze;
-        Coord start, end;
+        Coord start;    // coordenada de inicio do labirinto (S)
+        Coord end;      // coordenada de saida do labirinto (E)
 
         MazeObject();
         MazeObject(const maze_t& maze, const Coord& start, const Coord& end);
     };
 
+    // executa a leitura de arquivo modelo de um labirinto.
     MazeObject loadMaze(const std::string& filePath);
+
+    // escolhe randomicamente um dos 7 modelos de labirinto para ser
+    // o modelo que a instancia da classe Maze vai usar.
     MazeObject randMaze();
-    Coord getNextCoord(Coord& currentCoord, const uint16_t key);
+
+    // calcula dado uma coordenada e uma key (delta) a nova coordenada.
+    Coord getNextCoord(Coord currentCoord, const uint16_t key);
 
     class Maze {
     private:
