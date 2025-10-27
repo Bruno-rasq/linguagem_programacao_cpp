@@ -22,24 +22,61 @@
 
 #include "./includes/mazeHandler.hpp"
 #include "./includes/mazeResolvers.hpp"
+#include "./includes/keyboardHandler.hpp"
 
 #define TIME 50
 
-using namespace MazeResolvers;
 using namespace std;
+using namespace MazeHandler;
+using namespace MazeResolvers;
+using namespace KEYBOARDHANDLER;
 
 
 void auto_follow(){
 
-    MazeHandler mazehandler = MazeHandler();
-    const vector<Path> path = BFS(mazehandler);
+    Maze mazehandler = Maze();
+    const COORDS path = BFS(mazehandler);
 
-    for(const Path& coord : path){
+    for(const Coord& coord : path){
 
         system("cls");
-        mazehandler.updateCurrentStateMaze(coord.x, coord.y);
+        mazehandler.setCoord(coord.x, coord.y);
         mazehandler.display();
         Sleep(TIME);
+    }
+
+    system("cls");
+    mazehandler.display();
+}
+
+void manual_follow(){
+
+    Maze mazehandler = Maze();
+    const Coord start = mazehandler.getMaze().start;
+    const Coord end = mazehandler.getMaze().end;
+
+    Coord currentCoord = start;
+
+    mazehandler.setCoord(currentCoord.x, currentCoord.y);
+    mazehandler.display();
+
+    while(true){
+
+        uint16_t key = WaitForKeyBlockingConsole();
+
+        if(key == VK_ESCAPE) break;
+        if(currentCoord.x == end.x && currentCoord.y == end.y) break;
+        
+        Coord nextCoord = getNextCoord(currentCoord, key);
+        const char cell = mazehandler.getMaze().maze[nextCoord.x][nextCoord.y];
+
+        if(cell != '|' || cell != '_'){
+            mazehandler.clearCoord(currentCoord.x, currentCoord.y);
+            mazehandler.setCoord(nextCoord.x, nextCoord.y);
+
+            system("cls");
+            mazehandler.display();
+        }
     }
 
     system("cls");
@@ -51,7 +88,15 @@ int main(){
 
     srand(time(nullptr));
 
-    auto_follow();
+    int mode;
+    cout << "press 1 (modo auto follow) | press 2 (modo manual)\n";
+    cin >> mode;
+
+    switch(mode){
+        case 1:  { auto_follow(); break; }
+        case 2:  { manual_follow(); break; }
+        default: { cout << "Invalido!\n"; break; }
+    }
 
     return 0;
 }

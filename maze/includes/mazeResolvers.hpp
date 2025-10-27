@@ -6,24 +6,19 @@
 #include <algorithm>
 #include <utility>
 
-class MazeHandler;
+#include "./mazeHandler.hpp"
+
 
 namespace MazeResolvers {
 
-    struct Path {
-        int32_t x, y;
-
-        Path();
-        Path(int32_t x, int32_t y);
-    };
-
     typedef std::vector<std::vector<bool>> SET;
-    typedef std::vector<std::vector<Path>> PARENTS;
-    typedef std::queue<Path> QUEUE;
+    typedef std::vector<std::vector<MazeHandler::Coord>> PARENTS;
+    typedef std::queue<MazeHandler::Coord> QUEUE;
     typedef std::vector<std::pair<int, int>> DELTA;
+    typedef std::vector<MazeHandler::Coord> COORDS;
 
     const DELTA delta = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
     // BFS -> busca em largura
-    std::vector<Path> BFS(MazeHandler& maze);
+    COORDS BFS(const MazeHandler::Maze& maze);
 };
