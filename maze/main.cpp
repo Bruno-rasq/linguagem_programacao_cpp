@@ -37,85 +37,116 @@ using namespace MazeResolvers;
 using namespace KEYBOARDHANDLER;
 
 
-void auto_follow();
-void manual_follow();
+void auto_follow(Maze& MHR);
+void manual_follow(Maze& MHR);
+void clearConsoleWindows();
+void ShowCurrentCoordConsole(const uint16_t x, const uint16_t y);
+
 
 int main(){
 
     srand(time(nullptr));
 
+    Maze mazehandler = Maze();
+
+    mazehandler.display();
+
     int mode;
-    cout << "press 1 (modo auto follow) | press 2 (modo manual)\n";
+    cout << "\npress 1 (modo auto follow) | press 2 (modo manual)\n";
     cin >> mode;
 
     switch(mode){
-        case 1:  { auto_follow(); break; }
-        case 2:  { manual_follow(); break; }
-        default: { cout << "Invalido!\n"; break; }
+        case 1:  { auto_follow(mazehandler); break; }
+        case 2:  { manual_follow(mazehandler); break; }
+        default: { break; }
     }
+
+    // Limpa o console e exibi o estado do labirinto assim que terminar um modo
+    // de forma a manter o desenho no do labirinto no console, sem isso quando chega
+    //  no final o programa simplesmente apaga.
+    clearConsoleWindows();
+    mazehandler.display();
 
     return 0;
 }
 
 
-void auto_follow(){
+void auto_follow(Maze& MHR){
 
-    Maze mazehandler = Maze();
-    const COORDS path = BFS(mazehandler);
+    // A busca em largura (BFS) busca todas as possibilidades de caminho partindo de uma
+    // coordenada corrente, quando chega ao destino ela retorna o menor caminho que liga
+    // a entrada do labirinto até a saida. este é o caminho (path)
+    const COORDS path = BFS(MHR);
 
     for(const Coord& coord : path){
 
-        system("cls");
-        mazehandler.setCoord(coord.x, coord.y);
-        mazehandler.display();
+        clearConsoleWindows();
+        MHR.setCoord(coord.x, coord.y);
+        MHR.display();
         Sleep(TIME);
     }
-
-    system("cls");
-    mazehandler.display();
 } 
 
-void manual_follow(){
+void manual_follow(Maze& MHR){
 
-    Maze MHR = Maze();
+    clearConsoleWindows();
 
     const Coord start = MHR.getMaze().start;
     const Coord end = MHR.getMaze().end;
 
     Coord currentCoord = {start.x, start.y - 1};
 
+    // seta e imprime o estado inicial do labirinto para ter uma informação visual de onde
+    // o player começa no inicio do modo.
     MHR.setCoord(currentCoord.x, currentCoord.y);
     MHR.display();
+    ShowCurrentCoordConsole(currentCoord.x, currentCoord.y);
 
     while(true){
 
         const uint16_t x = currentCoord.x;
         const uint16_t y = currentCoord.y;
         const uint16_t key = WaitForKeyBlockingConsole();
-
         const char currCell = MHR.getMaze().maze[x][y];
 
+        //    - o loop pula a instancia caso:
+        // WaitForKeyBlockingConsole retornar 0 (alguma tecla que nao seja um direcional).
+        // caso o coordenada da nova posição não esteja nos limites do labirinto.
+        // caso o caracter de nova coordenada seja um parede.
+        //    - O loop termina caso:
+        // Chegue no final do labirinto.
+        // caso a tecla ESC seja pressionada.
         if(key == 0) continue;
         if(key == VK_ESCAPE) break;
         if(currCell == 'E' || (x == end.x && y == end.y)) break;
         
-        Coord nextCoord = getNextCoord(currentCoord, key);
+        const Coord nextCoord = getNextCoord(currentCoord, key);
+        const uint16_t nx = nextCoord.x;
+        const uint16_t ny = nextCoord.y;
+        const char newcell = MHR.getMaze().maze[nx][ny];
 
-        if(!MHR.inBounds(nextCoord.x, nextCoord.y)) continue;
+        if(!MHR.inBounds(nx, ny)) continue;
+        if(newcell == '|' || newcell == '_') continue;
 
-        const char cell = MHR.getMaze().maze[nextCoord.x][nextCoord.y];
-
-        if(cell == '|' || cell == '_') continue;
-
-        MHR.clearCoord(currentCoord.x, currentCoord.y);
-        MHR.setCoord(nextCoord.x, nextCoord.y);
+        // para evitar reescrever toda vez o estado do labirinto apenas apague o caracter na
+        // coordenada atual e reescreva-o na nova coordenada
+        MHR.clearCoord(x, y);
+        MHR.setCoord(nx, ny);
         currentCoord = nextCoord;
 
-        system("cls");
+        clearConsoleWindows();
         MHR.display();
 
+        ShowCurrentCoordConsole(currentCoord.x, currentCoord.y);
     }
+}
 
+void clearConsoleWindows(){
     system("cls");
-    MHR.display();
+}
+
+void ShowCurrentCoordConsole(const uint16_t x, const uint16_t y) {
+    cout << "Vá para o ponto E para concluir o labirinto.\n";
+    cout << "coordenada atual: (" << x << " - " << y << ")\n";
+    cout << "Use os direcionais\n";
 }
