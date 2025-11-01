@@ -56,9 +56,9 @@ int main(){
     cin >> mode;
 
     switch(mode){
-        case 1:  { auto_follow(mazehandler); break; }
-        case 2:  { manual_follow(mazehandler); break; }
-        default: { break; }
+        case 1:  { auto_follow(mazehandler);    break; }
+        case 2:  { manual_follow(mazehandler);  break; }
+        default: {                              break; }
     }
 
     // Limpa o console e exibi o estado do labirinto assim que terminar um modo
