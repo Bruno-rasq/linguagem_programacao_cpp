@@ -6,51 +6,57 @@ namespace SpaceGrid {
 
     SpaceCoord::SpaceCoord(uint8_t x, uint8_t y): x(x), y(y){};
 
-    // template padrão do board do game.
-    const SpaceOBJ Space::spaceDefault = {
-        " _______________________________________________________",
-        "|                                                       |",
-        "|                                                       |",
-        "|                                                       |",
-        "|                                                       |",
-        "|                                                       |",
-        "|                                                       |",
-        "|                                                       |",
-        "|                                                       |",
-        "|                                                       |",
-        "|                                                       |",
-        "|                                                       |",
-        "|_______________________________________________________|",
+
+    bool inBounds(uint8_t& nx, uint8_t& ny){
+
+        return (0 <= nx && nx < SPACE_HEIGHT &&
+                0 <= ny && ny < SPACE_WIDTH);
     };
 
-    // implementando classe Space:
-    Space::Space(): space(spaceDefault){};
+
+    void wrapAround(uint8_t& nx, uint8_t& ny){
+
+        if(nx < 0)              nx = SPACE_HEIGHT - 1;
+        if(nx >= SPACE_HEIGHT)  nx = 0;
+        if(ny < 0)              ny = SPACE_WIDTH - 1;
+        if(ny >= SPACE_WIDTH)   ny = 0;
+    };
+
+
+    void normalizeCoord(uint8_t& x, uint8_t& y) {
+
+        if(!inBounds(x, y))
+            wrapAround(x, y);
+    }
+
+    // -----------------------------------------------------------------------------------
+    // implementacao da class Space
+    // -----------------------------------------------------------------------------------
+
+    Space::Space(){
+        for(size_t i = 0; i < SPACE_HEIGHT; i++)
+            this->space.push_back(string(SPACE_WIDTH, SPACEZONE));
+    };
+
 
     void Space::setCoord(const uint8_t x, const uint8_t y, const char ob){
-        if(this->inBound(x, y))
-            this->space[x][y] = ob;
+        this->space[x][y] = ob;
     };
+
 
     void Space::clearCoord(const uint8_t x, const uint8_t y){
         this->space[x][y] = SPACEZONE;
     };
 
-   
-    bool Space::inBound(const uint8_t nx, const uint8_t ny){
-        // como não pode passar da borda então nx e ny não podem ser zero.
-        return (0 < nx && 
-                0 < ny &&
-                nx < SPACE_WIDTH &&
-                ny < SPACE_HEIGHT);
-    };
-
-    void Space::wrap_around(const uint8_t nx, const uint8_t ny){};
 
     string Space::getFrameState() const {
         stringstream buff;
+
+        buff << string(SPACE_WIDTH + 2, '_') << "\n";
         for(const string& line : this->space){
-            buff << line << "\n";
+            buff <<  "|" << line << "|\n";
         }
+        buff << "|" << string(SPACE_WIDTH, '_') << "|\n";
 
         return buff.str();
     };

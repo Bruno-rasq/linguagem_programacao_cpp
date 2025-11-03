@@ -2,32 +2,35 @@
 
 #include <cstdint>
 #include <string>
+#include <windows.h>
+#include <map>
+#include <algorithm>
+#include <tuple>
+#include "./spaceGrid.hpp"
+
 using namespace std;
 
 namespace PlayerHandler {
 
-    #define HP_FULL   500
-    #define MOV_SPEED 3
-    #define ATK_SPEED 3
-    #define DIRECTION 1 
-    #define COORD_X   27
-    #define COORD_Y   5
+    extern const map<uint8_t, char> delta_symbol;
+
+    typedef tuple<uint8_t, uint8_t, char> SPACESHIPINFO;
 
     struct Spaceship {
 
-        char symbol = '^';                  // cima(^) baixo(v) esquerda(<) direita(>) 
-        uint8_t direction = DIRECTION;      // cima(1) baixo(2) esquerda(3) direita(4)             
-        uint8_t atkspd = ATK_SPEED;         // velocidade do projetil.
-        uint8_t movspd = MOV_SPEED;         // velocidade (mov a cada X frames.)
-        uint8_t HP_full = HP_FULL;          // vida total.
-        uint8_t HP = HP_FULL;               // vida atual.
-        uint8_t x = COORD_X, y = COORD_Y;   // coordenada da nave no space.
+        char symbol = '^';          // cima(^) baixo(v) esquerda(<) direita(>) 
+        uint8_t direction = 1;      // cima(1) baixo(2) esquerda(3) direita(4)             
+        uint8_t atkspd = 3;         // velocidade do projetil.
+        uint8_t movspd = 3;         // velocidade (mov a cada X frames.)
+        uint8_t HP_full = 200;      // vida total.
+        uint8_t HP = 200;           // vida atual.
+       
+        SpaceGrid::SpaceCoord coord {5, 5};
 
         void setCurrentDirection(const uint8_t dir);
-        void SetSymbolByCurrentDirection();
+        void SetSymbolByCurrentDirection(const char symbol);
         void DecrementHP(const uint8_t damage);
-        void setNewCoord(const uint8_t x, const uint8_t y);
-        char getSymbol() const;
+        void setNewCoord(const uint16_t key);
     };
 
     class PlayerSpaceship {
@@ -37,7 +40,9 @@ namespace PlayerHandler {
         public:
             PlayerSpaceship();
 
-            void move(const uint8_t x, const uint8_t y);
+            SPACESHIPINFO Info() const;
+
+            void move(const uint16_t key);
             void atk();
     };
 }
