@@ -14,7 +14,7 @@ namespace PlayerHandler {
 
     extern const map<uint8_t, char> delta_symbol;
 
-    typedef tuple<uint8_t, uint8_t, char> SPACESHIPINFO;
+    typedef tuple<int8_t, int8_t, char> SPACESHIPINFO;
 
     struct Spaceship {
 
@@ -30,7 +30,6 @@ namespace PlayerHandler {
         void setCurrentDirection(const uint8_t dir);
         void SetSymbolByCurrentDirection(const char symbol);
         void DecrementHP(const uint8_t damage);
-        void setNewCoord(const uint16_t key);
     };
 
     class PlayerSpaceship {

@@ -2,6 +2,8 @@
     "files.associations": {
         "cstdint": "cpp",
         "tuple": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "string": "cpp",
+        "iosfwd": "cpp"
     }
 }

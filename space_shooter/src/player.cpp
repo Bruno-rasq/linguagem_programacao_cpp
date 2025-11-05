@@ -22,15 +22,6 @@ namespace PlayerHandler {
     };
 
 
-    void Spaceship::setNewCoord(const uint16_t key){
-
-        if(key == VK_UP)    { this->coord.x--; this->setCurrentDirection(1); }
-        if(key == VK_DOWN)  { this->coord.x++; this->setCurrentDirection(2); }
-        if(key == VK_LEFT)  { this->coord.y--; this->setCurrentDirection(3); }
-        if(key == VK_RIGHT) { this->coord.y++; this->setCurrentDirection(4); }
-    };
-
-
     // class
     PlayerSpaceship::PlayerSpaceship(){};
 
@@ -44,7 +35,14 @@ namespace PlayerHandler {
     };
 
     void PlayerSpaceship::move(const uint16_t key){
-        this->spaceship.setNewCoord(key);
+
+        this->spaceship.coord.MOVE(key); // seta nova coordenada
+
+        // modifica o simbolo da nave 
+        if(key == VK_UP)    { this->spaceship.setCurrentDirection(1); }
+        if(key == VK_DOWN)  { this->spaceship.setCurrentDirection(2); }
+        if(key == VK_LEFT)  { this->spaceship.setCurrentDirection(3); }
+        if(key == VK_RIGHT) { this->spaceship.setCurrentDirection(4); }
     };
 
     // TODO

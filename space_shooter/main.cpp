@@ -18,7 +18,7 @@ int main(){
 
     Space grid = Space();
     PlayerSpaceship pss = PlayerSpaceship();
-    tuple<uint8_t, uint8_t, char> info;
+    tuple<int8_t, int8_t, char> info;
 
     info = pss.Info();
 
@@ -44,8 +44,6 @@ int main(){
 
         // pega as novas infos de coordenada e caracter
         info = pss.Info();
-
-        normalizeCoord(get<0>(info), get<1>(info));
 
         // seta no grid a nova coordenada da nave
         grid.setCoord(get<0>(info), get<1>(info), get<2>(info));
