@@ -2,8 +2,16 @@
 
 namespace NavigationSystem {
 
+    /*  ========================================================
+        implementação do sistema de navegação do player
+        ========================================================*/
+
+    PlayerSpaceShipHandler::PlayerSpaceShipHandler(){
+        this->coord = SpaceBoardHandler::Coordinates(0, 0);
+        this->shipFacing = '^';
+    };
     PlayerSpaceShipHandler::PlayerSpaceShipHandler(uint8_t x, uint8_t y){
-        this->coord = SpaceBoardHandler::Coordination(x, y);
+        this->coord = SpaceBoardHandler::Coordinates(x, y);
         this->shipFacing = '^';
     };
 
@@ -24,4 +32,10 @@ namespace NavigationSystem {
         if(key == VK_LEFT)  { this->changeFacing(3); }
         if(key == VK_RIGHT) { this->changeFacing(4); }
     };
+
+    /*  ========================================================
+        implementação do sistema de navegação dos inimigos
+        ========================================================*/
+
+    // TODO...
 }

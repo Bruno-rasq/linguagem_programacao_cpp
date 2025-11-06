@@ -19,8 +19,9 @@ namespace NavigationSystem {
     struct PlayerSpaceShipHandler {
 
         char shipFacing;
-        SpaceBoardHandler::Coordination coord;
+        SpaceBoardHandler::Coordinates coord;
 
+        PlayerSpaceShipHandler();
         PlayerSpaceShipHandler(uint8_t x, uint8_t y);
 
         void changeFacing(const int8_t direction);
@@ -36,8 +37,9 @@ namespace NavigationSystem {
     */
     struct EnemySpaceShipHandler {
 
-        SpaceBoardHandler::Coordination coord;
+        SpaceBoardHandler::Coordinates coord;
 
+        EnemySpaceShipHandler();
         EnemySpaceShipHandler(uint8_t x, uint8_t y);
 
         void MOV(const uint8_t targetX, const uint8_t targetY);

@@ -1,10 +1,14 @@
 # IDEA:
 
-Desenvolver um prototipo do genero de games "space shooter" que rode no terminal, o game deverá contar com uma nave espacial (player) e multiplos inimigos para combater. o jogo deve continuar enquanto o player estiver vivo.
+Desenvolver um prototipo do genero de games "space shooter" que rode no
+terminal, o game deverá contar com uma nave espacial (player) e multiplos
+inimigos para combater. o jogo deve continuar enquanto o player estiver
+vivo.
 
 # OBJETIVO COM O GAME:
 
-Praticar lógica de programação desenvolvendo um jogo "simples" usando logicas que me vierem em mente e ajuda de inteligencia artificial.
+Praticar lógica de programação desenvolvendo um jogo "simples" usando
+logicas que me vierem em mente e ajuda de inteligencia artificial.
 
 
 # IMPLEMENTACOES:
@@ -19,7 +23,8 @@ Praticar lógica de programação desenvolvendo um jogo "simples" usando logicas
 # CONTROLES:
 
 Para capturar o estado atual da tecle pressionada optei por usar uma forma
-não bloqueante possibilitando continuar o loop principal de game sem travar o terminal.
+não bloqueante possibilitando continuar o loop principal de game sem
+travar o terminal.
 
 para isso utilizei da api windows.h os recursos de VK_Key (constantes que representam o codigo virtual da teclas.) e o metodo GetAsyncKeyState ( retorna o bitmask representando o estado da tecla)
 

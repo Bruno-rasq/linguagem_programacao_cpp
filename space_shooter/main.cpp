@@ -1,59 +1,27 @@
-#include <iostream>
-#include <windows.h>
-#include <cstdlib>
-#include <cstdlib>
+#include "./src/core/engine2D.hpp"
+#include "./src/core/player.hpp"
+#include "./src/core/spaceBoard.hpp"
 
-#include "./includes/spaceGrid.hpp"
-#include "./includes/keyboardHandler.hpp"
-#include "./includes/player.hpp"
-
-#define TIMESLEEP  25
-
-using namespace SpaceGrid;
-using namespace PlayerHandler;
-using namespace KEYBOARDHANDLER;
 using namespace std;
+
 
 int main(){
 
-    Space grid = Space();
-    PlayerSpaceship pss = PlayerSpaceship();
-    tuple<int8_t, int8_t, char> info;
+    // board do game, manipula os estados visuais do frame game.
+    SpaceBoardHandler::SpaceBoard board = SpaceBoardHandler::SpaceBoard();
 
-    info = pss.Info();
+    // instancia do objeto do jogador
+    PlayerSpaceshipHandler::Player plyr = PlayerSpaceshipHandler::Player();
 
-    grid.setCoord(get<0>(info), get<1>(info), get<2>(info));
+    // sprite contem coordenada e carcter da nave
+    SpaceBoardHandler::Sprite sprite = plyr.getSprite();
 
-    cout << grid.getFrameState() << "\n";
+    // desenha no frame a sprite do player
+    board.draw(sprite.x, sprite.y, sprite.obj_ascii);
 
-    while(true){
+    vector<string> frame = board.getFrameBoard();
 
-        Sleep(TIMESLEEP);
-        
-        const uint16_t key = captureKey();
-
-        if(key == VK_ESCAPE) break;
-        if(key == VK_SPACE) continue;
-        if(key == 0) continue;
-
-        // move nave
-        pss.move(key);
-
-        // limpa posicao anterior
-        grid.clearCoord(get<0>(info), get<1>(info));
-
-        // pega as novas infos de coordenada e caracter
-        info = pss.Info();
-
-        // seta no grid a nova coordenada da nave
-        grid.setCoord(get<0>(info), get<1>(info), get<2>(info));
-
-        system("cls");
-
-        // exibe o estado atual do grid
-        cout << grid.getFrameState() << "\n";
-
-    }
+    Engine2D::FrameBuffer::Render(frame);
 
     return 0;
 }

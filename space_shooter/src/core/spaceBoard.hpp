@@ -11,15 +11,24 @@ using namespace std;
 
 namespace SpaceBoardHandler {
 
+    /*
+        Definindo dimenções do board
+    */
     #define WIDTH  70
-    #define HEIGHT 25
+    #define HEIGHT 30
 
-    struct  Coordination
-    {
+    typedef vector<string> BoardFrame;
+
+    struct Sprite {
+        uint8_t x, y;
+        char obj_ascii;
+    };
+
+    struct  Coordinates {
         uint8_t x, y;
 
-        Coordination();
-        Coordination(uint8_t x, uint8_t y);
+        Coordinates();
+        Coordinates(uint8_t x, uint8_t y);
 
         bool inBounds(const uint8_t x, const uint8_t y);
 
@@ -30,16 +39,15 @@ namespace SpaceBoardHandler {
         void MOV(const uint16_t& key);
     };
     
-    class SpaceBoard 
-    {
+    class SpaceBoard {
         private:
-            vector<string> board;
+            BoardFrame board;
 
         public:
             SpaceBoard();
 
             void draw(const uint8_t x, const uint8_t y, const char obj);
             void clear(const uint8_t x, const uint8_t y);
-            void render() const;
+            BoardFrame getFrameBoard() const;
     };
 }
