@@ -3,13 +3,14 @@
 #include <cstdint>
 #include <windows.h>
 #include <sstream>
+#include <iostream>
 
 #include "./spaceBoard.hpp"
 
-using namespace SpaceBoardHandler;
-
 namespace Engine2D {
 
+    typedef SpaceBoardHandler::BoardFrame Frame;
+    
     /*
         sistema de entrada
     */
@@ -21,7 +22,7 @@ namespace Engine2D {
             //  - ATIRAR: barra
             //  - SAIR: esc
             // Deve por padrão retornar 0.
-            static constexpr uint16_t capturePressedKey();
+            uint16_t capturePressedKey();
     };
 
     /*
@@ -29,7 +30,7 @@ namespace Engine2D {
     */
     class FrameBuffer {
         public:
-            static constexpr void Render(BoardFrame& frame);
+            static void Render(Frame frame);
     };
 
     /*

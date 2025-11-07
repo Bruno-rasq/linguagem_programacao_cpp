@@ -2,6 +2,10 @@
 
 namespace SpaceBoardHandler {
 
+    Sprite::Sprite(): x(0), y(0){};
+    Sprite::Sprite(uint8_t x, uint8_t y, const char obj): 
+    x(x), y(y), obj_ascii(obj){};
+
     Coordinates::Coordinates(): x(0), y(0){};
     Coordinates::Coordinates(uint8_t x, uint8_t y): x(x), y(y){};
 
@@ -45,6 +49,10 @@ namespace SpaceBoardHandler {
 
     void SpaceBoard::clear(const uint8_t x, const uint8_t y){
         this->board[x][y] = ' ';
+    };
+
+    BoardFrame SpaceBoard::getFrameBoard() const {
+        return this->board;
     };
 
 }

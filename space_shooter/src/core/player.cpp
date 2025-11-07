@@ -15,10 +15,10 @@ namespace PlayerSpaceshipHandler {
 
 
     Sprite Player::getSprite() const {
-        return {   
+        return Sprite(
             this->playerSpaceShip.NAV_SYS.coord.x, 
-            this->playerSpaceShip.NAV_SYS.coord.x,
+            this->playerSpaceShip.NAV_SYS.coord.y,
             this->playerSpaceShip.NAV_SYS.shipFacing
-        };
+        );
     };
 }

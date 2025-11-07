@@ -10,7 +10,6 @@ using namespace SpaceBoardHandler;
 
 namespace PlayerSpaceshipHandler {
 
-
     #define INITCOORDX 35
     #define INITCOORDY 15
 
@@ -20,7 +19,6 @@ namespace PlayerSpaceshipHandler {
     struct Spaceship {
 
         NavigationSystem::PlayerSpaceShipHandler NAV_SYS;
-
         // TODO: sistema de ataque...
         // TODO: sistema de vital...
 
@@ -39,7 +37,6 @@ namespace PlayerSpaceshipHandler {
             Player();
 
             void MOVE(const uint16_t& key);
-            //void ATK();
 
             Sprite getSprite() const;
     };

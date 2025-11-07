@@ -22,6 +22,8 @@ namespace SpaceBoardHandler {
     struct Sprite {
         uint8_t x, y;
         char obj_ascii;
+        Sprite();
+        Sprite(uint8_t x, uint8_t y, const char obj);
     };
 
     struct  Coordinates {

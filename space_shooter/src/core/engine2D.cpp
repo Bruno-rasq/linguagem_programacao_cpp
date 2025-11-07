@@ -17,7 +17,7 @@ namespace Engine2D {
         return 0;
     };
 
-    void FrameBuffer::Render(BoardFrame& frame){
+    void FrameBuffer::Render(Frame frame){
         
         stringstream buff;
 

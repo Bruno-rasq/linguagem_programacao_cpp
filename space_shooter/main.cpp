@@ -2,8 +2,9 @@
 #include "./src/core/player.hpp"
 #include "./src/core/spaceBoard.hpp"
 
-using namespace std;
+//compile command -> g++ main.cpp src/core/*.cpp -I src/core -o main.exe
 
+using namespace std;
 
 int main(){
 
@@ -17,11 +18,10 @@ int main(){
     SpaceBoardHandler::Sprite sprite = plyr.getSprite();
 
     // desenha no frame a sprite do player
-    board.draw(sprite.x, sprite.y, sprite.obj_ascii);
+    board.draw(sprite.y, sprite.x, sprite.obj_ascii);
 
-    vector<string> frame = board.getFrameBoard();
-
-    Engine2D::FrameBuffer::Render(frame);
+    //exibi o frame atual no console
+    Engine2D::FrameBuffer::Render(board.getFrameBoard());
 
     return 0;
 }
