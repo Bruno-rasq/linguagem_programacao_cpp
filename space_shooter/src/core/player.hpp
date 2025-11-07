@@ -1,8 +1,10 @@
 #pragma once
 
+// libs
 #include <cstdint>
 #include <windows.h>
 
+// headers
 #include "./navigationSystems.hpp"
 #include "./spaceBoard.hpp"
 
@@ -10,12 +12,22 @@ using namespace SpaceBoardHandler;
 
 namespace PlayerSpaceshipHandler {
 
+
+    //===========================================================
+    //
+    //  Macros e definições de tipo.
+    //
+    //===========================================================
+
     #define INITCOORDX 35
     #define INITCOORDY 15
 
-    /*
-        Estrutura basica da nave
-    */
+    //===========================================================
+    //
+    //  Estrutura de controle dos sistemas da nave.
+    //
+    //===========================================================
+
     struct Spaceship {
 
         NavigationSystem::PlayerSpaceShipHandler NAV_SYS;
@@ -25,9 +37,13 @@ namespace PlayerSpaceshipHandler {
         Spaceship();
     };
 
-    /*
-        classe gerenciadora da instancia do player
-    */
+
+    //===========================================================
+    //
+    //  classe do jogador
+    //
+    //===========================================================
+
     class Player {
         private:
             Spaceship playerSpaceShip;
@@ -37,7 +53,6 @@ namespace PlayerSpaceshipHandler {
             Player();
 
             void MOVE(const uint16_t& key);
-
             Sprite getSprite() const;
     };
 };

@@ -1,19 +1,37 @@
 #pragma once
 
+// libs
 #include <cstdint>
 #include <windows.h>
 #include <sstream>
 #include <iostream>
+#include <vector>
+#include <string>
 
+// headers
 #include "./spaceBoard.hpp"
 
 namespace Engine2D {
 
-    typedef SpaceBoardHandler::BoardFrame Frame;
+    //===========================================================
+    //
+    //  Macros e definições de tipo.
+    //
+    //===========================================================
+
+    #define FPS 80
+    #define BOARDWIDTH 70
+    #define BOARDHEIGTH 20
+
+    typedef std::vector<std::string> GFrame;
+    typedef SpaceBoardHandler::Sprite GSprite;
     
-    /*
-        sistema de entrada
-    */
+    //===========================================================
+    //
+    //  Controles (keyboard)
+    //
+    //===========================================================
+
     class KeyboardInput  {
         public:
             // Captura a tecla de forma nao bloqueante.
@@ -22,24 +40,49 @@ namespace Engine2D {
             //  - ATIRAR: barra
             //  - SAIR: esc
             // Deve por padrão retornar 0.
-            uint16_t capturePressedKey();
+            static uint16_t capturePressedKey();
     };
 
-    /*
-        representa o frame atual
-    */
+
+    //===========================================================
+    //
+    //  gerenciamento de frames.
+    //
+    //===========================================================
+
     class FrameBuffer {
+        private:
+            GFrame current_frame;
+
         public:
-            static void Render(Frame frame);
+            FrameBuffer();
+            void Render() const;
+            void DrawSprite(const GSprite sprite);
+            void ClearSprite(const GSprite sprite);
     };
 
-    /*
-        gerenciamento de tempo (FPS)
-    */
+    
+    //===========================================================
+    //
+    //  gerenciamento de frames por segundo.
+    //
+    //===========================================================
     class Timer {};
 
-    /*
-        classe principal da engine
-    */
-    class Engine {};
+    //===========================================================
+    //
+    //  motor rudimentar minimalista e feio.
+    //
+    //===========================================================
+    class Engine {
+        private:
+            bool on_off = false;
+
+        public:
+            Engine();
+
+            void on();
+            void off();
+            void game();
+    };
 };

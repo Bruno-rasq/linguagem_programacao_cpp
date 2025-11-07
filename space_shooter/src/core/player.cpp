@@ -2,10 +2,23 @@
 
 namespace PlayerSpaceshipHandler {
 
+    //===========================================================
+    //
+    //  implementação da estrutura da nave
+    //
+    //===========================================================
+
     Spaceship::Spaceship(){
         this->NAV_SYS.coord.x = INITCOORDX;
         this->NAV_SYS.coord.y = INITCOORDY;
     };
+
+
+    //===========================================================
+    //
+    //  implementação da classe do jogador
+    //
+    //===========================================================
 
     Player::Player(){};
 

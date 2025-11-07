@@ -1,6 +1,5 @@
 #include "./engine2D.hpp"
 
-
 namespace Engine2D {
 
     uint16_t KeyboardInput::capturePressedKey(){
@@ -17,17 +16,30 @@ namespace Engine2D {
         return 0;
     };
 
-    void FrameBuffer::Render(Frame frame){
+    FrameBuffer::FrameBuffer(){
+        for(size_t i = 0; i < BOARDHEIGTH; i++)
+            this->current_frame.push_back(std::string(BOARDWIDTH, ' '));
+    };
+
+    void FrameBuffer::Render() const {
         
-        stringstream buff;
+        std::stringstream buff;
 
-        buff << string(WIDTH + 2, '_') << "\n";
+        buff << std::string(BOARDWIDTH + 2, '_') << "\n";
 
-        for(const string& line : frame)
+        for(const std::string& line : this->current_frame)
             buff <<  "|" << line << "|\n";
         
-        buff << "|" << string(WIDTH, '_') << "|\n";
+        buff << "|" << std::string(BOARDWIDTH, '_') << "|\n";
 
-        cout << buff.str();
+        std::cout << buff.str();
+    };
+
+    void FrameBuffer::DrawSprite(const GSprite sprite) {
+        this->current_frame[sprite.y][sprite.x] = sprite.obj_ascii;
+    };
+
+    void FrameBuffer::ClearSprite(GSprite sprite) {
+        this->current_frame[sprite.y][sprite.x] = ' ';
     };
 }
