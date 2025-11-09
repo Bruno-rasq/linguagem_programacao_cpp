@@ -1,4 +1,4 @@
-#include "./player.hpp"
+#include "../headers/player.hpp"
 
 namespace PlayerSpaceshipHandler {
 
@@ -9,8 +9,8 @@ namespace PlayerSpaceshipHandler {
     //===========================================================
 
     Spaceship::Spaceship(){
-        this->NAV_SYS.coord.x = INITCOORDX;
-        this->NAV_SYS.coord.y = INITCOORDY;
+        this->NAV_SYS.coord.row = INITIAL_ROW;
+        this->NAV_SYS.coord.col = INITIAL_COL;
     };
 
 
@@ -27,10 +27,10 @@ namespace PlayerSpaceshipHandler {
     };
 
 
-    Sprite Player::getSprite() const {
-        return Sprite(
-            this->playerSpaceShip.NAV_SYS.coord.x, 
-            this->playerSpaceShip.NAV_SYS.coord.y,
+    Engine2D::Sprite Player::getSprite() const {
+        return Engine2D::Sprite(
+            this->playerSpaceShip.NAV_SYS.coord.row, 
+            this->playerSpaceShip.NAV_SYS.coord.col,
             this->playerSpaceShip.NAV_SYS.shipFacing
         );
     };

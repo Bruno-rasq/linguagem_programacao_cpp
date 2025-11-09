@@ -23,10 +23,11 @@ logicas que me vierem em mente e ajuda de inteligencia artificial.
 # CONTROLES:
 
 Para capturar o estado atual da tecle pressionada optei por usar uma forma
-não bloqueante possibilitando continuar o loop principal de game sem
-travar o terminal.
+não bloqueante possibilitando continuar o loop principal de game sem travar o terminal.
 
-para isso utilizei da api windows.h os recursos de VK_Key (constantes que representam o codigo virtual da teclas.) e o metodo GetAsyncKeyState ( retorna o bitmask representando o estado da tecla)
+para isso utilizei da api windows.h os recursos de VK_Key (constantes que
+representam o codigo virtual da teclas.) e o metodo GetAsyncKeyState (
+retorna o bitmask representando o estado da tecla)
 
 GetAsyncKeyState -> retora um valor de 16 bits (unsigned short) onde:
     - bit 15 (0x8000) indica se a tecla esta sendo precionada no momento.
@@ -44,7 +45,9 @@ caso mais de uma tecla estejam sendo pressionada o metodo retorna o valor da pri
 
 A nave do player pode se movimentar verticalmente e horizontalmente atraves dos direcionais do teclado, quando uma tecla é pressionada dispara um evento de movimentação que executa alguns metodos, sendo estes:
 
-    - metodoq que modifica o symbolo da nave (ASCII) - ajuda a identificar a direção para onde a nave esta apontando
+    - metodoq que modifica o symbolo da nave (ASCII) - ajuda a identifica
+     a direção para onde a nave esta apontando
     - um metodo que verificar se a nova coordenada esta dentro dos limites do grid.
-    - um metodo que curva as bordas do grid possiblitando mivimentação constante sem travamento.
+    - um metodo que curva as bordas do grid possiblitando mivimentação
+     constante sem travamento.
     - o metodo que modifica as coordenadas x e y da nave

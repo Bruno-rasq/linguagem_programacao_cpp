@@ -5,7 +5,7 @@
 #include <windows.h>
 
 // headers
-#include "./spaceBoard.hpp"
+#include "./engine2D.hpp"
 
 
 namespace NavigationSystem {
@@ -19,10 +19,10 @@ namespace NavigationSystem {
     struct PlayerSpaceShipHandler {
 
         char shipFacing;
-        SpaceBoardHandler::Coordinates coord;
+        Engine2D::Coordinates coord;
 
         PlayerSpaceShipHandler();
-        PlayerSpaceShipHandler(uint8_t x, uint8_t y);
+        PlayerSpaceShipHandler(uint8_t row, uint8_t col);
 
         void changeFacing(const int8_t direction);
 
@@ -37,10 +37,10 @@ namespace NavigationSystem {
     */
     struct EnemySpaceShipHandler {
 
-        SpaceBoardHandler::Coordinates coord;
+        Engine2D::Coordinates coord;
 
         EnemySpaceShipHandler();
-        EnemySpaceShipHandler(uint8_t x, uint8_t y);
+        EnemySpaceShipHandler(uint8_t row, uint8_t col);
 
         void MOV(const uint8_t targetX, const uint8_t targetY);
     };

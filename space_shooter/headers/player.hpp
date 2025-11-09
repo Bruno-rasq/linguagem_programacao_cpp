@@ -6,12 +6,10 @@
 
 // headers
 #include "./navigationSystems.hpp"
-#include "./spaceBoard.hpp"
+#include "./engine2D.hpp"
 
-using namespace SpaceBoardHandler;
 
 namespace PlayerSpaceshipHandler {
-
 
     //===========================================================
     //
@@ -19,8 +17,8 @@ namespace PlayerSpaceshipHandler {
     //
     //===========================================================
 
-    #define INITCOORDX 35
-    #define INITCOORDY 15
+    #define INITIAL_ROW 9
+    #define INITIAL_COL 34
 
     //===========================================================
     //
@@ -53,6 +51,7 @@ namespace PlayerSpaceshipHandler {
             Player();
 
             void MOVE(const uint16_t& key);
-            Sprite getSprite() const;
+            
+            Engine2D::Sprite getSprite() const;
     };
 };

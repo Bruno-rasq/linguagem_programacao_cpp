@@ -1,57 +1,52 @@
-#include "./src/core/engine2D.hpp"
-#include "./src/core/player.hpp"
-#include "./src/core/spaceBoard.hpp"
-
-#include <cstdlib>
-
-//compile command -> g++ main.cpp src/core/*.cpp -I src/core -o main.exe
-
+#include "./headers/engine2D.hpp"
+#include "./headers/player.hpp"
 using namespace std;
+
+//comando compilar -> g++ main.cpp src/*.cpp -I headers -o main.exe
+//comando rodar -> main.exe
+
+typedef Engine2D::FrameBuffer Framer;
+typedef PlayerSpaceshipHandler::Player Player;
+typedef Engine2D::Sprite Sprite;
+
+
+void clearAndRender(Framer& FBC){
+    system("cls");
+    FBC.Render();
+}
 
 int main(){
 
-    // // board do game, manipula os estados visuais do frame game.
-    // SpaceBoardHandler::SpaceBoard board = SpaceBoardHandler::SpaceBoard();
+    Framer FBC = Engine2D::FrameBuffer();
 
-    // // instancia do objeto do jogador
-    // PlayerSpaceshipHandler::Player plyr = PlayerSpaceshipHandler::Player();
+    Player plyr = PlayerSpaceshipHandler::Player();
 
-    // // sprite contem coordenada e carcter da nave
-    // SpaceBoardHandler::Sprite sprite = plyr.getSprite();
+    Sprite sprite = plyr.getSprite();
 
-    // // desenha no frame a sprite do player
-    // board.draw(sprite.y, sprite.x, sprite.obj_ascii);
+    FBC.DrawSprite(sprite);
+    
+    clearAndRender(FBC);
 
-    // //exibi o frame atual no console
-    // Engine2D::FrameBuffer::Render(board.getFrameBoard());
+    while(true){
 
+        Sleep(50);
 
-    // while(true){
+        const uint16_t keypressed = Engine2D::KeyboardInput::capturePressedKey();
 
-    //     Sleep(150);
+        if(keypressed == 0 || keypressed == VK_SPACE) continue;
+        if(keypressed == VK_ESCAPE) break;
 
-    //     const uint16_t key = Engine2D::KeyboardInput::capturePressedKey();
+        FBC.ClearSprite(sprite);
 
-    //     if(key == VK_ESCAPE) break;
-    //     if(key == VK_SPACE || key == 0) continue;
+        plyr.MOVE(keypressed);
+        sprite = plyr.getSprite();
 
-    //     plyr.MOVE(key);
+        FBC.DrawSprite(sprite);
 
-    //     board.clear(sprite.y, sprite.x);
-        
-    //     sprite = plyr.getSprite();
+        clearAndRender(FBC);
+    }
 
-    //     board.draw(sprite.y, sprite.x, sprite.obj_ascii);
-
-    //     system("cls");
-
-    //     Engine2D::FrameBuffer::Render(board.getFrameBoard());
-
-    // }
-
-    // system("cls");
-
-    // Engine2D::FrameBuffer::Render(board.getFrameBoard());
-
+    clearAndRender(FBC);
+    
     return 0;
 }
