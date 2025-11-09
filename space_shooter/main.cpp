@@ -1,52 +1,113 @@
 #include "./headers/engine2D.hpp"
 #include "./headers/player.hpp"
-using namespace std;
+#include "./headers/attackSystem.hpp"
 
-//comando compilar -> g++ main.cpp src/*.cpp -I headers -o main.exe
-//comando rodar -> main.exe
+#define TIMESLEEP 55
 
 typedef Engine2D::FrameBuffer Framer;
 typedef PlayerSpaceshipHandler::Player Player;
 typedef Engine2D::Sprite Sprite;
+typedef AttkSystem::Projectile Shot;
+typedef std::vector<Shot> Shots;
 
+//comando compilar -> g++ main.cpp src/*.cpp -I headers -o main.exe
+//comando rodar -> main.exe
 
-void clearAndRender(Framer& FBC){
+uint16_t keypress(){
+    return Engine2D::KeyboardInput::capturePressedKey();
+};
+
+void ClearAndRender(Framer& FBC){
     system("cls");
     FBC.Render();
-}
+};
+
+
+void UpdateShots(Shots& shots, Framer& FBC){
+
+    int idx = 0;
+    while(true){
+        if (idx >= shots.size()) break;
+    
+        FBC.ClearSprite(Sprite(shots[idx].row, shots[idx].col, ' '));
+
+        shots[idx].update();
+        
+        if(Engine2D::inBounds(shots[idx].row, shots[idx].col)){
+            FBC.DrawSprite(Sprite(shots[idx].row, shots[idx].col, shots[idx].obj));
+        } 
+        else{
+            std::swap(shots[idx], shots.back());
+            shots.pop_back();
+            continue;
+        }
+        idx++;
+    }
+};
+
+void UpdatePlayer(Framer& FBC, Sprite& sprite, Player& plyr, uint16_t key){
+    
+    FBC.ClearSprite(sprite);
+    plyr.MOVE(key);
+    sprite = plyr.getSprite();
+    FBC.DrawSprite(sprite);
+};
 
 int main(){
 
-    Framer FBC = Engine2D::FrameBuffer();
+    bool running = true;
 
-    Player plyr = PlayerSpaceshipHandler::Player();
+    // variaveis de controle do game;
+    Framer FBC;
+    Player plyr;
+    Sprite sprite;
+    Shots shots;
 
-    Sprite sprite = plyr.getSprite();
+    FBC = Engine2D::FrameBuffer();
+    plyr = PlayerSpaceshipHandler::Player();
+    sprite = plyr.getSprite();
+
 
     FBC.DrawSprite(sprite);
     
-    clearAndRender(FBC);
+    ClearAndRender(FBC);
 
-    while(true){
+    while(running){
 
-        Sleep(50);
+        Sleep(TIMESLEEP);
 
-        const uint16_t keypressed = Engine2D::KeyboardInput::capturePressedKey();
+        const uint16_t keypressed = keypress();
 
-        if(keypressed == 0 || keypressed == VK_SPACE) continue;
-        if(keypressed == VK_ESCAPE) break;
+        switch(keypressed){
 
-        FBC.ClearSprite(sprite);
+            case 0: { 
+                break; 
+            }
 
-        plyr.MOVE(keypressed);
-        sprite = plyr.getSprite();
+            case VK_ESCAPE: { 
+                running = false;  
+                continue;
+                break;
+            }
 
-        FBC.DrawSprite(sprite);
+            case VK_SPACE: {
+                Shot shot = plyr.ATTK();
+                shots.push_back(shot);
+                break;
+            }
 
-        clearAndRender(FBC);
+            default: { 
+                UpdatePlayer(FBC, sprite, plyr, keypressed);
+                break;
+            }
+        }
+
+        UpdateShots(shots, FBC);
+
+        ClearAndRender(FBC);
     }
 
-    clearAndRender(FBC);
+    ClearAndRender(FBC);
     
     return 0;
 }

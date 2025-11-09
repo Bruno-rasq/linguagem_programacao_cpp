@@ -13,6 +13,20 @@ namespace PlayerSpaceshipHandler {
         this->NAV_SYS.coord.col = INITIAL_COL;
     };
 
+    AttkSystem::Projectile Spaceship::shot(){
+
+        uint8_t direction = 1;
+        uint8_t row = this->NAV_SYS.coord.row;
+        uint8_t col = this->NAV_SYS.coord.col;
+
+        if(this->NAV_SYS.shipFacing == '^'){ row--; }
+        if(this->NAV_SYS.shipFacing == 'v'){ row++; direction = 2;}
+        if(this->NAV_SYS.shipFacing == '<'){ col--; direction = 3;}
+        if(this->NAV_SYS.shipFacing == '>'){ col++; direction = 4;}
+
+        return AttkSystem::Projectile(row, col, direction);
+    };
+
 
     //===========================================================
     //
@@ -24,6 +38,10 @@ namespace PlayerSpaceshipHandler {
 
     void Player::MOVE(const uint16_t& key){
         this->playerSpaceShip.NAV_SYS.MOV(key);
+    };
+
+    AttkSystem::Projectile Player::ATTK(){
+        return this->playerSpaceShip.shot();
     };
 
 

@@ -5,8 +5,9 @@
 #include <windows.h>
 
 // headers
-#include "./navigationSystems.hpp"
 #include "./engine2D.hpp"
+#include "./navigationSystems.hpp"
+#include "./attackSystem.hpp"
 
 
 namespace PlayerSpaceshipHandler {
@@ -29,7 +30,9 @@ namespace PlayerSpaceshipHandler {
     struct Spaceship {
 
         NavigationSystem::PlayerSpaceShipHandler NAV_SYS;
-        // TODO: sistema de ataque...
+
+        AttkSystem::Projectile shot();
+
         // TODO: sistema de vital...
 
         Spaceship();
@@ -51,6 +54,7 @@ namespace PlayerSpaceshipHandler {
             Player();
 
             void MOVE(const uint16_t& key);
+            AttkSystem::Projectile ATTK();
             
             Engine2D::Sprite getSprite() const;
     };

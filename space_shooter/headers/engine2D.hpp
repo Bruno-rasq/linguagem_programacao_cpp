@@ -32,7 +32,7 @@ namespace Engine2D {
 
     //============================================================================
     //
-    //  Estruturas auxiliares
+    //  Estruturas e metodos auxiliares
     //
     //============================================================================
 
@@ -52,20 +52,13 @@ namespace Engine2D {
         Coordinates();
         Coordinates(uint8_t row, uint8_t col);
 
-        // checa se a nova coordenada está dentro do limite das bordas do board.
-        bool inBounds(const uint8_t row, const uint8_t col);
-
-        // modifica a nova coordenada jogando a nave para o lado oposto do grid
-        // quando a mesma sair tentar sair do limite do board.
-        void wrapAround(uint8_t& row, uint8_t& col);
-
-        // nomaliza a nova coordenada aplicando in/bounds e wrapAround.
-        void normalizeCoord(uint8_t row, uint8_t col);
-
-        // modifica as coodenadas y e x de acordo com a tecla pressionada.
         void MOV(const uint16_t& key);
     };
     
+    bool inBounds(const uint8_t row, const uint8_t col);
+
+    void wrapAround(uint8_t& row, uint8_t& col); //desabilitei...
+
     //============================================================================
     //
     //  Controles (keyboard)
@@ -119,9 +112,7 @@ namespace Engine2D {
     class Engine {
         private:
             bool on_off = false;
-            FrameBuffer FBC;
-            //PlayerSpaceshipHandler::Player* plyr;
-
+            
         public:
             Engine();
 
@@ -129,6 +120,4 @@ namespace Engine2D {
             void Off();
             void Game();
     };
-
-
 };

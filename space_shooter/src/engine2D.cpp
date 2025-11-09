@@ -29,32 +29,6 @@ namespace Engine2D {
         this->col = col;
     };
 
-
-    bool Coordinates::inBounds(const uint8_t row, const uint8_t col){
-
-        return (0 <= row && row < BOARDHEIGTH 
-                && 0 <= col && col < BOARDWIDTH);
-    };
-
-
-    void Coordinates::wrapAround(uint8_t& row, uint8_t& col){
-
-        if(col < 0)               col = BOARDWIDTH - 1;
-        if(col >= BOARDWIDTH)     col = 0;
-        if(row < 0)               row = BOARDHEIGTH - 1;
-        if(row >= BOARDHEIGTH)    row = 0;
-    };
-
-
-    void Coordinates::normalizeCoord(uint8_t row, uint8_t col){
-
-        if(!this->inBounds(row, col)) this->wrapAround(row, col);
-
-        this->row = row;
-        this->col = col;
-    };
-
-
     void Coordinates::MOV(const uint16_t& key){
 
         int dy = this->row;
@@ -65,7 +39,26 @@ namespace Engine2D {
         if(key == VK_LEFT)  { dx--; }
         if(key == VK_RIGHT) { dx++; }
 
-        this->normalizeCoord(dy, dx);
+        if(inBounds(dy, dx)){
+            this->row = dy;
+            this->col = dx;
+        }
+    };
+
+
+    bool inBounds(const uint8_t row, const uint8_t col){
+
+        return (0 <= row && row < BOARDHEIGTH 
+                && 0 <= col && col < BOARDWIDTH);
+    };
+
+    //desabilitei...
+    void wrapAround(uint8_t& row, uint8_t& col){
+
+        if(col < 0)               col = BOARDWIDTH - 1;
+        if(col >= BOARDWIDTH)     col = 0;
+        if(row < 0)               row = BOARDHEIGTH - 1;
+        if(row >= BOARDHEIGTH)    row = 0;
     };
 
 
