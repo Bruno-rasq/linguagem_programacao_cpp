@@ -13,7 +13,7 @@ namespace PlayerSpaceshipHandler {
         this->NAV_SYS.coord.col = INITIAL_COL;
     };
 
-    AttkSystem::Projectile Spaceship::shot(){
+    Shoot Spaceship::shot(){
 
         uint8_t direction = 1;
         uint8_t row = this->NAV_SYS.coord.row;
@@ -40,12 +40,11 @@ namespace PlayerSpaceshipHandler {
         this->playerSpaceShip.NAV_SYS.MOV(key);
     };
 
-    AttkSystem::Projectile Player::ATTK(){
+    Shoot Player::ATTK(){
         return this->playerSpaceShip.shot();
     };
 
-
-    Engine2D::Sprite Player::getSprite() const {
+    Sprite Player::getSprite() const {
         return Engine2D::Sprite(
             this->playerSpaceShip.NAV_SYS.coord.row, 
             this->playerSpaceShip.NAV_SYS.coord.col,

@@ -30,7 +30,42 @@ namespace AttkSystem {
         if(this->direction == 4) this->col++;
     };
 
-    Engine2D::Sprite Projectile::getSprite() const {
+    Sprite Projectile::getSprite() const {
         return Engine2D::Sprite(this->row, this->col, this->obj);
+    };
+
+
+
+    ProjectilesHandler::ProjectilesHandler(){};
+
+    void ProjectilesHandler::AddShoot(Projectile shoot){
+        this->shoots.push_back(shoot);
+    };
+
+    void ProjectilesHandler::UpdateShoots(Framer& framer){
+        size_t idx = 0;
+        while(true){
+            if(idx >= this->shoots.size()) break;
+
+            framer.ClearSprite(
+                Sprite(this->shoots[idx].row, this->shoots[idx].col,' '));
+
+            this->shoots[idx].update();
+
+            if(Engine2D::inBounds(this->shoots[idx].row,this->shoots[idx].col)){
+                framer.DrawSprite(
+                    Sprite(
+                        this->shoots[idx].row, 
+                        this->shoots[idx].col,
+                        this->shoots[idx].obj
+                    ));
+            }
+            else{
+                std::swap(this->shoots[idx], this->shoots.back());
+                this->shoots.pop_back();
+                continue;
+            }
+            idx++;
+        }
     };
 }

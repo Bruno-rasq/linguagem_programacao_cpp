@@ -45,7 +45,6 @@ namespace Engine2D {
         }
     };
 
-
     bool inBounds(const uint8_t row, const uint8_t col){
 
         return (0 <= row && row < BOARDHEIGTH 
@@ -61,13 +60,11 @@ namespace Engine2D {
         if(row >= BOARDHEIGTH)    row = 0;
     };
 
-
     //============================================================================
     //
     //  Controles
     //
     //============================================================================
-
 
     uint16_t KeyboardInput::capturePressedKey(){
 
@@ -116,12 +113,4 @@ namespace Engine2D {
         this->current_frame[sprite.row][sprite.col] = ' ';
     };
 
-
-    //============================================================================
-    //
-    //  game principal loop (motor)
-    //
-    //============================================================================
-
-    
 }

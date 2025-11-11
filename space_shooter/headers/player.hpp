@@ -1,10 +1,6 @@
 #pragma once
 
-// libs
-#include <cstdint>
-#include <windows.h>
-
-// headers
+#include "./core.hpp"
 #include "./engine2D.hpp"
 #include "./navigationSystems.hpp"
 #include "./attackSystem.hpp"
@@ -21,6 +17,10 @@ namespace PlayerSpaceshipHandler {
     #define INITIAL_ROW 9
     #define INITIAL_COL 34
 
+    typedef AttkSystem::Projectile Shoot;
+    typedef NavigationSystem::PlayerSpaceShipHandler Spaceshiphandler;
+    typedef Engine2D::Sprite Sprite;
+
     //===========================================================
     //
     //  Estrutura de controle dos sistemas da nave.
@@ -29,10 +29,8 @@ namespace PlayerSpaceshipHandler {
 
     struct Spaceship {
 
-        NavigationSystem::PlayerSpaceShipHandler NAV_SYS;
-
-        AttkSystem::Projectile shot();
-
+        Spaceshiphandler NAV_SYS;
+        Shoot shot();
         // TODO: sistema de vital...
 
         Spaceship();
@@ -50,12 +48,10 @@ namespace PlayerSpaceshipHandler {
             Spaceship playerSpaceShip;
 
         public:
-
             Player();
 
             void MOVE(const uint16_t& key);
-            AttkSystem::Projectile ATTK();
-            
-            Engine2D::Sprite getSprite() const;
+            Shoot  ATTK();
+            Sprite getSprite() const;
     };
 };

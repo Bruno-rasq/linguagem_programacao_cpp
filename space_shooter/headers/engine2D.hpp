@@ -1,18 +1,6 @@
 #pragma once
 
-// libs
-#include <cstdint>
-#include <cstdlib>
-#include <windows.h>
-#include <sstream>
-#include <iostream>
-#include <vector>
-#include <string>
-
-
-// declaração antecipada (evita inclusao ciclica)
-namespace PlayerSpaceshipHandler { class Player; };
-
+#include "./core.hpp"
 
 namespace Engine2D {
 
@@ -22,13 +10,11 @@ namespace Engine2D {
     //
     //===========================================================
 
-    #define FPS 80
-    #define FRAMETIME  1000 / FPS
     #define BOARDWIDTH 70
     #define BOARDHEIGTH 20
 
     typedef std::vector<std::string> Frame;
-    typedef PlayerSpaceshipHandler::Player GPlayer;
+
 
     //============================================================================
     //
@@ -109,15 +95,5 @@ namespace Engine2D {
     //
     //============================================================================
 
-    class Engine {
-        private:
-            bool on_off = false;
-            
-        public:
-            Engine();
-
-            void On();
-            void Off();
-            void Game();
-    };
+    class Engine {};
 };
