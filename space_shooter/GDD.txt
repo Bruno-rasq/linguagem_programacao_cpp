@@ -39,4 +39,5 @@ a operação:
 
 
 OBS: o codigo para checagem das teclas possue uma ordem de precedencia que 
-caso mais de uma tecla estejam sendo pressionada o metodo retorna o valor da primeira tecla que satisfazer a condição. (duas teclas juntas não funcionam)
+caso mais de uma tecla estejam sendo pressionada o metodo retorna o valor
+ da primeira tecla que satisfazer a condição. (duas teclas juntas não funcionam)
