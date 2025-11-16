@@ -71,6 +71,8 @@ namespace movimenthandler {
         {"diagonal3",   Coord(-1,  1)}, //base (esquerda) -> top (direita)
         {"diagonal4",   Coord(-1, -1)}, //base (direita) -> top (esquerda)
     };
+
+    Coord get_random_coord();
 };
 
 #endif

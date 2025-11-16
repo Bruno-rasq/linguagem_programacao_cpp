@@ -7,39 +7,45 @@
 
 namespace asteroidhandler {
 
-    // deve haver 3 tipos de asteroids (pequeno, medio e grande).
-    // devem ser criados de forma randomica (1 chance em 6).
-    // devem ser capaz de se movimentar horizontalmente, verticalmente e
-    // diagonalmente.
-    // deve conter 3 tipos de colisões:
-    //  - auto colisão (maior prevalce e o menor é destruido)
-    //  - colisao contra o player (causa dado no player)
-    //  - colisao contra naves inimigas.
-    // asteroids devem ser criados fora do frame game.
-    
-    typedef std::vector<framerHandler::Sprite> Rocks;
-    typedef movimenthandler::Coord Coord;
+    /**
+     *  frame gid tenho 20 linhas por 70 colunas
+     *  dividido por 4 setores tenho cada setor com 10 linhas e 35 colunas.
+     * 
+     *  setor 0 - (top esquerdo):  x (0, 9) e y (0 34)
+     *  setor 1 - (top direita):   x (0, 9) e y (35, 69)
+     *  setor 2 - (base esquerdo): x (10, 19) e y (0 34)
+     *  setor 3 - (base direita):  x (10, 19) e y (35 69)
+     *      
+    */
 
-    struct AsteroidInfo { int8_t x, y, dx, dy; };
+    typedef framerHandler::Sprite Sprite;
+    typedef movimenthandler::Coord Coord;
+    typedef std::vector<Sprite> Rocks;
+
     
     struct Asteroid {
 
         Rocks rocks;
         Coord delta_direction;     // indica o sentido de deslocamento.
-        bool has_entered = false;  // indica se já esteve dentro do frame.
+        uint8_t size;               // 1(pequeno) - 2(medio) - 3(grande)
 
-        Asteroid(const Rocks rocks, Coord direction);
+        Asteroid(const Rocks rocks, Coord direction, uint8_t size);
 
         void update_coord();
     };
-
 
     Asteroid create_small_asteroid(int8_t x, int8_t y, Coord delta);
     Asteroid create_medium_asteroid(int8_t x, int8_t y, Coord delta);
     Asteroid create_large_asteroid(int8_t x, int8_t y, Coord delta);
 
-    Asteroid create_random_asteroid();
+    void wrap_around(int8_t& x, int8_t& y);
+
+    bool check_colission_with_another_asteroid();
+    bool check_colission_with_player();
     
+    void change_asteroid_direction_after_colission();
+
+    void split_asteroid_after_colission();
 };
 
 #endif
