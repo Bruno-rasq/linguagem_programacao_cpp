@@ -5,6 +5,9 @@
 
 namespace framerHandler {
 
+    /**
+     * coordenada x(linha) - y(coluna) - char(obj)
+    */
     struct Sprite {
 
         Coord_row x;

@@ -60,4 +60,9 @@ namespace movimenthandler {
             this->coord.x, this->coord.y, this->obj
         );
     };
+
+    bool inBounds(const Coord& coord){
+        return (0 <= coord.x && coord.x < FRAME_BOARD_MAX_HEIGTH
+            && 0 <= coord.y && coord.y < FRAME_BOARD_MAX_WIDTH);
+    };
 }

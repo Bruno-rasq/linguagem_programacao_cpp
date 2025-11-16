@@ -4,11 +4,8 @@ namespace framerHandler {
 
     Sprite::Sprite(): x(0), y(0), obj(' '){};
     
-    Sprite::Sprite(Coord_row x, Coord_col y, Obj_ascii obj){
-        this->x = x;
-        this->y = y;
-        this->obj = obj;
-    };
+    Sprite::Sprite(Coord_row x, Coord_col y, Obj_ascii obj):
+    x(x), y(y), obj(obj){};
 
     Framerbuffer::Framerbuffer(){
         for(size_t i = 0; i < FRAME_BOARD_MAX_HEIGTH; i++)

@@ -9,5 +9,5 @@ WinKeyState Keyboardhandler::keypress(){
     if((GetAsyncKeyState(VK_SPACE)  & KEY_MSB_MASK) != 0) return VK_SPACE;
     if((GetAsyncKeyState(VK_ESCAPE) & KEY_MSB_MASK) != 0) return VK_ESCAPE;
 
-    return 0;
+    return 0; // nenhuma tecla foi pressionada.
 };

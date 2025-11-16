@@ -8,12 +8,12 @@
 // Data struct
 #include <vector>
 #include <string>
+#include <unordered_map>
 
 #include <cstdlib>
 #include <cstdint>
 
 // -- macros
-
 
 const uint8_t TIME_SLEEP = 80;
 const uint8_t FRAME_BOARD_MAX_WIDTH = 70;
@@ -23,7 +23,6 @@ const uint8_t PLAYER_INITIAL_COORD_COL = 34;
 
 
 const int KEY_MSB_MASK = 0x8000; //MSB -> most significant bit
-
 
 typedef std::stringstream           Buffer;
 typedef std::vector<std::string>    Frame;        // estado atual do game.
