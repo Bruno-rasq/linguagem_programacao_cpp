@@ -6,25 +6,44 @@
 #include "./keyboard.hpp"
 #include "./player.hpp"
 #include "./moviment.hpp"
+#include "./asteroids.hpp"
+#include "./timer.hpp"
 
 typedef framerHandler::Sprite       Sprite;
 typedef framerHandler::Framerbuffer Framer;
+
 typedef movimenthandler::Projectil  Shoot;
 typedef std::vector<Shoot>          Shoots;
 
+typedef asteroidhandler::Asteroid   Asteroid;
+typedef std::vector<Asteroid>       Asteroids;
+
 class Game {
     private:
+
+        Timer timer;
         Player player;
         Framer framebuffer;
         Shoots frameshoot;
         Sprite playersprite;
+        Asteroids asteroids;
+        bool running = true;
+
+        void updateFrame();
+        void updateShootsCoord();
+        void updateAsteroidsCoord();
+        void updatePlayerCoord();
+
+        bool check_colission_with_another_asteroid();
+        bool check_colission_with_player();
 
         void resetConsoleFrame() const;
-        void updateShootsCoord();
-        void SwitchKeyPress(const WinKeyState keypressed);
+        bool SwitchKeyPress(const WinKeyState keypressed);
 
     public:
+
         Game();
+
         void start();
 };
 

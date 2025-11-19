@@ -65,4 +65,11 @@ namespace movimenthandler {
         return (0 <= coord.x && coord.x < FRAME_BOARD_MAX_HEIGTH
             && 0 <= coord.y && coord.y < FRAME_BOARD_MAX_WIDTH);
     };
+
+    void wrap_around(int8_t& x, int8_t& y){
+        if(x > FRAME_BOARD_MAX_HEIGTH - 1) x = 0;
+        if(x < 0) x = FRAME_BOARD_MAX_HEIGTH - 1;
+        if(y > FRAME_BOARD_MAX_WIDTH - 1) y = 0;
+        if(y < 0) y = FRAME_BOARD_MAX_WIDTH - 1;
+    };
 }

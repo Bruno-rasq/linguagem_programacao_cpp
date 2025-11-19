@@ -17,12 +17,10 @@ namespace asteroidhandler {
      *  setor 3 - (base direita):  x (10, 19) e y (35 69)
      *      
     */
-
     typedef framerHandler::Sprite Sprite;
     typedef movimenthandler::Coord Coord;
     typedef std::vector<Sprite> Rocks;
 
-    
     struct Asteroid {
 
         Rocks rocks;
@@ -37,11 +35,6 @@ namespace asteroidhandler {
     Asteroid create_small_asteroid(int8_t x, int8_t y, Coord delta);
     Asteroid create_medium_asteroid(int8_t x, int8_t y, Coord delta);
     Asteroid create_large_asteroid(int8_t x, int8_t y, Coord delta);
-
-    void wrap_around(int8_t& x, int8_t& y);
-
-    bool check_colission_with_another_asteroid();
-    bool check_colission_with_player();
     
     void change_asteroid_direction_after_colission();
 
