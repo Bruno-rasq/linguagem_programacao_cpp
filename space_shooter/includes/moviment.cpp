@@ -11,6 +11,10 @@ namespace movimenthandler {
         this->y += dy;
     };
 
+    bool Coord::operator==(const Coord& other) const {
+        return this->x == other.x && this->y == other.y;
+    }
+
     Spaceship::Spaceship(){
 
         this->shipFacing = '^';

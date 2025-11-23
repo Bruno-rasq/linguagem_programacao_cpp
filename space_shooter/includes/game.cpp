@@ -32,7 +32,8 @@ void Game::start(){
 
             this->updateFrame();
 
-            //CollisonHDR::checkCollisions(this->asteroids, this->frameshoot, this->player);
+            // problema não é aqui
+            this->checkCollisions();
 
             this->resetConsoleFrame();
             this->timer.clock();
@@ -42,13 +43,10 @@ void Game::start(){
     this->resetConsoleFrame();
 };
 
-
 void Game::resetConsoleFrame() const {
     system("cls");
     this->framebuffer.render();
 };
-
-
 
 void Game::updateFrame(){
 
@@ -105,8 +103,6 @@ void Game::updatePlayerCoord(){
     this->framebuffer.draw(this->playersprite);
 };
 
-
-
 bool Game::SwitchKeyPress(const WinKeyState keypressed){
 
     if(keypressed == VK_ESCAPE) return false;
@@ -124,6 +120,20 @@ bool Game::SwitchKeyPress(const WinKeyState keypressed){
 
 
 // TESTE -----------------
+
+enum objtype { Shoot_T, Player_T, Asteroid_T };
+
+struct IDs {
+    objtype collectionKey;    // a qual coleção o objeto pertence
+    int objectkey;            // sua chave da coleção
+};
+
+// função que gera uma chave hash com base em uma coordenada x y.
+struct CoordHash {
+    size_t operator()(const movimenthandler::Coord& c) const noexcept {
+        return (c.x << 8) ^ c.y;
+    }
+};
 
 void Game::checkCollisions(){
 
@@ -143,7 +153,7 @@ void Game::checkCollisions(){
 
     // checar colisão
     for(auto& kv: collisiongrid){
-        auto vec = kv.second;
+        auto& vec = kv.second;
 
         if(vec.size() < 2) continue;
 
@@ -177,10 +187,4 @@ void Game::checkCollisions(){
                 }
             }
     }
-};
-
-
-
-size_t CoordHash::operator()(const movimenthandler::Coord& c) const noexcept {
-    return (c.x << 8) ^ c.y;
 };

@@ -8,30 +8,14 @@
 #include "./moviment.hpp"
 #include "./asteroids.hpp"
 #include "./timer.hpp"
-//#include "./collisionhdr.hpp"
 
 typedef framerHandler::Sprite       Sprite;
 typedef framerHandler::Framerbuffer Framer;
-
 typedef movimenthandler::Projectil  Shoot;
 typedef std::vector<Shoot>          Shoots;
-
 typedef asteroidhandler::Asteroid   Asteroid;
 typedef std::vector<Asteroid>       Asteroids;
 
-//|-------|-------|-------|-------|-------|-------|-------
-enum objtype { Shoot_T, Player_T, Asteroid_T };
-
-struct IDs {
-    objtype collectionKey;    // a qual coleção o objeto pertence
-    int objectkey;            // sua chave da coleção
-};
-
-// função que gera uma chave hash com base em uma coordenada x y.
-struct CoordHash {
-    size_t operator()(const movimenthandler::Coord& c) const noexcept;
-};
-//|-------|-------|-------|-------|-------|-------|-------
 
 class Game {
     private:

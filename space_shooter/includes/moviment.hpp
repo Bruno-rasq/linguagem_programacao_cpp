@@ -28,6 +28,9 @@ namespace movimenthandler {
         Coord(Coord_row x, Coord_col y);
 
         void delta(const Coord_row dx, const Coord_col dy);
+
+        // remover se naõ der certo
+        bool operator==(const Coord& other) const;
     };
 
     struct Spaceship {
