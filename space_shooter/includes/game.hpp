@@ -8,6 +8,7 @@
 #include "./moviment.hpp"
 #include "./asteroids.hpp"
 #include "./timer.hpp"
+//#include "./collisionhdr.hpp"
 
 typedef framerHandler::Sprite       Sprite;
 typedef framerHandler::Framerbuffer Framer;
@@ -17,6 +18,20 @@ typedef std::vector<Shoot>          Shoots;
 
 typedef asteroidhandler::Asteroid   Asteroid;
 typedef std::vector<Asteroid>       Asteroids;
+
+//|-------|-------|-------|-------|-------|-------|-------
+enum objtype { Shoot_T, Player_T, Asteroid_T };
+
+struct IDs {
+    objtype collectionKey;    // a qual coleção o objeto pertence
+    int objectkey;            // sua chave da coleção
+};
+
+// função que gera uma chave hash com base em uma coordenada x y.
+struct CoordHash {
+    size_t operator()(const movimenthandler::Coord& c) const noexcept;
+};
+//|-------|-------|-------|-------|-------|-------|-------
 
 class Game {
     private:
@@ -29,13 +44,18 @@ class Game {
         Asteroids asteroids;
         bool running = true;
 
+        // Para cada objeto na instancia do game a checagem de colisão 
+        // consiste em guardar em um hashmap para cada objeto uma chave
+        // sendo a coordenada xy do mesmto e ums estrutura de IDs (id da
+        // coleção e o id do obj). Assim quando uma coordenada tiver mais
+        // de um objeto significa que houve uma colisão. 
+        // complexidade - O(n)
+        void checkCollisions();
+
         void updateFrame();
         void updateShootsCoord();
         void updateAsteroidsCoord();
         void updatePlayerCoord();
-
-        bool check_colission_with_another_asteroid();
-        bool check_colission_with_player();
 
         void resetConsoleFrame() const;
         bool SwitchKeyPress(const WinKeyState keypressed);

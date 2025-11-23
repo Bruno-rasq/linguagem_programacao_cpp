@@ -21,13 +21,24 @@ namespace asteroidhandler {
     typedef movimenthandler::Coord Coord;
     typedef std::vector<Sprite> Rocks;
 
+    // enum asteroid_radios {
+    //     SMALL = 0.5,
+    //     MEDIUM = 1.5,
+    //     LARGE = 2.5,
+    // };
+
     struct Asteroid {
 
         Rocks rocks;
-        Coord delta_direction;     // indica o sentido de deslocamento.
+        Coord centro;
+        Coord delta_direction;      // indica o sentido de deslocamento.
         uint8_t size;               // 1(pequeno) - 2(medio) - 3(grande)
+        float radio;
 
-        Asteroid(const Rocks rocks, Coord direction, uint8_t size);
+        Asteroid(
+            const Coord centro, const Rocks rocks,
+            const Coord direction, const uint8_t size, const float radio
+        );
 
         void update_coord();
     };

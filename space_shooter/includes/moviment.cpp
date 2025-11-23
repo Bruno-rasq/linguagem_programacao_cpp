@@ -28,8 +28,12 @@ namespace movimenthandler {
 
     void Spaceship::moveSpaceship(const Coord delta, const Direction dir){
 
-        this->coord.delta(delta.x, delta.y);
-        this->changeFacing(dir);
+        int x = this->coord.x + delta.x;
+        int y = this->coord.y + delta.y;
+        if(inBounds(Coord(x, y))){
+            this->changeFacing(dir);
+            this->coord.delta(delta.x, delta.y);
+        }
     };
 
     framerHandler::Sprite Spaceship::getSprite() const {

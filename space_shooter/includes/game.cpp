@@ -10,7 +10,7 @@ Game::Game(){
     this->asteroids = {
         asteroidhandler::create_large_asteroid(3, 5, Coord(1, 1)),
         asteroidhandler::create_medium_asteroid(13, 5, Coord(-1, 0)),
-        asteroidhandler::create_small_asteroid(10, 65, Coord(1, -1)),
+        asteroidhandler::create_small_asteroid(10, 65, Coord(-1, -1)),
     };
 };
 
@@ -29,8 +29,11 @@ void Game::start(){
         this->running = this->SwitchKeyPress(key);
 
         if(this->running){
+
             this->updateFrame();
-            if(this->check_colission_with_player()) break;
+
+            //CollisonHDR::checkCollisions(this->asteroids, this->frameshoot, this->player);
+
             this->resetConsoleFrame();
             this->timer.clock();
         }
@@ -39,21 +42,13 @@ void Game::start(){
     this->resetConsoleFrame();
 };
 
-bool Game::check_colission_with_player(){
-
-    Sprite plyer = this->playersprite;
-    for(Asteroid& asteroid : this->asteroids)
-        for(Sprite& rock : asteroid.rocks)
-            if(rock.x == plyer.x && rock.y == plyer.y) 
-                return true;
-        
-    return false;
-};
 
 void Game::resetConsoleFrame() const {
     system("cls");
     this->framebuffer.render();
 };
+
+
 
 void Game::updateFrame(){
 
@@ -110,6 +105,8 @@ void Game::updatePlayerCoord(){
     this->framebuffer.draw(this->playersprite);
 };
 
+
+
 bool Game::SwitchKeyPress(const WinKeyState keypressed){
 
     if(keypressed == VK_ESCAPE) return false;
@@ -121,4 +118,69 @@ bool Game::SwitchKeyPress(const WinKeyState keypressed){
     }
     this->player.move(keypressed);              // executa um movimento.
     return true;
+};
+
+
+
+
+// TESTE -----------------
+
+void Game::checkCollisions(){
+
+    std::unordered_map<movimenthandler::Coord, std::vector<IDs>, CoordHash> collisiongrid;
+
+    // inserir player
+    movimenthandler::Coord plyr = {this->playersprite.x, this->playersprite.y};
+    collisiongrid[plyr].push_back({objtype::Player_T, -1});
+
+    // inserir asteroids:
+    for(int i = 0; i < this->asteroids.size(); i++)
+        collisiongrid[this->asteroids[i].centro].push_back({objtype::Asteroid_T, i});
+
+    // inserir shoots 
+    for(int i = 0; i < this->frameshoot.size(); i++)
+        collisiongrid[this->frameshoot[i].coord].push_back({objtype::Shoot_T, i});
+
+    // checar colisão
+    for(auto& kv: collisiongrid){
+        auto vec = kv.second;
+
+        if(vec.size() < 2) continue;
+
+        for(int i = 0; i < vec.size(); i++)
+            for(int j = i + 1; j < vec.size(); j++){
+                objtype A = vec[i].collectionKey;
+                objtype B = vec[j].collectionKey;
+
+                // Asteroid x Player
+                if(A == objtype::Asteroid_T && B == objtype::Player_T || 
+                B == objtype::Asteroid_T && A == objtype::Player_T){
+                    std::cout << "collision asteroid x player\n";
+                }
+
+                // Asteroid x Asteroid
+                if(A == objtype::Asteroid_T && B == objtype::Asteroid_T || 
+                B == objtype::Asteroid_T && A == objtype::Asteroid_T){
+                    std::cout << "collision asteroid x asteroid\n";
+                }
+
+                // Asteroid x shoot
+                if(A == objtype::Asteroid_T && B == objtype::Shoot_T || 
+                B == objtype::Asteroid_T && A == objtype::Shoot_T){
+                    std::cout << "collision asteroid x shoot\n";
+                }
+
+                // Player x shoot
+                if(A == objtype::Player_T && B == objtype::Shoot_T || 
+                B == objtype::Player_T && A == objtype::Shoot_T){
+                    std::cout << "collision shoot x player\n";
+                }
+            }
+    }
+};
+
+
+
+size_t CoordHash::operator()(const movimenthandler::Coord& c) const noexcept {
+    return (c.x << 8) ^ c.y;
 };
