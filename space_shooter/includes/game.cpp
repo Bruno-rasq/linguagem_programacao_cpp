@@ -140,16 +140,18 @@ void Game::checkCollisions(){
     std::unordered_map<movimenthandler::Coord, std::vector<IDs>, CoordHash> collisiongrid;
 
     // inserir player
-    movimenthandler::Coord plyr = {this->playersprite.x, this->playersprite.y};
-    collisiongrid[plyr].push_back({objtype::Player_T, -1});
+    Sprite p = this->playersprite;
+    collisiongrid[{p.x, p.y}].push_back({objtype::Player_T, -1});
 
     // inserir asteroids:
     for(int i = 0; i < this->asteroids.size(); i++)
-        collisiongrid[this->asteroids[i].centro].push_back({objtype::Asteroid_T, i});
+        for(Sprite& rock : this->asteroids[i].rocks){
+            collisiongrid[{rock.x, rock.y}].push_back({objtype::Asteroid_T, i});
+        }
 
-    // inserir shoots 
-    for(int i = 0; i < this->frameshoot.size(); i++)
-        collisiongrid[this->frameshoot[i].coord].push_back({objtype::Shoot_T, i});
+    // // inserir shoots 
+    // for(int i = 0; i < this->frameshoot.size(); i++)
+    //     collisiongrid[this->frameshoot[i].coord].push_back({objtype::Shoot_T, i});
 
     // checar colisão
     for(auto& kv: collisiongrid){
@@ -159,32 +161,42 @@ void Game::checkCollisions(){
 
         for(int i = 0; i < vec.size(); i++)
             for(int j = i + 1; j < vec.size(); j++){
+
                 objtype A = vec[i].collectionKey;
                 objtype B = vec[j].collectionKey;
 
                 // Asteroid x Player
                 if(A == objtype::Asteroid_T && B == objtype::Player_T || 
                 B == objtype::Asteroid_T && A == objtype::Player_T){
-                    std::cout << "collision asteroid x player\n";
+                    this->running = false;
+                    return;
                 }
 
-                // Asteroid x Asteroid
-                if(A == objtype::Asteroid_T && B == objtype::Asteroid_T || 
-                B == objtype::Asteroid_T && A == objtype::Asteroid_T){
-                    std::cout << "collision asteroid x asteroid\n";
-                }
+                // // Asteroid x Asteroid
+                // if(A == objtype::Asteroid_T && B == objtype::Asteroid_T || 
+                // B == objtype::Asteroid_T && A == objtype::Asteroid_T){
+                //     std::cout << "collision asteroid x asteroid\n";
+                // }
 
                 // Asteroid x shoot
-                if(A == objtype::Asteroid_T && B == objtype::Shoot_T || 
-                B == objtype::Asteroid_T && A == objtype::Shoot_T){
-                    std::cout << "collision asteroid x shoot\n";
-                }
+                // if(A == objtype::Asteroid_T && B == objtype::Shoot_T || 
+                // B == objtype::Asteroid_T && A == objtype::Shoot_T){
 
-                // Player x shoot
-                if(A == objtype::Player_T && B == objtype::Shoot_T || 
-                B == objtype::Player_T && A == objtype::Shoot_T){
-                    std::cout << "collision shoot x player\n";
-                }
+                //     size_t idx;
+
+                //     if(A == objtype::Asteroid_T) idx = vec[i].objectkey;
+                //     if(B == objtype::Asteroid_T) idx = vec[j].objectkey;
+
+                //     std::swap(this->asteroids[idx], this->asteroids.back());
+                //     this->asteroids.pop_back();
+
+                // }
+
+                // // Player x shoot
+                // if(A == objtype::Player_T && B == objtype::Shoot_T || 
+                // B == objtype::Player_T && A == objtype::Shoot_T){
+                //     std::cout << "collision shoot x player\n";
+                // }
             }
     }
 };

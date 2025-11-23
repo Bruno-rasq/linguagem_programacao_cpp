@@ -15,7 +15,7 @@
 
 // -- macros
 
-const uint8_t TIME_SLEEP = 80;
+const uint8_t TIME_SLEEP = 100;
 const uint8_t FRAME_BOARD_MAX_WIDTH = 70;
 const uint8_t FRAME_BOARD_MAX_HEIGTH = 20;
 const uint8_t PLAYER_INITIAL_COORD_ROW = 9;
