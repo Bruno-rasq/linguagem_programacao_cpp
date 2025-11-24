@@ -7,20 +7,21 @@
 #include "./framer.hpp"
 
 typedef movimenthandler::Spaceship Spaceship;
-typedef movimenthandler::Coord     Coord;
+typedef movimenthandler::Coord Coord;
 typedef movimenthandler::Projectil Shoot;
-typedef framerHandler::Sprite      Sprite;
+typedef framerHandler::Sprite Sprite;
 
-class Player {
-    private:
-        Spaceship spaceship;
-        
-    public:
-        Player();
+class Player
+{
+private:
+    Spaceship spaceship;
 
-        void move(const WinKeyState key);
-        Shoot attack() const;
-        Sprite getSprite() const;
+public:
+    Player();
+
+    void move(const WinKeyState key);
+    Shoot attack() const;
+    Sprite getSprite() const;
 };
 
 #endif

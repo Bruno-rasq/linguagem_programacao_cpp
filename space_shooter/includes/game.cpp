@@ -1,6 +1,7 @@
 #include "./game.hpp"
 
-Game::Game(){
+Game::Game()
+{
 
     this->player = Player();
     this->framebuffer = Framer();
@@ -14,13 +15,15 @@ Game::Game(){
     };
 };
 
-void Game::start(){
+void Game::start()
+{
 
     this->framebuffer.draw(this->playersprite);
     this->resetConsoleFrame();
 
     // o game inteiro acontece aqui.
-    while(this->running){
+    while (this->running)
+    {
 
         Sleep(TIME_SLEEP);
 
@@ -28,7 +31,8 @@ void Game::start(){
 
         this->running = this->SwitchKeyPress(key);
 
-        if(this->running){
+        if (this->running)
+        {
 
             this->updateFrame();
 
@@ -36,8 +40,7 @@ void Game::start(){
                 this->running,
                 this->playersprite,
                 this->asteroids,
-                this->frameshoot
-            );
+                this->frameshoot);
 
             this->resetConsoleFrame();
             this->timer.clock();
@@ -47,33 +50,39 @@ void Game::start(){
     this->resetConsoleFrame();
 };
 
-void Game::resetConsoleFrame() const {
+void Game::resetConsoleFrame() const
+{
     system("cls");
     this->framebuffer.render();
 };
 
-void Game::updateFrame(){
+void Game::updateFrame()
+{
 
     this->updatePlayerCoord();
     this->updateAsteroidsCoord();
     this->updateShootsCoord();
 };
 
-void Game::updateShootsCoord(){
+void Game::updateShootsCoord()
+{
 
     size_t idx = 0;
 
-    while(true){
+    while (true)
+    {
 
-        if(idx >= this->frameshoot.size()) break;
+        if (idx >= this->frameshoot.size())
+            break;
 
-        Shoot& shoot = this->frameshoot[idx];
-    
+        Shoot &shoot = this->frameshoot[idx];
+
         this->framebuffer.clear(shoot.getSprite());
 
         shoot.updateCoord();
 
-        if(!movimenthandler::inBounds(shoot.coord)){
+        if (!movimenthandler::inBounds(shoot.coord))
+        {
             std::swap(this->frameshoot[idx], this->frameshoot.back());
             this->frameshoot.pop_back();
             continue;
@@ -84,38 +93,46 @@ void Game::updateShootsCoord(){
     }
 };
 
-void Game::updateAsteroidsCoord(){
+void Game::updateAsteroidsCoord()
+{
 
-    if(this->timer.asteroid_clock == 0){
-        for(Asteroid& asteroid : this->asteroids){
+    if (this->timer.asteroid_clock == 0)
+    {
+        for (Asteroid &asteroid : this->asteroids)
+        {
 
-            for(Sprite& rock : asteroid.rocks)
+            for (Sprite &rock : asteroid.rocks)
                 this->framebuffer.clear(Sprite(rock.x, rock.y, rock.obj));
-            
+
             asteroid.update_coord();
 
-            for(Sprite& rock : asteroid.rocks)
+            for (Sprite &rock : asteroid.rocks)
                 this->framebuffer.draw(Sprite(rock.x, rock.y, rock.obj));
         }
         this->timer.resetAsteroid();
     }
 };
 
-void Game::updatePlayerCoord(){
+void Game::updatePlayerCoord()
+{
     this->framebuffer.clear(this->playersprite);
     this->playersprite = this->player.getSprite();
     this->framebuffer.draw(this->playersprite);
 };
 
-bool Game::SwitchKeyPress(const WinKeyState keypressed){
+bool Game::SwitchKeyPress(const WinKeyState keypressed)
+{
 
-    if(keypressed == VK_ESCAPE) return false;
-    if(keypressed == 0) return true;                 // teclas não mapeadas (ou sem movimentacao)
-    if(keypressed == VK_SPACE){                 // espaço para atirar
+    if (keypressed == VK_ESCAPE)
+        return false;
+    if (keypressed == 0)
+        return true; // teclas não mapeadas (ou sem movimentacao)
+    if (keypressed == VK_SPACE)
+    { // espaço para atirar
         Shoot shoot = this->player.attack();
         this->frameshoot.push_back(shoot);
         return true;
     }
-    this->player.move(keypressed);              // executa um movimento.
+    this->player.move(keypressed); // executa um movimento.
     return true;
 };

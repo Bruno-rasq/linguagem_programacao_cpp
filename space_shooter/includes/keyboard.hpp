@@ -4,9 +4,10 @@
 #include "./core_sys.hpp"
 #include "./core_std.hpp"
 
-class Keyboardhandler {
-    public:
-        static WinKeyState keypress();
+class Keyboardhandler
+{
+public:
+    static WinKeyState keypress();
 };
 
 #endif

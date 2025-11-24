@@ -1,6 +1,7 @@
 #include "./keyboard.hpp"
 
-WinKeyState Keyboardhandler::keypress(){
+WinKeyState Keyboardhandler::keypress()
+{
 
     if((GetAsyncKeyState(VK_UP)     & KEY_MSB_MASK) != 0) return VK_UP;
     if((GetAsyncKeyState(VK_DOWN)   & KEY_MSB_MASK) != 0) return VK_DOWN;

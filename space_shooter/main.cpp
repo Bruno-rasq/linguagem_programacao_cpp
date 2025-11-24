@@ -1,6 +1,12 @@
 #include "./includes/game.hpp"
 
-int main(){
+/* 
+    compilar: g++ main.cpp includes/*.cpp -I includes -o main.exe
+    rodar: main.exe 
+*/
+
+int main()
+{
 
     Game game = Game();
 
