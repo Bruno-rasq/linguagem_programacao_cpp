@@ -1,5 +1,11 @@
 #include "collision.hpp"
 
+/*
+    ------------------------------------------------------
+    |                 funções hash                       |
+    ------------------------------------------------------
+*/
+
 /* função que gera uma chave hash com base em uma coordenada x y. */
 struct CoordHash
 {
@@ -23,6 +29,51 @@ typedef std::unordered_map<
 
 typedef std::unordered_map<size_t, bool> processedObjects;
 
+/*
+    ------------------------------------------------------
+    |                 funções auxiliares                 |
+    ------------------------------------------------------
+*/
+
+void add_player_object(framerHandler::Sprite &plyr, processedObjects& p, gridCollisionHash& gc)
+{
+    Collision_handler::IDs objectID = {Collision_handler::objtype::Player, -1};
+
+    gc[{plyr.x, plyr.y}].push_back(objectID);
+    p[objHash(objectID)] = false;
+};
+
+void add_asteroid_objects(
+    std::vector<asteroidhandler::Asteroid>& asteroids, 
+    processedObjects& p, gridCollisionHash& gc)
+{
+    for (int i = 0; i < asteroids.size(); i++)
+        for (framerHandler::Sprite &rock : asteroids[i].rocks)
+        {
+            Collision_handler::IDs objectID = {Collision_handler::objtype::Asteroid, i};
+            gc[{rock.x, rock.y}].push_back(objectID);
+            p[objHash(objectID)] = false;
+        }
+};
+
+void add_shoot_objects(
+    std::vector<movimenthandler::Projectil>& shoots, processedObjects& p, gridCollisionHash& gc)
+{
+    for (int i = 0; i < shoots.size(); i++)
+    {
+        Collision_handler::IDs objectID = {Collision_handler::objtype::Shoot, i};
+        gc[{shoots[i].coord}].push_back(objectID);
+        p[objHash(objectID)] = false;
+    }
+};
+
+
+/*
+    ------------------------------------------------------
+    |                 funções de colisão                 |
+    ------------------------------------------------------
+*/
+
 namespace Collision_handler
 {
 
@@ -31,42 +82,81 @@ namespace Collision_handler
         game_is_running = false;
     };
 
+    void collisionAsteroidxAsteroid(asteroidhandler::Asteroid& a, asteroidhandler::Asteroid& b)
+    {
+        struct Relative_coord { uint8_t x, y; }; 
+        /* vetor relativo a posição dos asteroids */
+        Relative_coord rel = {
+            static_cast<uint8_t>(b.delta_direction.x - a.delta_direction.x),
+            static_cast<uint8_t>(b.delta_direction.y - a.delta_direction.y),
+        };
+
+        /* 1 - colisão frontal: deltas opostos. */
+        if(a.delta_direction.x == -b.delta_direction.x 
+        && a.delta_direction.y == -b.delta_direction.y)
+        {
+            Coord deltaA = a.delta_direction;
+            Coord deltaB = b.delta_direction;
+            a.delta_direction = deltaB;
+            b.delta_direction = deltaA;
+            return;
+        }
+
+        uint8_t ax = std::abs(rel.x);
+        uint8_t ay = std::abs(rel.y);
+
+        /* 2 - impacto dominante no eixo x */
+        if(ax > ay)
+        {
+            a.delta_direction.x = -a.delta_direction.x;
+            b.delta_direction.x = -b.delta_direction.x;
+            return;
+        }
+
+        /* 3 - impacto dominante no eixo y */
+        if(ay > ax)
+        {
+            a.delta_direction.y = -a.delta_direction.y;
+            b.delta_direction.y = -b.delta_direction.y;
+            return;
+        }
+
+        /* 4 - colisão em diagonal */
+        a.delta_direction.x = -a.delta_direction.x;
+        b.delta_direction.x = -b.delta_direction.x;
+        a.delta_direction.y = -a.delta_direction.y;
+        b.delta_direction.y = -b.delta_direction.y;
+    };
+
     void checkCollisions(bool &game_onoff, Sprite &player, Asteroids &asteroids, Shoots &shoots)
     {
 
+        /*
+            objetos terão seus valores hasheados e armazenados em uma hashmap 
+            espacial, assim que uma coordenada x y apresentar mais de um objeto
+            valida colisão.
+        */
         gridCollisionHash collisiongrid;
 
+        /*
+            Apos uma colisão os objetos são marcados como já processados, isso 
+            evita multiplas colisões acontecendo em um mesmo objeto.
+        */
         processedObjects processed;
 
-        /*
-            TODO: ideia criar um hash de objetos processados
-            isso evita multiplas colições para objetos com mais de
-            1 sprite.
+        
+        add_player_object(player, processed, collisiongrid);
+        add_asteroid_objects(asteroids, processed, collisiongrid);
+        add_shoot_objects(shoots, processed, collisiongrid);
 
-            cada objeto possue uma collecao a qual pertence e um index
-            posso usar esses dados para gerar uma chave hash e deixar a
-            verificação se um objeto ja foi processado em tempo constante.
-        */
 
-        // adicionando objeto do player.
-        collisiongrid[{player.x, player.y}].push_back({objtype::Player, -1});
-
-        // adicionando objetos dos asteroides.
-        for (int i = 0; i < asteroids.size(); i++)
-            for (Sprite &rock : asteroids[i].rocks)
-                collisiongrid[{rock.x, rock.y}].push_back({objtype::Asteroid, i});
-
-        // adicionando objetos dos disparos.
-        for (int i = 0; i < shoots.size(); i++)
-            collisiongrid[{shoots[i].coord}].push_back({objtype::Shoot, i});
-
-        // checar cada coordenada salva no hash para verificar se houve colisão
+        /* checar cada coordenada salva no hash para verificar se houve colisão */
         for (auto &kv : collisiongrid)
         {
             auto &vec = kv.second;
 
-            if (vec.size() < 2)
-                continue;
+            /* se não houver mais de 1 objeto na coordenada então não houve colisão. */
+            if (vec.size() < 2) continue;
 
             for (int i = 0; i < vec.size(); i++)
                 for (int j = i + 1; j < vec.size(); j++)
@@ -84,14 +174,20 @@ namespace Collision_handler
                     objtype B = vec[j].collection_type;
 
                     // Asteroid x Player
-                    if (A == objtype::Asteroid && B == objtype::Player ||
+                    if(A == objtype::Asteroid && B == objtype::Player ||
                         B == objtype::Asteroid && A == objtype::Player)
                     {
                         collisionAsteroidxPlayer(game_onoff);
                         return;
                     }
 
-                    // TODO: Tratar outras colisões.
+                    if(A == objtype::Asteroid && B == objtype::Asteroid)
+                    {   
+                        asteroidhandler::Asteroid& asteroid_a = asteroids[vec[i].index_object];
+                        asteroidhandler::Asteroid& asteroid_b = asteroids[vec[j].index_object];
+                        collisionAsteroidxAsteroid(asteroid_a, asteroid_b);
+                    }
+
                 }
         }
     };

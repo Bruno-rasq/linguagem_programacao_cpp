@@ -25,10 +25,11 @@ namespace Collision_handler
     typedef std::vector<IDs> collections;
     typedef framerHandler::Sprite Sprite;
     typedef std::vector<asteroidhandler::Asteroid> Asteroids;
+    typedef movimenthandler::Coord Coord;
     typedef std::vector<movimenthandler::Projectil> Shoots;
 
     void collisionAsteroidxPlayer(bool &game_is_running);
-    void collisionAsteroidxAsteroid();
+    void collisionAsteroidxAsteroid(asteroidhandler::Asteroid& a, asteroidhandler::Asteroid& b);
     void collisionAsteroidxShoot();
     void collisionPlayerxShoot();
 

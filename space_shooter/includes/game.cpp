@@ -123,10 +123,8 @@ void Game::updatePlayerCoord()
 bool Game::SwitchKeyPress(const WinKeyState keypressed)
 {
 
-    if (keypressed == VK_ESCAPE)
-        return false;
-    if (keypressed == 0)
-        return true; // teclas não mapeadas (ou sem movimentacao)
+    if (keypressed == VK_ESCAPE) return false;
+    if (keypressed == 0) return true; // teclas não mapeadas (ou sem movimentacao)
     if (keypressed == VK_SPACE)
     { // espaço para atirar
         Shoot shoot = this->player.attack();
