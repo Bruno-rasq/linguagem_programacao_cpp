@@ -8,14 +8,14 @@
 
 namespace Collision_handler
 {
+    /* tipos de objetos que o sistema de colisão trabalha. */
+    enum objtype { Asteroid, Shoot, Player };
 
-    enum objtype
-    {
-        Asteroid,
-        Shoot,
-        Player
-    };
-
+    /**
+     *  estruturas IDs armazenam dados que auxiliam na identificação
+     *  do objeto que esta sendo tratado. O primeiro valor é o tipo do
+     *  do objeto ja o segundo qual o index dele na referencia da coleção.
+    */
     struct IDs
     {
         objtype collection_type;
@@ -24,30 +24,45 @@ namespace Collision_handler
 
     typedef std::vector<IDs> collections;
     typedef framerHandler::Sprite Sprite;
-    typedef std::vector<asteroidhandler::Asteroid> Asteroids;
     typedef movimenthandler::Coord Coord;
     typedef std::vector<movimenthandler::Projectil> Shoots;
+    typedef std::vector<asteroidhandler::Asteroid> Asteroids;
 
+
+    /**
+     *  Metodos de colisão devem seguir uma ordem de precedencia
+     *  sendo primeiro colisão de asteroid com player (fim de game.)
+     *  depois colisão de projeteis em asteroids, asteroids com asteroids
+     *  e por fim projeteis com o player
+    */
     void collisionAsteroidxPlayer(bool &game_is_running);
-    void collisionAsteroidxAsteroid(asteroidhandler::Asteroid& a, asteroidhandler::Asteroid& b);
     void collisionAsteroidxShoot();
+    void collisionAsteroidxAsteroid(asteroidhandler::Asteroid& a, asteroidhandler::Asteroid& b);
     void collisionPlayerxShoot();
 
-    // Para cada objeto na instancia do game a checagem de colisão
-    // consiste em guardar em um hashmap para cada objeto uma chave
-    // sendo a coordenada xy do mesmto e ums estrutura de IDs (id da
-    // coleção e o id do obj). Assim quando uma coordenada tiver mais
-    // de um objeto significa que houve uma colisão.
-    // complexidade - O(n)
+   
+    /**
+     *  Para checar colisão é criado um hashmapque armazena as coordenadas
+     *  dos objetos do game, e um vetor de IDS. Quando uma chave possue 
+     *  mais de um objeto ocorre uma colisão. 
+     * 
+     *  Coodenadas xy passam por uma função hash que tranforma em um
+     *  inteiro.
+     * 
+     *  Alem disso é criado um hash de objetos já processados para cada co-
+     *  lisão, assim evita multiplas aplicações de colisão em um omesmo ob-
+     *  jeto por instancia do frame
+    */
     void checkCollisions(
 
         // estados
-        bool &game_onoff,
+        bool &game_on, /* capacidade de parar o game caso necessário. */
 
         // objetos
         Sprite &player,
         Asteroids &asteroids,
-        Shoots &shoots);
+        Shoots &shoots
+    );
 };
 
 #endif

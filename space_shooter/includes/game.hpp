@@ -10,8 +10,8 @@
 #include "./timer.hpp"
 #include "./collision.hpp"
 
+//typedef framerHandler::Framerbuffer Framer;
 typedef framerHandler::Sprite Sprite;
-typedef framerHandler::Framerbuffer Framer;
 typedef movimenthandler::Projectil Shoot;
 typedef std::vector<Shoot> Shoots;
 typedef asteroidhandler::Asteroid Asteroid;
@@ -22,18 +22,18 @@ class Game
 private:
     Timer timer;
     Player player;
-    Framer framebuffer;
     Shoots frameshoot;
     Sprite playersprite;
     Asteroids asteroids;
     bool running = true;
 
-    void updateFrame();
-    void updateShootsCoord();
-    void updateAsteroidsCoord();
-    void updatePlayerCoord();
+    void updateFrame(framerHandler::framer_buffer& fb);
+    void updateShootsCoord(framerHandler::framer_buffer& fb);
+    void updateAsteroidsCoord(framerHandler::framer_buffer& fb);
+    void updatePlayerCoord(framerHandler::framer_buffer& fb);
 
-    void resetConsoleFrame() const;
+    //void resetConsoleFrame() const;
+    void RenderFrame(const framerHandler::framer_buffer& fb);
     bool SwitchKeyPress(const WinKeyState keypressed);
 
 public:

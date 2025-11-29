@@ -20,6 +20,10 @@ namespace movimenthandler
      * (-1, -1) -> base (direita) -> top (esquerda)
      */
 
+    /**
+     *  Estrutura de coordenada dos objetos do game armazena o indice x
+     *  (linha) e y (coluna) do frame onde o objeto está.
+    */
     struct Coord
     {
 
@@ -31,10 +35,14 @@ namespace movimenthandler
 
         void delta(const Coord_row dx, const Coord_col dy);
 
-        // remover se naõ der certo
         bool operator==(const Coord &other) const;
     };
 
+    /**
+     *  Estrutura spaceship  armazena a posição visual do player, sendo
+     *  capaz de representar a direção que o player está virado (sendo 
+     *  esta tambem a direção em que projeteis são disparados.)
+    */
     struct Spaceship
     {
 
@@ -56,12 +64,20 @@ namespace movimenthandler
         framerHandler::Sprite getSprite() const;
     };
 
+    /**
+     *  Estrutura de projeteis armazena as instancias de disparor feitos
+     *  pelo player, cada disparo possue uma coordenada, um sentido de 
+     *  movimento e um total de dano.
+     * 
+     *  Priojeteis que saem dos limites do grid (frame) são destruidos.
+    */
     struct Projectil
     {
 
         Coord coord;
         Direction dir; // controla para aonde deve atualizar a coordenada
         Obj_ascii obj; // obj é baseado na direçaõ do projetil
+        const int damage = 50; 
 
         Projectil(const Coord coord, const Spaceshipface &dir);
 
@@ -70,8 +86,11 @@ namespace movimenthandler
         framerHandler::Sprite getSprite() const;
     };
 
-    bool inBounds(const Coord &coord); // verifica se a coordenada esta dentro dos limites do frame
+    /* verifica se a coordenada esta dentro dos limites do frame */
+    bool inBounds(const Coord &coord);
 
+    /* desloca a coordenada para o outro lado do frame assim que sair do
+    limite do grid*/
     void wrap_around(int8_t &x, int8_t &y);
 };
 

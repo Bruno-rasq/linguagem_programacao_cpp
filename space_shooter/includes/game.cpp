@@ -4,7 +4,6 @@ Game::Game()
 {
 
     this->player = Player();
-    this->framebuffer = Framer();
     this->playersprite = this->player.getSprite();
 
     // teste
@@ -17,14 +16,13 @@ Game::Game()
 
 void Game::start()
 {
-
-    this->framebuffer.draw(this->playersprite);
-    this->resetConsoleFrame();
+    framerHandler::framer_buffer start_frame;
+    this->updateFrame(start_frame);
+    this->RenderFrame(start_frame);
 
     // o game inteiro acontece aqui.
     while (this->running)
     {
-
         Sleep(TIME_SLEEP);
 
         const WinKeyState key = Keyboardhandler::keypress();
@@ -33,8 +31,8 @@ void Game::start()
 
         if (this->running)
         {
-
-            this->updateFrame();
+            framerHandler::framer_buffer current_frame;
+            this->updateFrame(current_frame);
 
             Collision_handler::checkCollisions(
                 this->running,
@@ -42,29 +40,31 @@ void Game::start()
                 this->asteroids,
                 this->frameshoot);
 
-            this->resetConsoleFrame();
+            this->RenderFrame(current_frame);
             this->timer.clock();
         }
     }
 
-    this->resetConsoleFrame();
+    framerHandler::framer_buffer end_frame;
+    this->updateFrame(end_frame);
+    this->RenderFrame(end_frame);
 };
 
-void Game::resetConsoleFrame() const
+void Game::RenderFrame(const framerHandler::framer_buffer& fb)
 {
     system("cls");
-    this->framebuffer.render();
+    fb.render();
 };
 
-void Game::updateFrame()
+
+void Game::updateFrame(framerHandler::framer_buffer& fb)
 {
-
-    this->updatePlayerCoord();
-    this->updateAsteroidsCoord();
-    this->updateShootsCoord();
+    this->updatePlayerCoord(fb);
+    this->updateAsteroidsCoord(fb);
+    this->updateShootsCoord(fb);
 };
 
-void Game::updateShootsCoord()
+void Game::updateShootsCoord(framerHandler::framer_buffer& fb)
 {
 
     size_t idx = 0;
@@ -72,52 +72,50 @@ void Game::updateShootsCoord()
     while (true)
     {
 
-        if (idx >= this->frameshoot.size())
-            break;
+        if (idx >= this->frameshoot.size()) break;
 
         Shoot &shoot = this->frameshoot[idx];
-
-        this->framebuffer.clear(shoot.getSprite());
 
         shoot.updateCoord();
 
         if (!movimenthandler::inBounds(shoot.coord))
         {
+            // amanha eu te pego... -_-
             std::swap(this->frameshoot[idx], this->frameshoot.back());
             this->frameshoot.pop_back();
             continue;
         }
 
-        this->framebuffer.draw(shoot.getSprite());
+        fb.draw(shoot.getSprite());
         idx++;
     }
 };
 
-void Game::updateAsteroidsCoord()
+void Game::updateAsteroidsCoord(framerHandler::framer_buffer& fb)
 {
 
     if (this->timer.asteroid_clock == 0)
     {
         for (Asteroid &asteroid : this->asteroids)
         {
-
-            for (Sprite &rock : asteroid.rocks)
-                this->framebuffer.clear(Sprite(rock.x, rock.y, rock.obj));
-
             asteroid.update_coord();
 
             for (Sprite &rock : asteroid.rocks)
-                this->framebuffer.draw(Sprite(rock.x, rock.y, rock.obj));
+                fb.draw(Sprite(rock.x, rock.y, rock.obj));
         }
         this->timer.resetAsteroid();
+        return;
     }
+    
+    for(Asteroid& asteroid : this->asteroids)
+        for (Sprite &rock : asteroid.rocks)
+            fb.draw(Sprite(rock.x, rock.y, rock.obj));
 };
 
-void Game::updatePlayerCoord()
+void Game::updatePlayerCoord(framerHandler::framer_buffer& fb)
 {
-    this->framebuffer.clear(this->playersprite);
     this->playersprite = this->player.getSprite();
-    this->framebuffer.draw(this->playersprite);
+    fb.draw(this->playersprite);
 };
 
 bool Game::SwitchKeyPress(const WinKeyState keypressed)

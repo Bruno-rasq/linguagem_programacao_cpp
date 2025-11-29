@@ -22,25 +22,35 @@ namespace asteroidhandler
     typedef movimenthandler::Coord Coord;
     typedef std::vector<Sprite> Rocks;
 
+
+    /**
+     *  Estruturas de Asteroids seguem um modelo padrão mas com diferenças
+     *  de valores dos dados. Cada instancia possue um vetor de Sprites de
+     *  cada pedra que compoe o asteroide, sendo que cada sprite possue uma
+     *  coordenada xy e um char ASCII. 
+     * 
+     *  Alem disse há uma coordenada especial (delta) referente ao sentido
+     *  de deslocamento do asteroid, sentido esse que pode ser modificado 
+     *  assim que ococrrer uma colisão asteroid x asteroid
+    */
     struct Asteroid
     {
 
-        Rocks rocks;           /* todos os sprites do asteroide */
-        Rocks edges;           /* sprites das bordas do asteroide */
-        Coord delta_direction; /* indica o sentido de deslocamento */
+        Rocks rocks;           
+        Coord delta_direction;
 
         Asteroid(const Rocks rocks, const Coord direction);
 
         void update_coord();
     };
 
+    /**
+     *  Funções que criam um asteroid de um tamanho diferente.
+    */
     Asteroid create_small_asteroid(int8_t x, int8_t y, Coord delta);
     Asteroid create_medium_asteroid(int8_t x, int8_t y, Coord delta);
     Asteroid create_large_asteroid(int8_t x, int8_t y, Coord delta);
 
-    void change_asteroid_direction_after_colission();
-
-    void split_asteroid_after_colission();
 };
 
 #endif

@@ -7,7 +7,10 @@ namespace framerHandler
 {
 
     /**
-     * coordenada x(linha) - y(coluna) - char(obj)
+     *  Estrutura dos Sprites são as estruturas mais importantes visual-
+     *  mente do game, elas guardam a coordenada x y do objeto e um char
+     *  ASCII que é sua representação visual, seja do Player, Asteroids, 
+     *  projeteis, inimigos e etc...
      */
     struct Sprite
     {
@@ -20,15 +23,22 @@ namespace framerHandler
         Sprite(Coord_row x, Coord_col y, Obj_ascii obj);
     };
 
-    class Framerbuffer
+    /**
+     *  Estrutura framer_buffer é responsavel por gerar um vetor de strings
+     *  que representa o frame da iteração do game, toda estrutura é gerada
+     *  vazia, os elementos são adicionados, depois exibe o vetor em tela e
+     *  destroi a estrutura finalizando o ciclo de vida de frame.
+     * 
+     *  Para melhorar o desempenho da exibição do vetor é usado um buffer 
+     *  com a lib sstream, os dados são armazenados lá de forma a chamar a
+     *  função cout apenas 1 vez.
+    */
+    struct framer_buffer 
     {
-    private:
-        Frame frame;
+        std::vector<std::string> data;
 
-    public:
-        Framerbuffer();
-        void draw(const Sprite &sprite);
-        void clear(const Sprite &sprite);
+        framer_buffer();
+        void draw(const Sprite& sprite);
         void render() const;
     };
 };

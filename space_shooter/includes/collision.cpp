@@ -77,11 +77,6 @@ void add_shoot_objects(
 namespace Collision_handler
 {
 
-    void collisionAsteroidxPlayer(bool &game_is_running)
-    {
-        game_is_running = false;
-    };
-
     void collisionAsteroidxAsteroid(asteroidhandler::Asteroid& a, asteroidhandler::Asteroid& b)
     {
         struct Relative_coord { uint8_t x, y; }; 
@@ -128,7 +123,7 @@ namespace Collision_handler
         b.delta_direction.y = -b.delta_direction.y;
     };
 
-    void checkCollisions(bool &game_onoff, Sprite &player, Asteroids &asteroids, Shoots &shoots)
+    void checkCollisions(bool &game_on, Sprite &player, Asteroids &asteroids, Shoots &shoots)
     {
 
         /*
@@ -175,19 +170,27 @@ namespace Collision_handler
 
                     // Asteroid x Player
                     if(A == objtype::Asteroid && B == objtype::Player ||
-                        B == objtype::Asteroid && A == objtype::Player)
+                       B == objtype::Asteroid && A == objtype::Player)
                     {
-                        collisionAsteroidxPlayer(game_onoff);
+                        game_on = false;
                         return;
                     }
 
-                    if(A == objtype::Asteroid && B == objtype::Asteroid)
-                    {   
-                        asteroidhandler::Asteroid& asteroid_a = asteroids[vec[i].index_object];
-                        asteroidhandler::Asteroid& asteroid_b = asteroids[vec[j].index_object];
-                        collisionAsteroidxAsteroid(asteroid_a, asteroid_b);
-                    }
+                    if(A == objtype::Asteroid && B == objtype::Shoot ||
+                       B == objtype::Asteroid && A == objtype::Shoot)
+                    {
+                        int idx_asteroid = vec[i].collection_type == objtype::Asteroid ? 
+                            vec[i].index_object : vec[j].index_object;
 
+                        int idx_shoot = vec[i].collection_type == objtype::Shoot ?
+                            vec[i].index_object : vec[j].index_object;
+
+                        std::swap(asteroids[idx_asteroid], asteroids.back());
+                        std::swap(shoots[idx_shoot], shoots.back());
+
+                        asteroids.pop_back();
+                        shoots.pop_back();
+                    }
                 }
         }
     };
