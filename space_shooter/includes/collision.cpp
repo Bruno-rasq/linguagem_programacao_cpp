@@ -9,25 +9,20 @@
 /* função que gera uma chave hash com base em uma coordenada x y. */
 struct CoordHash
 {
-    size_t operator()(const movimenthandler::Coord &c) const noexcept
+    size_t operator()(const Coord &c) const noexcept
     {
         return (c.x << 8) ^ c.y;
     }
 };
 
 /* função que gera uma chave unica para cada objeto do grid de colisão. */
-size_t objHash(const Collision_handler::IDs &objeto)
+size_t objHash(const Collection &objeto)
 {
     return (objeto.collection_type << 8) ^ objeto.index_object;
 }
 
-typedef std::unordered_map<
-    movimenthandler::Coord,
-    Collision_handler::collections,
-    CoordHash>
-    gridCollisionHash;
 
-typedef std::unordered_map<size_t, bool> processedObjects;
+typedef std::unordered_map<Coord, Collections, CoordHash> gridCollisionHash;
 
 /*
     ------------------------------------------------------
@@ -35,35 +30,36 @@ typedef std::unordered_map<size_t, bool> processedObjects;
     ------------------------------------------------------
 */
 
-void add_player_object(framerHandler::Sprite &plyr, processedObjects& p, gridCollisionHash& gc)
+void add_player_object(Sprite &plyr, processedObjects& p, gridCollisionHash& gc)
 {
-    Collision_handler::IDs objectID = {Collision_handler::objtype::Player, -1};
+    Collection obj = {Collision_handler::objtype::PlayerC, -1};
 
-    gc[{plyr.x, plyr.y}].push_back(objectID);
-    p[objHash(objectID)] = false;
+    gc[{plyr.x, plyr.y}].push_back(obj);
+    p[objHash(obj)] = false;
 };
 
 void add_asteroid_objects(
-    std::vector<asteroidhandler::Asteroid>& asteroids, 
-    processedObjects& p, gridCollisionHash& gc)
+    Asteroids& asteroids, processedObjects& p, gridCollisionHash& gc)
 {
     for (int i = 0; i < asteroids.size(); i++)
-        for (framerHandler::Sprite &rock : asteroids[i].rocks)
+        for (Sprite &rock : asteroids[i].rocks)
         {
-            Collision_handler::IDs objectID = {Collision_handler::objtype::Asteroid, i};
-            gc[{rock.x, rock.y}].push_back(objectID);
-            p[objHash(objectID)] = false;
+            Collection obj = {Collision_handler::objtype::AsteroidC, i};
+
+            gc[{rock.x, rock.y}].push_back(obj);
+            p[objHash(obj)] = false;
         }
 };
 
 void add_shoot_objects(
-    std::vector<movimenthandler::Projectil>& shoots, processedObjects& p, gridCollisionHash& gc)
+   Shoots& shoots, processedObjects& p, gridCollisionHash& gc)
 {
     for (int i = 0; i < shoots.size(); i++)
     {
-        Collision_handler::IDs objectID = {Collision_handler::objtype::Shoot, i};
-        gc[{shoots[i].coord}].push_back(objectID);
-        p[objHash(objectID)] = false;
+        Collection obj = {Collision_handler::objtype::ShootC, i};
+        
+        gc[{shoots[i].coord}].push_back(obj);
+        p[objHash(obj)] = false;
     }
 };
 
@@ -77,7 +73,7 @@ void add_shoot_objects(
 namespace Collision_handler
 {
 
-    void collisionAsteroidxAsteroid(asteroidhandler::Asteroid& a, asteroidhandler::Asteroid& b)
+    void collisionAsteroidxAsteroid(Asteroid& a, Asteroid& b)
     {
         struct Relative_coord { uint8_t x, y; }; 
         /* vetor relativo a posição dos asteroids */
@@ -121,6 +117,30 @@ namespace Collision_handler
         b.delta_direction.x = -b.delta_direction.x;
         a.delta_direction.y = -a.delta_direction.y;
         b.delta_direction.y = -b.delta_direction.y;
+    };
+
+    /**
+     *  Para evitar calcular dado de disparo, total de vida do asteroids e afins
+     *  optei por usar um contador, indicando quantos disparos o player tem que 
+     *  acertar para destruir um asterois.
+     * 
+     *  1 disparo => asteroide pequeno
+     *  3 disparos => asteroide medio
+     *  5 disparos => asteroide grande
+     * 
+     *  disparos são removidos sempre.
+    */
+    void collisionAsteroidxShoot(Asteroids& a, Shoots& s, size_t aidx, size_t sidx)
+    {
+        a[aidx].count -= 1;
+        if(a[aidx].count == 0)
+        {
+            std::swap(a[aidx], a.back());
+            a.pop_back();
+        }
+        
+        std::swap(s[sidx], s.back());
+        s.pop_back();
     };
 
     void checkCollisions(bool &game_on, Sprite &player, Asteroids &asteroids, Shoots &shoots)
@@ -169,27 +189,23 @@ namespace Collision_handler
                     objtype B = vec[j].collection_type;
 
                     // Asteroid x Player
-                    if(A == objtype::Asteroid && B == objtype::Player ||
-                       B == objtype::Asteroid && A == objtype::Player)
+                    if(A == objtype::AsteroidC && B == objtype::PlayerC ||
+                       B == objtype::AsteroidC && A == objtype::PlayerC)
                     {
                         game_on = false;
                         return;
                     }
 
-                    if(A == objtype::Asteroid && B == objtype::Shoot ||
-                       B == objtype::Asteroid && A == objtype::Shoot)
+                    if(A == objtype::AsteroidC && B == objtype::ShootC ||
+                       B == objtype::AsteroidC && A == objtype::ShootC)
                     {
-                        int idx_asteroid = vec[i].collection_type == objtype::Asteroid ? 
+                        int idx_asteroid = vec[i].collection_type == objtype::AsteroidC ? 
                             vec[i].index_object : vec[j].index_object;
 
-                        int idx_shoot = vec[i].collection_type == objtype::Shoot ?
+                        int idx_shoot = vec[i].collection_type == objtype::ShootC ?
                             vec[i].index_object : vec[j].index_object;
 
-                        std::swap(asteroids[idx_asteroid], asteroids.back());
-                        std::swap(shoots[idx_shoot], shoots.back());
-
-                        asteroids.pop_back();
-                        shoots.pop_back();
+                        collisionAsteroidxShoot(asteroids, shoots, idx_asteroid, idx_shoot);
                     }
                 }
         }

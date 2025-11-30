@@ -1,27 +1,16 @@
 #ifndef __ASTEROIDS__HPP__
 #define __ASTEROIDS__HPP__
 
-#include "./core_std.hpp"
-#include "./framer.hpp"
-#include "./moviment.hpp"
+#include "core_std.hpp"
+#include "core_types.hpp"
+
+#include "framer.hpp"
+#include "moviment.hpp"
+
+using namespace TYPING;
 
 namespace asteroidhandler
 {
-
-    /**
-     *  frame gid tenho 20 linhas por 70 colunas
-     *  dividido por 4 setores tenho cada setor com 10 linhas e 35 colunas.
-     *
-     *  setor 0 - (top esquerdo):  x (0, 9) e y (0 34)
-     *  setor 1 - (top direita):   x (0, 9) e y (35, 69)
-     *  setor 2 - (base esquerdo): x (10, 19) e y (0 34)
-     *  setor 3 - (base direita):  x (10, 19) e y (35 69)
-     *
-     */
-    typedef framerHandler::Sprite Sprite;
-    typedef movimenthandler::Coord Coord;
-    typedef std::vector<Sprite> Rocks;
-
 
     /**
      *  Estruturas de Asteroids seguem um modelo padrão mas com diferenças
@@ -32,14 +21,22 @@ namespace asteroidhandler
      *  Alem disse há uma coordenada especial (delta) referente ao sentido
      *  de deslocamento do asteroid, sentido esse que pode ser modificado 
      *  assim que ococrrer uma colisão asteroid x asteroid
+     * 
+     *  Os asteroides possuem uma contador de resistencia que indica quanto
+     *  disparos o player deve acertar até destruir um asteroide.
+     * 
+     *  1 disparo => asteroide pequeno
+     *  3 disparos => asteroide medio
+     *  5 disparos => asteroide grande
     */
     struct Asteroid
     {
 
         Rocks rocks;           
         Coord delta_direction;
+        size_t count;
 
-        Asteroid(const Rocks rocks, const Coord direction);
+        Asteroid(const Rocks rocks, const Coord direction, size_t count);
 
         void update_coord();
     };

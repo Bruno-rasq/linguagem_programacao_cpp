@@ -2,6 +2,8 @@
 #define __GAME__LOOP__HPP__
 
 #include "./core_std.hpp"
+#include "./core_types.hpp"
+
 #include "./framer.hpp"
 #include "./keyboard.hpp"
 #include "./player.hpp"
@@ -10,36 +12,38 @@
 #include "./timer.hpp"
 #include "./collision.hpp"
 
-//typedef framerHandler::Framerbuffer Framer;
-typedef framerHandler::Sprite Sprite;
-typedef movimenthandler::Projectil Shoot;
-typedef std::vector<Shoot> Shoots;
-typedef asteroidhandler::Asteroid Asteroid;
-typedef std::vector<Asteroid> Asteroids;
+using namespace TYPING;
 
 class Game
 {
-private:
-    Timer timer;
-    Player player;
-    Shoots frameshoot;
-    Sprite playersprite;
-    Asteroids asteroids;
-    bool running = true;
+    private:
 
-    void updateFrame(framerHandler::framer_buffer& fb);
-    void updateShootsCoord(framerHandler::framer_buffer& fb);
-    void updateAsteroidsCoord(framerHandler::framer_buffer& fb);
-    void updatePlayerCoord(framerHandler::framer_buffer& fb);
+        Timer timer;
+        Player player;
+        Shoots frameshoot;
+        Sprite playersprite;
+        Asteroids asteroids;
 
-    //void resetConsoleFrame() const;
-    void RenderFrame(const framerHandler::framer_buffer& fb);
-    bool SwitchKeyPress(const WinKeyState keypressed);
+        bool running = true;
+        Lifes lifes = {true, true, true};
+        uint32_t score = 0;
 
-public:
-    Game();
+        void HUD(); /* interface de vida e poontos do jogador. */
 
-    void start();
+        void RemoveShoot(size_t idx);
+
+        void updateFrame(FB& fb);
+        void updateShootsCoord(FB& fb);
+        void updateAsteroidsCoord(FB& fb);
+        void updatePlayerCoord(FB& fb);
+
+        void RenderFrame(const FB& fb);
+        bool SwitchKeyPress(const WinKeyState keypressed);
+
+    public:
+        Game();
+
+        void start();
 };
 
 #endif

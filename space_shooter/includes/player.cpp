@@ -1,6 +1,6 @@
 #include "./player.hpp"
 
-Player::Player() : spaceship(movimenthandler::Spaceship()) {};
+Player::Player() : spaceship(Spaceship()) {};
 
 Sprite Player::getSprite() const
 {
@@ -9,7 +9,6 @@ Sprite Player::getSprite() const
 
 void Player::move(const WinKeyState key)
 {
-
     if (key == VK_UP)   this->spaceship.moveSpaceship(Coord(-1, 0), 1);
     if (key == VK_DOWN) this->spaceship.moveSpaceship(Coord(1, 0), 2);
     if (key == VK_LEFT) this->spaceship.moveSpaceship(Coord(0, -1), 3);

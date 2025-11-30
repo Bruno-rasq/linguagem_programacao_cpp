@@ -2,14 +2,19 @@
 #define __COLLISIONS__HPP__
 
 #include "core_std.hpp"
+#include "core_types.hpp"
+
 #include "moviment.hpp"
 #include "framer.hpp"
 #include "asteroids.hpp"
+#include "game.hpp"
+
+using namespace TYPING;
 
 namespace Collision_handler
 {
     /* tipos de objetos que o sistema de colisão trabalha. */
-    enum objtype { Asteroid, Shoot, Player };
+    enum objtype { AsteroidC, ShootC, PlayerC };
 
     /**
      *  estruturas IDs armazenam dados que auxiliam na identificação
@@ -22,12 +27,6 @@ namespace Collision_handler
         int index_object;
     };
 
-    typedef std::vector<IDs> collections;
-    typedef framerHandler::Sprite Sprite;
-    typedef movimenthandler::Coord Coord;
-    typedef std::vector<movimenthandler::Projectil> Shoots;
-    typedef std::vector<asteroidhandler::Asteroid> Asteroids;
-
 
     /**
      *  Metodos de colisão devem seguir uma ordem de precedencia
@@ -36,8 +35,8 @@ namespace Collision_handler
      *  e por fim projeteis com o player
     */
     void collisionAsteroidxPlayer(bool &game_is_running);
-    void collisionAsteroidxShoot();
-    void collisionAsteroidxAsteroid(asteroidhandler::Asteroid& a, asteroidhandler::Asteroid& b);
+    void collisionAsteroidxShoot(Asteroids& a, Shoots& s, size_t aidx, size_t sidx);
+    void collisionAsteroidxAsteroid(Asteroid& a, Asteroid& b);
     void collisionPlayerxShoot();
 
    

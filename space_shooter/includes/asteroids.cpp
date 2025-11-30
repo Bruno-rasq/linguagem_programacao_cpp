@@ -3,11 +3,11 @@
 namespace asteroidhandler
 {
 
-    Asteroid::Asteroid(const Rocks rocks, const Coord direction)
+    Asteroid::Asteroid(const Rocks rocks, const Coord direction, size_t count)
     {
-
         this->rocks = rocks;
         this->delta_direction = direction;
+        this->count = count;
     }
 
     void Asteroid::update_coord()
@@ -40,7 +40,7 @@ namespace asteroidhandler
     {
         const Rocks rocks = {
             Sprite(x, y, '@')};
-        return Asteroid(rocks, delta);
+        return Asteroid(rocks, delta, 1);
     };
 
     Asteroid create_medium_asteroid(int8_t x, int8_t y, Coord delta)
@@ -57,7 +57,7 @@ namespace asteroidhandler
             Sprite(x + 1, y, '@'),
             Sprite(x + 1, y + 1, '.'),
         };
-        return Asteroid(rocks, delta);
+        return Asteroid(rocks, delta, 3);
     };
 
     Asteroid create_large_asteroid(int8_t x, int8_t y, Coord delta)
@@ -90,7 +90,7 @@ namespace asteroidhandler
             Sprite(x + 2, y, '#'),
             Sprite(x + 2, y + 1, '.'),
         };
-        return Asteroid(rocks, delta);
+        return Asteroid(rocks, delta, 5);
     };
 
 }

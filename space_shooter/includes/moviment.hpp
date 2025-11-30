@@ -61,7 +61,7 @@ namespace movimenthandler
 
         void moveSpaceship(const Coord delta, const Direction dir);
 
-        framerHandler::Sprite getSprite() const;
+        Sprite getSprite() const;
     };
 
     /**
@@ -77,13 +77,12 @@ namespace movimenthandler
         Coord coord;
         Direction dir; // controla para aonde deve atualizar a coordenada
         Obj_ascii obj; // obj é baseado na direçaõ do projetil
-        const int damage = 50; 
 
         Projectil(const Coord coord, const Spaceshipface &dir);
 
         void updateCoord();
 
-        framerHandler::Sprite getSprite() const;
+        Sprite getSprite() const;
     };
 
     /* verifica se a coordenada esta dentro dos limites do frame */

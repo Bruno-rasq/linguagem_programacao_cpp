@@ -2,6 +2,9 @@
 #define __FRAMER__HPP__
 
 #include "./core_std.hpp"
+#include "./core_types.hpp"
+
+using namespace TYPING;
 
 namespace framerHandler
 {
@@ -35,7 +38,7 @@ namespace framerHandler
     */
     struct framer_buffer 
     {
-        std::vector<std::string> data;
+        Frame data;
 
         framer_buffer();
         void draw(const Sprite& sprite);

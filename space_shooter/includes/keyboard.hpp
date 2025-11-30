@@ -2,8 +2,9 @@
 #define __KEYBOARD__HPP__
 
 #include "./core_sys.hpp"
-#include "./core_std.hpp"
+#include "./core_types.hpp"
 
+using namespace TYPING;
 
 /**
  *  Classe utiliza a lib windows.h que disponibiliza metodos e definições
@@ -23,8 +24,8 @@
 */
 class Keyboardhandler
 {
-public:
-    static WinKeyState keypress();
+    public:
+        static WinKeyState keypress();
 };
 
 #endif
