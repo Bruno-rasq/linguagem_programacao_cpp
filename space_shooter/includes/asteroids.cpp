@@ -3,11 +3,12 @@
 namespace asteroidhandler
 {
 
-    Asteroid::Asteroid(const Rocks rocks, const Coord direction, size_t count)
+    Asteroid::Asteroid(const Rocks rocks, const Coord direction, size_t count, asteroidsize size)
     {
         this->rocks = rocks;
         this->delta_direction = direction;
-        this->count = count;
+        this->hitscount = count;
+        this->size = size;
     }
 
     void Asteroid::update_coord()
@@ -38,9 +39,13 @@ namespace asteroidhandler
 
     Asteroid create_small_asteroid(int8_t x, int8_t y, Coord delta)
     {
-        const Rocks rocks = {
-            Sprite(x, y, '@')};
-        return Asteroid(rocks, delta, 1);
+        const Rocks rocks = {Sprite(x, y, '@')};
+        return Asteroid(
+            rocks, 
+            delta, 
+            HITS_TO_DESTROY_SMALL_ASTEROID,
+            asteroidsize::LOW
+        );
     };
 
     Asteroid create_medium_asteroid(int8_t x, int8_t y, Coord delta)
@@ -57,7 +62,12 @@ namespace asteroidhandler
             Sprite(x + 1, y, '@'),
             Sprite(x + 1, y + 1, '.'),
         };
-        return Asteroid(rocks, delta, 3);
+        return Asteroid(
+            rocks, 
+            delta, 
+            HITS_TO_DESTROY_MEDIUM_ASTEROID,
+            asteroidsize::MEDIUM
+        );
     };
 
     Asteroid create_large_asteroid(int8_t x, int8_t y, Coord delta)
@@ -90,7 +100,12 @@ namespace asteroidhandler
             Sprite(x + 2, y, '#'),
             Sprite(x + 2, y + 1, '.'),
         };
-        return Asteroid(rocks, delta, 5);
+        return Asteroid(
+            rocks, 
+            delta, 
+            HITS_TO_DESTROY_LARGE_ASTEROID,
+            asteroidsize::HIGH
+        );
     };
 
 }

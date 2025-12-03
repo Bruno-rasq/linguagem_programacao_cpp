@@ -32,11 +32,13 @@ namespace asteroidhandler
     struct Asteroid
     {
 
+        asteroidsize size;
+
         Rocks rocks;           
         Coord delta_direction;
-        size_t count;
+        size_t hitscount;
 
-        Asteroid(const Rocks rocks, const Coord direction, size_t count);
+        Asteroid(const Rocks rocks, const Coord direction, size_t count, asteroidsize size);
 
         void update_coord();
     };

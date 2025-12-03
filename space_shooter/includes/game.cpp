@@ -34,12 +34,12 @@ void Game::start()
             FB current_frame;
             this->updateFrame(current_frame);
 
-            Collision_handler::checkCollisions(
-                this->running,
-                this->playersprite,
-                this->asteroids,
+            Collisions collisions = checkCollisions(
+                this->playersprite, 
+                this->asteroids, 
                 this->frameshoot);
-
+ 
+            this->collisionsResolver(collisions);
             this->RenderFrame(current_frame);
             this->timer.clock();
         }
@@ -50,24 +50,109 @@ void Game::start()
     this->RenderFrame(end_frame);
 };
 
+
+void Game::incrementScore(const uint8_t score)
+{
+    this->score += score;
+};
+
+
+/*
+    ------------------------------------------------------
+    |                 funções colisão                    |
+    ------------------------------------------------------
+*/
+
+void Game::collisionsResolver(Collisions& collisions)
+{
+    for(Collision& collision : collisions)
+    {
+        objtype obt1 = collision.object_1.collection_type;
+        objtype obt2 = collision.object_2.collection_type;
+
+        if(obt1 == objtype::Asteroid_T || obt1 == objtype::Player_T 
+        && obt2 == objtype::Asteroid_T || obt2 == objtype::Player_T)
+            this->collisionAsteroidxPlayer(collision);
+
+        if(obt1 == objtype::Asteroid_T || obt1 == objtype::Shoot_T 
+        && obt2 == objtype::Asteroid_T || obt2 == objtype::Shoot_T)
+            this->collisionAsteroidxShoot(collision);
+        
+        if(obt1 == objtype::Asteroid_T && obt2 == objtype::Asteroid_T)
+            this->collisionAsteroidxAsteroid(collision); 
+    }
+};
+
+void Game::collisionAsteroidxPlayer(Collision& collision)
+{
+    IDs obj1 = collision.object_1;
+    IDs obj2 = collision.object_2;
+
+    size_t asteroid_idx = obj1.collection_type == objtype::Asteroid_T ?
+        obj1.index_object : obj2.index_object;
+
+    this->RemoveAsteroid(asteroid_idx);
+    this->running = false;
+    /*provisorio...*/
+};
+
+void Game::collisionAsteroidxShoot(Collision& collision)
+{
+    IDs obj1 = collision.object_1;
+    IDs obj2 = collision.object_2;
+
+    size_t asteroid_idx = obj1.collection_type == objtype::Asteroid_T ?
+        obj1.index_object : obj2.index_object;
+
+    size_t shoot_idx = obj1.collection_type == objtype::Shoot_T ?
+        obj1.index_object : obj2.index_object;
+
+    this->RemoveShoot(shoot_idx);
+
+    this->asteroids[asteroid_idx].hitscount -= 1;
+    if(this->asteroids[asteroid_idx].hitscount == 0)
+    {
+        if(this->asteroids[asteroid_idx].size == asteroidsize::LOW)
+            this->incrementScore(SCORE_SMALL_ASTEROID);
+
+        if(this->asteroids[asteroid_idx].size == asteroidsize::MEDIUM)
+            this->incrementScore(SCORE_MEDIUM_ASTEROID);
+
+        if(this->asteroids[asteroid_idx].size == asteroidsize::HIGH)
+            this->incrementScore(SCORE_LARGE_ASTEROID);
+
+        this->RemoveAsteroid(asteroid_idx);
+    }
+};
+
+void Game::collisionAsteroidxAsteroid(Collision& collision)
+{
+    /* TODO: implementar logica de colisão entre asteroides.*/
+};
+
+
+/*
+    ------------------------------------------------------
+    |                 funções de screen                  |
+    ------------------------------------------------------
+*/
+
 void Game::HUD()
 {
-    /*
-        X = FRAME_BOARD_MAX_WIDTH = 70 + 2 das bordas
-        M = score = 11
-        N = lifes = 14
-
-        espaço = X - (M + N) = 45
-    */
-
+    const Scores_T currentScore = std::min(MAX_SCORE, this->score);
+    const uint8_t score_text_len = 13;
+    const uint8_t lifes_text_len = 14;
+    const uint8_t space_length = FRAME_BOARD_MAX_WIDTH - score_text_len - lifes_text_len + 1;
+   
     Buffer buffer;
 
     buffer << std::string(FRAME_BOARD_MAX_WIDTH + 2, '_') << "\n";
     buffer << "|" << std::string(FRAME_BOARD_MAX_WIDTH, ' ') << "|\n";
 
     /* adicionando pontuação ao HUD. */
-    buffer << "| SCORE: " << this->score << " ";
-    buffer << std::string(47, ' ');
+    buffer << "| SCORE: ";
+    buffer << std::setw(5) << std::setfill('0') << this->score;
+    buffer << std::string(space_length, ' ');
 
     /* adicionando quantidade de vida ao HUD. */
     buffer << "LIFES: ";
@@ -86,12 +171,30 @@ void Game::RenderFrame(const FB& fb)
 };
 
 
+/*
+    ------------------------------------------------------
+    |              funções de remoção                    |
+    ------------------------------------------------------
+*/
+
 void Game::RemoveShoot(size_t idx)
 {
     std::swap(this->frameshoot[idx], this->frameshoot.back());
     this->frameshoot.pop_back();
 };
 
+void Game::RemoveAsteroid(size_t idx)
+{
+    std::swap(this->asteroids[idx], this->asteroids.back());
+    this->asteroids.pop_back();
+};
+
+
+/*
+    ------------------------------------------------------
+    |              funções atualização                   |
+    ------------------------------------------------------
+*/
 
 void Game::updateFrame(FB& fb)
 {
@@ -148,6 +251,13 @@ void Game::updatePlayerCoord(FB& fb)
     this->playersprite = this->player.getSprite();
     fb.draw(this->playersprite);
 };
+
+
+/*
+    ------------------------------------------------------
+    |             funções de controle                    |
+    ------------------------------------------------------
+*/
 
 bool Game::SwitchKeyPress(const WinKeyState keypressed)
 {
