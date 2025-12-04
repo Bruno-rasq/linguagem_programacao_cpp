@@ -1,16 +1,19 @@
 #include "./game.hpp"
 
+
 Game::Game()
 {
 
     this->player = Player();
     this->playersprite = this->player.getSprite();
-
-    // teste
     this->asteroids = {
         asteroidhandler::create_large_asteroid(3, 5, Coord(1, 1)),
         asteroidhandler::create_medium_asteroid(13, 5, Coord(-1, 0)),
         asteroidhandler::create_small_asteroid(10, 65, Coord(-1, -1)),
+
+        // asteroidhandler::create_small_asteroid(8, 65, Coord(-1, 1)),
+        // asteroidhandler::create_small_asteroid(4, 35, Coord(1, -1)),
+        // asteroidhandler::create_small_asteroid(2, 5, Coord(1, 0))
     };
 };
 
@@ -56,6 +59,23 @@ void Game::incrementScore(const uint8_t score)
     this->score += score;
 };
 
+void Game::decrementLife()
+{
+    size_t idx = TOTAL_LIFES - 1;
+    while(true)
+    {
+        if(this->lifes[idx] == false)
+        {
+            idx--;
+            continue;
+        }
+
+        this->lifes[idx] = false;
+        if(idx == 0) this->running = false;
+        break;
+    }
+};
+
 
 /*
     ------------------------------------------------------
@@ -70,12 +90,12 @@ void Game::collisionsResolver(Collisions& collisions)
         objtype obt1 = collision.object_1.collection_type;
         objtype obt2 = collision.object_2.collection_type;
 
-        if(obt1 == objtype::Asteroid_T || obt1 == objtype::Player_T 
-        && obt2 == objtype::Asteroid_T || obt2 == objtype::Player_T)
+        if((obt1 == objtype::Asteroid_T || obt1 == objtype::Player_T) 
+        && (obt2 == objtype::Asteroid_T || obt2 == objtype::Player_T))
             this->collisionAsteroidxPlayer(collision);
 
-        if(obt1 == objtype::Asteroid_T || obt1 == objtype::Shoot_T 
-        && obt2 == objtype::Asteroid_T || obt2 == objtype::Shoot_T)
+        if((obt1 == objtype::Asteroid_T || obt1 == objtype::Shoot_T) 
+        && (obt2 == objtype::Asteroid_T || obt2 == objtype::Shoot_T))
             this->collisionAsteroidxShoot(collision);
         
         if(obt1 == objtype::Asteroid_T && obt2 == objtype::Asteroid_T)
@@ -92,8 +112,10 @@ void Game::collisionAsteroidxPlayer(Collision& collision)
         obj1.index_object : obj2.index_object;
 
     this->RemoveAsteroid(asteroid_idx);
-    this->running = false;
-    /*provisorio...*/
+    
+    this->player = Player();
+    this->playersprite = player.getSprite();
+    this->decrementLife();
 };
 
 void Game::collisionAsteroidxShoot(Collision& collision)
@@ -137,7 +159,7 @@ void Game::collisionAsteroidxAsteroid(Collision& collision)
     ------------------------------------------------------
 */
 
-void Game::HUD()
+void Game::HUD() const
 {
     const Scores_T currentScore = std::min(MAX_SCORE, this->score);
     const uint8_t score_text_len = 13;

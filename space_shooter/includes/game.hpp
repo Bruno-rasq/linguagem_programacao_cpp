@@ -25,15 +25,18 @@ class Game
         Asteroids asteroids;
 
         bool running = true;
+        bool testModeOn = false;
         Lifes_T lifes = {true, true, true};
         Scores_T score = 0;
 
         /* gerenciamento de pontuação e vidas. */
         void incrementScore(const uint8_t score);
+        void decrementLife();
 
         /* funções de screen. */
         void RenderFrame(const FB& fb);
-        void HUD(); /* interface de vida e poontos do jogador. */
+        void HUD() const; /* interface de vida e poontos do jogador. */
+        void endgame() const;
 
         /* funções de remoção. */
         void RemoveShoot(size_t idx);

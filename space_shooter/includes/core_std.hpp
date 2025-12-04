@@ -35,5 +35,6 @@ const uint8_t HITS_TO_DESTROY_SMALL_ASTEROID = 1;
 const uint8_t HITS_TO_DESTROY_MEDIUM_ASTEROID = 3;
 const uint8_t HITS_TO_DESTROY_LARGE_ASTEROID = 5;
 
+const uint8_t TOTAL_LIFES = 3;
 
 #endif
