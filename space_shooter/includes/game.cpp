@@ -50,6 +50,7 @@ void Game::start()
 
     FB end_frame;
     this->updateFrame(end_frame);
+    this->writeEndgame(end_frame);
     this->RenderFrame(end_frame);
 };
 
@@ -158,6 +159,21 @@ void Game::collisionAsteroidxAsteroid(Collision& collision)
     |                 funções de screen                  |
     ------------------------------------------------------
 */
+
+void Game::writeEndgame(FB& fb) 
+{
+    const uint8_t midY = (FRAME_BOARD_MAX_HEIGTH / 2) - 1;
+    const uint8_t midX = (FRAME_BOARD_MAX_WIDTH / 2) - 1;
+
+    fb.draw(Sprite(midY, midX - 3, 'E'));
+    fb.draw(Sprite(midY, midX - 2, 'N'));
+    fb.draw(Sprite(midY, midX - 1, 'D'));
+    fb.draw(Sprite(midY, midX, ' '));
+    fb.draw(Sprite(midY, midX + 1, 'G'));
+    fb.draw(Sprite(midY, midX + 2, 'A'));
+    fb.draw(Sprite(midY, midX + 3, 'M'));
+    fb.draw(Sprite(midY, midX + 4, 'E'));
+}
 
 void Game::HUD() const
 {

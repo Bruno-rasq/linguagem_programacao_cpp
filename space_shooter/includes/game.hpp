@@ -36,7 +36,7 @@ class Game
         /* funções de screen. */
         void RenderFrame(const FB& fb);
         void HUD() const; /* interface de vida e poontos do jogador. */
-        void endgame() const;
+        void writeEndgame(FB& fb);
 
         /* funções de remoção. */
         void RemoveShoot(size_t idx);
