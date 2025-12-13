@@ -41,6 +41,7 @@ class Game
         /* funções de remoção. */
         void RemoveShoot(size_t idx);
         void RemoveAsteroid(size_t idx);
+        void SplitAsteroid(size_t idx);
 
         /* Funções de colisão. */
         void collisionsResolver(Collisions& collisions);

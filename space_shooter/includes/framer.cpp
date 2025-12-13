@@ -23,7 +23,7 @@ namespace framerHandler
     {
         Buffer buff;
 
-        buff << std::string(FRAME_BOARD_MAX_WIDTH + 2, '_') << "\n";
+        buff << "|" << std::string(FRAME_BOARD_MAX_WIDTH, '_') << "|\n";
 
         for (const std::string &line : this->data)
             buff << "|" << line << "|\n";

@@ -22,24 +22,10 @@ namespace asteroidhandler
         }
     }
 
-    /**
-     *   asteroides pequeno:
-     *   @
-     *
-     *   asteroide medio:
-     *   .@@#
-     *   @#@.
-     *
-     *   asteroide grande:
-     *   .#@@#.
-     *   @@@#@@
-     *   @@##@.
-     *    .##.
-     */
-
     Asteroid create_small_asteroid(int8_t x, int8_t y, Coord delta)
     {
-        const Rocks rocks = {Sprite(x, y, '@')};
+        const Rocks rocks = {Sprite(x, y, ASTEROID_CHAR)};
+
         return Asteroid(
             rocks, 
             delta, 
@@ -52,16 +38,16 @@ namespace asteroidhandler
     {
         const Rocks rocks = {
 
-            Sprite(x, y - 2, '.'),
-            Sprite(x, y - 1, '@'),
-            Sprite(x, y, '@'),
-            Sprite(x, y + 1, '#'),
-
-            Sprite(x + 1, y - 2, '@'),
-            Sprite(x + 1, y - 1, '#'),
-            Sprite(x + 1, y, '@'),
-            Sprite(x + 1, y + 1, '.'),
+            Sprite(x, y - 2, ASTEROID_CHAR),
+            Sprite(x, y - 1, ASTEROID_CHAR),
+            Sprite(x, y, ASTEROID_CHAR),
+            Sprite(x, y + 1, ASTEROID_CHAR),
+            Sprite(x + 1, y - 2, ASTEROID_CHAR),
+            Sprite(x + 1, y - 1, ASTEROID_CHAR),
+            Sprite(x + 1, y, ASTEROID_CHAR),
+            Sprite(x + 1, y + 1, ASTEROID_CHAR),
         };
+
         return Asteroid(
             rocks, 
             delta, 
@@ -74,32 +60,33 @@ namespace asteroidhandler
     {
         const Rocks rocks = {
 
-            Sprite(x - 1, y - 3, '.'),
-            Sprite(x - 1, y - 2, '#'),
-            Sprite(x - 1, y - 1, '@'),
-            Sprite(x - 1, y, '@'),
-            Sprite(x - 1, y + 1, '#'),
-            Sprite(x - 1, y + 2, '.'),
+            Sprite(x - 1, y - 3, ASTEROID_CHAR),
+            Sprite(x - 1, y - 2, ASTEROID_CHAR),
+            Sprite(x - 1, y - 1, ASTEROID_CHAR),
+            Sprite(x - 1, y, ASTEROID_CHAR),
+            Sprite(x - 1, y + 1, ASTEROID_CHAR),
+            Sprite(x - 1, y + 2, ASTEROID_CHAR),
 
-            Sprite(x, y - 3, '@'),
-            Sprite(x, y - 2, '@'),
-            Sprite(x, y - 1, '@'),
-            Sprite(x, y, '#'),
-            Sprite(x, y + 1, '@'),
-            Sprite(x, y + 2, '@'),
+            Sprite(x, y - 3, ASTEROID_CHAR),
+            Sprite(x, y - 2, ASTEROID_CHAR),
+            Sprite(x, y - 1, ASTEROID_CHAR),
+            Sprite(x, y, ASTEROID_CHAR),
+            Sprite(x, y + 1, ASTEROID_CHAR),
+            Sprite(x, y + 2, ASTEROID_CHAR),
 
-            Sprite(x + 1, y - 3, '@'),
-            Sprite(x + 1, y - 2, '@'),
-            Sprite(x + 1, y - 1, '#'),
-            Sprite(x + 1, y, '#'),
-            Sprite(x + 1, y + 1, '@'),
-            Sprite(x + 1, y + 2, '.'),
+            Sprite(x + 1, y - 3, ASTEROID_CHAR),
+            Sprite(x + 1, y - 2, ASTEROID_CHAR),
+            Sprite(x + 1, y - 1, ASTEROID_CHAR),
+            Sprite(x + 1, y, ASTEROID_CHAR),
+            Sprite(x + 1, y + 1, ASTEROID_CHAR),
+            Sprite(x + 1, y + 2, ASTEROID_CHAR),
 
-            Sprite(x + 2, y - 2, '.'),
-            Sprite(x + 2, y - 1, '#'),
-            Sprite(x + 2, y, '#'),
-            Sprite(x + 2, y + 1, '.'),
+            Sprite(x + 2, y - 2, ASTEROID_CHAR),
+            Sprite(x + 2, y - 1, ASTEROID_CHAR),
+            Sprite(x + 2, y, ASTEROID_CHAR),
+            Sprite(x + 2, y + 1, ASTEROID_CHAR),
         };
+
         return Asteroid(
             rocks, 
             delta, 

@@ -1,6 +1,29 @@
 #include "./game.hpp"
 
 
+/*
+    ------------------------------------------------------
+    |                 metodos auxiliares                 |
+    ------------------------------------------------------
+*/
+
+Coord getRandomDelta()
+{
+    int8_t x, y;
+
+    /* unica situação em que o delta não gera movimento*/
+    do {
+        x = DELTAOPTIONS[std::rand() % 3];
+        y = DELTAOPTIONS[std::rand() % 3];
+    } 
+    while(x == 0 && y == 0);
+
+    return Coord(x, y);
+};
+
+
+
+
 Game::Game()
 {
 
@@ -27,6 +50,9 @@ void Game::start()
     while (this->running)
     {
         Sleep(TIME_SLEEP);
+
+        /* o jgo termina se o player alcançar a pontuação maxima.*/
+        if(this->score == MAX_SCORE) break;
 
         const WinKeyState key = Keyboardhandler::keypress();
 
@@ -57,7 +83,7 @@ void Game::start()
 
 void Game::incrementScore(const uint8_t score)
 {
-    this->score += score;
+    this->score = std::min(this->score + score, MAX_SCORE);
 };
 
 void Game::decrementLife()
@@ -135,14 +161,25 @@ void Game::collisionAsteroidxShoot(Collision& collision)
     this->asteroids[asteroid_idx].hitscount -= 1;
     if(this->asteroids[asteroid_idx].hitscount == 0)
     {
-        if(this->asteroids[asteroid_idx].size == asteroidsize::LOW)
-            this->incrementScore(SCORE_SMALL_ASTEROID);
 
+        /* tanto asteroide grande quanto o medio são divididos ao serem destruidos. */
+    
         if(this->asteroids[asteroid_idx].size == asteroidsize::MEDIUM)
+        {
+            this->SplitAsteroid(asteroid_idx);
             this->incrementScore(SCORE_MEDIUM_ASTEROID);
+        }
 
         if(this->asteroids[asteroid_idx].size == asteroidsize::HIGH)
+        {
+            this->SplitAsteroid(asteroid_idx);
             this->incrementScore(SCORE_LARGE_ASTEROID);
+        }
+
+        if(this->asteroids[asteroid_idx].size == asteroidsize::LOW)
+        {
+            this->incrementScore(SCORE_SMALL_ASTEROID);
+        }
 
         this->RemoveAsteroid(asteroid_idx);
     }
@@ -177,9 +214,9 @@ void Game::writeEndgame(FB& fb)
 
 void Game::HUD() const
 {
-    const Scores_T currentScore = std::min(MAX_SCORE, this->score);
     const uint8_t score_text_len = 13;
     const uint8_t lifes_text_len = 14;
+    const Scores_T currentScore = std::min(MAX_SCORE, this->score);
     const uint8_t space_length = FRAME_BOARD_MAX_WIDTH - score_text_len - lifes_text_len + 1;
    
     Buffer buffer;
@@ -227,6 +264,43 @@ void Game::RemoveAsteroid(size_t idx)
     this->asteroids.pop_back();
 };
 
+void Game::SplitAsteroid(size_t idx)
+{
+    
+    Asteroid atd = this->asteroids[idx];
+
+    /* asteroide grande se fragmenta em 2 asteroides medios. */
+    if(atd.size == asteroidsize::HIGH){
+
+        Coord delta1 = getRandomDelta();
+        Coord delta2 = Coord(-delta1.x, -delta1.y);
+
+        this->asteroids.push_back(asteroidhandler::create_medium_asteroid(
+            atd.rocks[0].x, atd.rocks[0].y, delta1
+        ));
+
+        this->asteroids.push_back(asteroidhandler::create_medium_asteroid(
+            atd.rocks[14].x, atd.rocks[14].y, delta2
+        ));
+
+        return;
+    }
+
+    /* asteroide medio se fragmenta em 4 asteroides pequenos*/
+    this->asteroids.push_back(asteroidhandler::create_small_asteroid(
+        atd.rocks[0].x, atd.rocks[0].y, Coord(-1, -1)
+    ));
+    this->asteroids.push_back(asteroidhandler::create_small_asteroid(
+        atd.rocks[3].x, atd.rocks[3].y, Coord(-1, 1)
+    ));
+    this->asteroids.push_back(asteroidhandler::create_small_asteroid(
+        atd.rocks[4].x, atd.rocks[4].y, Coord(1, -1)
+    ));
+    this->asteroids.push_back(asteroidhandler::create_small_asteroid(
+        atd.rocks[7].x, atd.rocks[7].y, Coord(1, 1)
+    ));
+};
+
 
 /*
     ------------------------------------------------------
@@ -266,6 +340,7 @@ void Game::updateShootsCoord(FB& fb)
 void Game::updateAsteroidsCoord(FB& fb)
 {
 
+    /* caso em que o asteroide deve se mover antes de ser desenhado.*/
     if (this->timer.asteroid_clock == 0)
     {
         for (Asteroid &asteroid : this->asteroids)
@@ -279,6 +354,7 @@ void Game::updateAsteroidsCoord(FB& fb)
         return;
     }
     
+    /* se o asteroid não de mover deve ser desenhado do mesmo jeito. */
     for(Asteroid& asteroid : this->asteroids)
         for (Sprite &rock : asteroid.rocks)
             fb.draw(Sprite(rock.x, rock.y, rock.obj));

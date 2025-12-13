@@ -13,6 +13,7 @@
 #include <cstdlib>
 #include <cstdint>
 #include <iomanip>
+#include <ctime>
 
 /* macros */
 const uint8_t TIME_SLEEP = 120;
@@ -23,6 +24,10 @@ const uint8_t PLAYER_INITIAL_COORD_COL = 34;
 
 /* MSB -> most significant bit */
 const int KEY_MSB_MASK = 0x8000;
+
+const char ASTEROID_CHAR = 'O';
+
+const int8_t DELTAOPTIONS[3] = {-1, 0, 1};
 
 /* Pontuação para cada asteroid */
 const uint32_t MAX_SCORE = 99999; 
